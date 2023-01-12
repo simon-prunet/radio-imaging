@@ -51,9 +51,10 @@ def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='
 		channel_bandwidths = np.array([1.e6])
 
 	# Now compute number of integration times and corresponding HAs
-	ntimes = int((ha_interval[1]-ha_interval[0])/(integration_time/3600.))
+	dtime_hr = integration_time / 3600.
+	ntimes = int((ha_interval[1]-ha_interval[0])/dtime_hr
 	# Centered w.r.t. transit, in radian
-	times = np.linspace(ha_interval[0]+integration_time/2., ha_interval[1]-integration_time/2.,ntimes) *np.pi / 12.0 
+	times = np.linspace(ha_interval[0]+dtime_hr/2., ha_interval[1]-dtime_hr/2.,ntimes) *np.pi / 12.0 
 	vt = create_visibility(config, times, frequencies, channel_bandwidth=channel_bandwidths, 
 	                       weight=1.0, phasecentre=phasecentre, polarisation_frame=PolarisationFrame('stokesI'),
 	                       elevation_limit=elevation_limit)
