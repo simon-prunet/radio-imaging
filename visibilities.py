@@ -30,7 +30,7 @@ log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 log.addHandler(logging.StreamHandler(sys.stdout))
 
-def generate_visibilities(phase_center, ha_interval, integration_time=120., tel='MEERKAT',
+def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='MEERKAT',
                           rmax=None,frequencies=None,channel_bandwidths=None):
 
 	'''
