@@ -31,7 +31,7 @@ log.setLevel(logging.DEBUG)
 log.addHandler(logging.StreamHandler(sys.stdout))
 
 def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='MEERKAT',
-                          rmax=None,frequencies=None,channel_bandwidths=None):
+                          rmax=None,frequencies=None,channel_bandwidths=None, elevation_limit=None):
 
 	'''
 	This routine will use rascil tools to create a visibility structure, for observations taken from a given telescope, in the
@@ -55,7 +55,8 @@ def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='
 	# Centered w.r.t. transit, in radian
 	times = np.linspace(ha_interval[0]+integration_time/2., ha_interval[1]-integration_time/2.,ntimes) *np.pi / 12.0 
 	vt = create_visibility(config, times, frequencies, channel_bandwidth=channel_bandwidths, 
-	                       weight=1.0, phasecentre=phasecentre, polarisation_frame=PolarisationFrame('stokesI'))
+	                       weight=1.0, phasecentre=phasecentre, polarisation_frame=PolarisationFrame('stokesI'),
+	                       elevation_limit=elevation_limit)
 
 	return(vt)
 
