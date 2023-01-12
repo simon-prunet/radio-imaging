@@ -61,6 +61,15 @@ def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='
 
 	return(vt)
 
+def select_visibilities(vt, uvmin=0, uvmax=np.infinity):
+
+	'''
+	Make a new copy of the visibility structure,
+	flag baselines according to uv radius
+	'''
+	nvt = vt.copy(deep=True)
+	nvt.visibility_acc.select_uv_range(uvmin=uvmin,uvmax=uvmax)
+	return(nvt)
 
 
 
