@@ -45,8 +45,6 @@ def generate_visibilities(phase_center, ha_interval, integration_time=120., tel=
 		print("phase_center should be a SkyCoord instance")
 		return
 	config = create_named_configuration(tel,rmax=rmax)
-	if times is None and times_are_ha:
-		times = np.zeros(1)
 	if frequencies is None:
 		frequencies = np.array([1.e9])
 	if channel_bandwidths is None:
