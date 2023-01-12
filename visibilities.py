@@ -41,8 +41,8 @@ def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='
 	channel_bandwidths: array of values in Hz. If not specified, a single value of 1e6 Hz is assumed.
 	'''
 	
-	if not isinstance(phase_center, SkyCoord):
-		print("phase_center should be a SkyCoord instance")
+	if not isinstance(phasecentre, SkyCoord):
+		print("phasecentre should be a SkyCoord instance")
 		return
 	config = create_named_configuration(tel,rmax=rmax)
 	if frequencies is None:
