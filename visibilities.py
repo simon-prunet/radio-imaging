@@ -61,7 +61,7 @@ def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='
 
 	return(vt)
 
-def select_visibilities(vt, uvmin=0, uvmax=np.infinity):
+def select_visibilities(vt, uvmin=0, uvmax=np.inf):
 
 	'''
 	Make a new copy of the visibility structure,
