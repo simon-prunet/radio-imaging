@@ -47,7 +47,7 @@ def to_rascil_format(fitsfile,postfix='_ext',overwrite=True):
 
     hdu = fits.PrimaryHDU(data,header)
     prefix = fitsfile.split('.fits')[0]
-    outfile = prefix+postfix.'.fits'
+    outfile = prefix+postfix+'.fits'
     hdu.writeto(outfile,overwrite=overwrite)
 
 
