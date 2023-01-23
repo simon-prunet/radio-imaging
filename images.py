@@ -1,7 +1,7 @@
 from astropy.io import fits
 import numpy as np
 
-from ska_sdp_data_models.image import Image
+from ska_sdp_datamodels.image import Image
 
 def to_rascil_format(fitsfile,postfix='_ext',overwrite=True):
     '''
