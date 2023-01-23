@@ -119,7 +119,7 @@ def create_image_from_fits(
         wcs.wcs.crpix[0] = im["pixels"].data.shape[3] // 2 + 1
         wcs.wcs.crpix[1] = im["pixels"].data.shape[2] // 2 + 1
 
-    return create_image_from_array(
+    return Image.constructor(
         im["pixels"].data, wcs=wcs, polarisation_frame=polarisation_frame
     )
 
