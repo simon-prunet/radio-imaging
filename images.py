@@ -4,6 +4,7 @@ import os.path
 
 from ska_sdp_datamodels.image import Image
 from rascil.processing_components.image.operations import import_image_from_fits
+from rascil.processing_components.simulation.testing_support import replicate_image
 
 def to_rascil_format(fitsfile,postfix='_ext',overwrite=True):
     '''
