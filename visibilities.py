@@ -24,6 +24,8 @@ from ska_sdp_func_python.imaging import invert_ng, predict_ng, \
 from rascil.processing_components import show_image, create_test_image, \
     plot_uvcoverage, plot_visibility
 
+from images import create_image_from_fits
+
 import logging
 
 log = logging.getLogger()
@@ -70,6 +72,22 @@ def select_visibilities(vt, uvmin=0, uvmax=np.inf):
 	nvt = vt.copy(deep=True)
 	nvt.visibility_acc.select_uv_range(uvmin=uvmin,uvmax=uvmax)
 	return(nvt)
+
+
+def visibilities_from_image(vt,fitsfile,cellsize):
+	'''
+	Load an image from fits file, and create an Image structure, with 
+	corresponding wcs info
+	'''
+	advice = advise_wide_field(vt, guard_band_image=3.0, delA=0.1, facets=1, 
+		oversampling_synthesised_beam=4.0)
+	cellsize = advice['cellsize']
+
+	im = create_image_from_fits(fitsfile,frequency=vt.frequency.data,cellsize=cellsize,phasecentre=vt.phasecentre)
+
+
+
+
 
 
 
