@@ -1,5 +1,6 @@
 from astropy.io import fits
 import numpy as np
+import os.path
 
 from ska_sdp_datamodels.image import Image
 
