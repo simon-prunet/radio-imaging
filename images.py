@@ -3,6 +3,7 @@ import numpy as np
 import os.path
 
 from ska_sdp_datamodels.image import Image
+from rascil.processing_components.image.operations import import_image_from_fits
 
 def to_rascil_format(fitsfile,postfix='_ext',overwrite=True):
     '''
