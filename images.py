@@ -96,8 +96,8 @@ def create_image_from_fits(
     wcs = im.image_acc.wcs.deepcopy()
 
     if cellsize is not None:
-        wcs.wcs.cdelt[0] = -180.0 * cellsize / numpy.pi
-        wcs.wcs.cdelt[1] = +180.0 * cellsize / numpy.pi
+        wcs.wcs.cdelt[0] = -180.0 * cellsize / np.pi
+        wcs.wcs.cdelt[1] = +180.0 * cellsize / np.pi
     if frequency is not None:
         wcs.wcs.crval[3] = frequency[0]
     if channel_bandwidth is not None:
