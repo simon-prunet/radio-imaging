@@ -74,7 +74,7 @@ def select_visibilities(vt, uvmin=0, uvmax=np.inf):
 	return(nvt)
 
 
-def visibilities_from_image(vt,fitsfile):
+def visibilities_from_image(vt,fitsfile,return_cellsize=True):
 	'''
 	Load an image from fits file, and create an Image structure, with 
 	corresponding wcs info
@@ -85,7 +85,29 @@ def visibilities_from_image(vt,fitsfile):
 
 	im = create_image_from_fits(fitsfile,frequency=vt.frequency.data,cellsize=cellsize,phasecentre=vt.phasecentre)
 	ivt = predict_ng(vt,im,context='2d')
-	return(ivt)
+	if return_cellsize:
+		return(ivt,cellsize)
+	else:
+		return(ivt)
+
+def dirty_psf_from_visibilities(vt,cellsize,npix=512):
+
+	'''
+	Now that visibility data corresponds to Nifty-Gridder sampling of Fourier plane of data
+	(using visibilities_from_images), visibilities are used to create dirty image and corresponding psf
+	:param vt: visibility data (not just baseline info)
+	:param cellsize: pixel size in radian
+	:param npix: number of pixels along each axis of the output images (dirty, psf)
+	'''
+
+	# First create empty rascil Image instance from visibilities
+	model = create_image_from_visibility(vt,cellsize=cellsize,npixel=npix)
+	dirty, sumwt = invert_ng(vt, model, context='2d')
+	psf, sumwt   = invert_ng(vt, model, context='2d', dopsf=True)
+
+	return (dirty,psf)
+
+
 
 
 
