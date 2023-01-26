@@ -74,7 +74,7 @@ def select_visibilities(vt, uvmin=0, uvmax=np.inf):
 	return(nvt)
 
 
-def visibilities_from_image(vt,fitsfile,return_cellsize=True):
+def visibilities_from_image(vt,fitsfile,return_cellsize=True, return_image=False):
 	'''
 	Load an image from fits file, and create an Image structure, with 
 	corresponding wcs info
@@ -85,8 +85,12 @@ def visibilities_from_image(vt,fitsfile,return_cellsize=True):
 
 	im = create_image_from_fits(fitsfile,frequency=vt.frequency.data,cellsize=cellsize,phasecentre=vt.phasecentre)
 	ivt = predict_ng(vt,im,context='2d')
-	if return_cellsize:
+	if return_cellsize and return_image:
+		return(ivt,cellsize,im)
+	elif (return_cellsize and not return_image):
 		return(ivt,cellsize)
+	elif (return_image and not return_cellsize):
+		return(ivt,im)
 	else:
 		return(ivt)
 
