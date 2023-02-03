@@ -81,9 +81,9 @@ def visibilities_from_image(vt,fitsfile,scale_factor=1.0,return_cellsize=True, r
 	'''
 	advice = advise_wide_field(vt, guard_band_image=3.0, delA=0.1, facets=1, 
 		oversampling_synthesised_beam=4.0)
-	cellsize = advice['cellsize']
+	cellsize = scale_factor*advice['cellsize']
 
-	im = create_image_from_fits(fitsfile,frequency=vt.frequency.data,cellsize=scale_factor*cellsize,phasecentre=vt.phasecentre)
+	im = create_image_from_fits(fitsfile,frequency=vt.frequency.data,cellsize=cellsize,phasecentre=vt.phasecentre)
 	ivt = predict_ng(vt,im,context='2d')
 	if return_cellsize and return_image:
 		return(ivt,cellsize,im)
@@ -106,6 +106,7 @@ def dirty_psf_from_visibilities(vt,cellsize,npix=512):
 
 	# First create empty rascil Image instance from visibilities
 	model = create_image_from_visibility(vt,cellsize=cellsize,npixel=npix)
+	print ("Model image plate scale (arcsec) is %e"%np.abs((model.image_acc.wcs.wcs.cdelt[0]*3600)))
 	dirty, sumwt = invert_ng(vt, model, context='2d')
 	psf, sumwt   = invert_ng(vt, model, context='2d', dopsf=True)
 
