@@ -1,0 +1,40 @@
+# To install rascil with modified files for MEERKAT configuration support in a python:3.10-slim docker image, do the following:
+
+docker run -v $HOME:$HOME -it python:3.10-slim /bin/bash
+# Some debian package update and installs
+apt-get update
+apt-get install git
+# This will install cmake, gcc and g++
+apt-get install cmake
+apt-get install g++
+# pip upgrade and packages install
+pip install --upgrade pip
+pip install pip-tools
+# git clone rascil-main, regenerate requirements.txt file
+git clone https://gitlab.com/ska-telescope/external/rascil-main.git
+git clone https://gitlab.com/ska-telescope/sdp/ska-sdp-datamodels.git
+# Get modified telescope antenna layouts for meerkat-only configuration
+git clone https://github.com/simon-prunet/radio-imaging.git
+# 
+# Do whatever modifications to rascil-main, ska-sdp-datamodels source that are needed. 
+cp /radio-imaging/rascil_meerkat/mkat.cfg /ska-sdp-datamodels/src/ska_sdp_datamodels/configuration/example_antenna_files/other/
+cp /radio-imaging/rascil_meerkat/config_create.py /ska-sdp-datamodels/src/ska_sdp_datamodels/configuration/
+# Build ska_sdp_datamodels package wheel, using poetry
+pip install poetry
+cd /ska-sdp-datamodels
+poetry build
+pip install dist/ska_sdp_datamodels-0.1.3-py3-none-any.whl
+# Make sure it is properly installed:
+pip list |grep ska-sdp-datamodels 
+
+# Go back to rascil-main, update requirements.txt and install
+pip-compile --resolver=backtracking requirements.in
+pip-install -r requirements.txt
+# Update PYTHONPATH
+export RASCIL=/rascil-main
+export PYTHONPATH=$RASCIL:$PYTHONPATH
+# Make sure git-lfs is installed
+pip install git-lfs
+git lfs install
+git-lfs pull
+
