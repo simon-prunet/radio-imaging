@@ -34,7 +34,7 @@ pip-install -r requirements.txt
 export RASCIL=/rascil-main
 export PYTHONPATH=$RASCIL:$PYTHONPATH
 # Make sure git-lfs is installed
-pip install git-lfs
-git lfs install
+apt-get install git-lfs
+git-lfs install
 git-lfs pull
 
