@@ -2,6 +2,9 @@ FROM "artefact.skao.int/rascil-full:1.0.0"
 
 # install julia
 
+WORKDIR /
+USER root
+  
 ENV JULIA_VERSION=1.8.5
 
 RUN mkdir /opt/julia-${JULIA_VERSION} && \
@@ -21,4 +24,4 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 
 # PyJulia
 
-RUN python3 -m pip install julia 
+RUN pip install --upgrade pip && python3 -m pip install julia
