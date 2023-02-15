@@ -1,7 +1,5 @@
 FROM "artefact.skao.int/rascil-full:1.0.0"
 
-USER rascil
-
 # install julia
 
 ENV JULIA_VERSION=1.8.5
