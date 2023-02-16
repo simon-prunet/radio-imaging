@@ -1,4 +1,5 @@
-FROM "artefact.skao.int/rascil-full:1.0.0"
+# FROM "artefact.skao.int/rascil-full:1.0.0"
+FROM "python:3.10"
 
 # install julia
 
@@ -33,6 +34,11 @@ RUN pip install --upgrade pip && python3 -m pip install julia
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH=$PATH:/root/.local/bin
 
+# Install compilers, cmake, etc.
+RUN apt-get update && \
+    apt-get install -y cmake && \
+    apt-get install -y g++ 
+
 # Add tailored version of ska-sdp-datamodels from gitlab fork, for Meerkat-only config. Build and pip install
 
 RUN cd /tmp && \
@@ -48,4 +54,19 @@ RUN cd /tmp && \
     cd ska-sdp-func-python && \
     poetry build && \
     pip install dist/ska_sdp_func_python-0.1.4-py3-none-any.whl
+
+# Rascil, built from sources
+RUN cd / && \
+    git clone https://gitlab.com/ska-telescope/external/rascil-main.git && \
+    cd /rascil-main && \
+    pip install pip-tools && pip-compile --resolver=backtracking requirements.in && \
+    pip install -r requirements.txt
+
+ENV RASCIL=/rascil-main
+ENV PYTHONPATH=$RASCIL:$PYTHONPATH
+
+#RUN cd $RASCIL && apt-get install git-lfs && \
+#    git-lfs install && \
+#    git-lfs pull
+
 
