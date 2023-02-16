@@ -37,7 +37,7 @@ ENV PATH=$PATH:/root/.local/bin
 
 RUN cd /tmp && \
     git clone https://oauth2:glpat-sRXuumo5FrvWzznszuLw@gitlab.com/prunet1/ska-sdp-func-python.git && \
-    cd ska-sdp-func-python #&& \
+    cd ska-sdp-func-python && \
     poetry build && \
     pip install dist/ska_sdp_func_python-0.1.4-py3-none-any.whl
 
@@ -46,7 +46,7 @@ RUN cd /tmp && \
 
 RUN cd /tmp && \
     git clone https://oauth2:glpat-sRXuumo5FrvWzznszuLw@gitlab.com/prunet1/ska-sdp-datamodels.git && \
-    cd ska-sdp-datamodels #&& \ 
+    cd ska-sdp-datamodels && \ 
     poetry build && \
     pip install dist/ska_sdp_datamodels-0.1.3-py3-none-any.whl 
 
