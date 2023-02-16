@@ -31,12 +31,13 @@ RUN pip install --upgrade pip && python3 -m pip install julia
 # Install poetry
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH=$PATH:/root/.local/bin
 
 # Add tailored version of ska-sdp-func-python from gitlab fork. Build and pip install
 
 RUN cd /tmp && \
     git clone https://oauth2:glpat-sRXuumo5FrvWzznszuLw@gitlab.com/prunet1/ska-sdp-func-python.git && \
-    cd ska-sdp-func-python && \
+    cd ska-sdp-func-python #&& \
     poetry build && \
     pip install dist/ska_sdp_func_python-0.1.4-py3-none-any.whl
 
@@ -45,7 +46,7 @@ RUN cd /tmp && \
 
 RUN cd /tmp && \
     git clone https://oauth2:glpat-sRXuumo5FrvWzznszuLw@gitlab.com/prunet1/ska-sdp-datamodels.git && \
-    cd ska-sdp-datamodels && \ 
+    cd ska-sdp-datamodels #&& \ 
     poetry build && \
     pip install dist/ska_sdp_datamodels-0.1.3-py3-none-any.whl 
 
