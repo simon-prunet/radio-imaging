@@ -19,6 +19,7 @@ RUN ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
 # Add julia packages
  
 RUN julia -e 'import Pkg; Pkg.update()' && \
+    julia -e 'import Pkg; Pkg.add("FITSIO")' && \
     julia -e 'import Pkg; Pkg.add("PyCall")' && \
     julia -e 'ENV["PYTHON"] = "/usr/local/bin/python"; import Pkg; Pkg.build("PyCall")'  && \
     julia -e 'import Pkg; Pkg.add(url="https://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@github.com/andferrari/DeconvMultiStep.jl")'
