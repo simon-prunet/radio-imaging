@@ -20,13 +20,7 @@ RUN ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
  
 RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'import Pkg; Pkg.add("FITSIO")' && \
-    julia -e 'import Pkg; Pkg.add("PyCall")' && \
-    julia -e 'ENV["PYTHON"] = "/usr/local/bin/python"; import Pkg; Pkg.build("PyCall")'  && \
     julia -e 'import Pkg; Pkg.add(url="https://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@github.com/andferrari/DeconvMultiStep.jl")'
-
-# PyJulia
-
-RUN pip install --upgrade pip && python3 -m pip install julia
 
 # Add tailored version of ska-sdp-func-python from gitlab fork. Build and pip install
 
@@ -46,6 +40,7 @@ RUN cd /tmp && \
     git clone https://oauth2:glpat-sRXuumo5FrvWzznszuLw@gitlab.com/prunet1/ska-sdp-datamodels.git && \
     cd ska-sdp-datamodels && \ 
     poetry build && \
+    pip install --upgrade pip && \
     pip install dist/ska_sdp_datamodels-0.1.3-py3-none-any.whl 
 
 # Add tailored version of ska-sdp-func-python from gitlab fork. Build and pip install
@@ -58,7 +53,8 @@ RUN cd /tmp && \
 
 # Rascil, built from sources
 RUN cd / && \
-    git clone https://gitlab.com/ska-telescope/external/rascil-main.git && \
+    # git clone https://gitlab.com/ska-telescope/external/rascil-main.git && \
+    git clone https://oauth2:glpat-hABEkGvxU3jpdfBoqfPp@gitlab.com/igorawratu/rascil-main && \
     cd /rascil-main && \
     pip install pip-tools && pip-compile --resolver=backtracking requirements.in && \
     pip install -r requirements.txt
