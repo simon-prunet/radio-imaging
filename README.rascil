@@ -3,4 +3,8 @@ Use /rascil/apps/rascil_imager.py to process the MS data and form restored image
 
 /Users/prunet/Documents/Code/radio-imaging/data# python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm msclean --clean_scales 0 6 10 30 60 --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated
 
- 
+# Dirty image only
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --mode invert
+
+# PSF image
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --mode invert --imaging_dopsf True 

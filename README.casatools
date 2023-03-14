@@ -1,0 +1,9 @@
+# In casa6 docker (rxastro/casa6), under python shell:
+from casatools import ms
+m = ms()
+m.open('/Users/prunet/Documents/Code/radio-imaging/data/Meerkat_Galactic_center.ms')
+m.split(outputms="/Users/prunet/Documents/Code/radio-imaging/data/Meerkat_Galactic_center_small_baselines.ms",uvrange="<5Klambda")
+m.close()
+m.open('/Users/prunet/Documents/Code/radio-imaging/data/Meerkat_Galactic_center.ms')
+m.split(outputms="/Users/prunet/Documents/Code/radio-imaging/data/Meerkat_Galactic_center_long_baselines.ms",uvrange=">4Klambda")
+m.close()
