@@ -5,6 +5,7 @@ sys.path.append(os.path.join('..', '..'))
 import numpy as np
 from ska_sdp_datamodels.configuration import create_named_configuration
 from ska_sdp_datamodels.visibility import create_visibility
+from ska_sdp_datamodels.gridded_visibility import create_griddata_from_image
 
 # results_dir = '/tmp/'
 
@@ -21,8 +22,10 @@ from ska_sdp_datamodels.science_data_model.polarisation_model import Polarisatio
 from ska_sdp_func_python.image import deconvolve_cube, restore_cube 
 from ska_sdp_func_python.imaging import invert_ng, predict_ng, \
      create_image_from_visibility, advise_wide_field 
+from ska_sdp_func_python.grid_data import grid_visibility_weight_to_griddata,griddata_visibility_reweight
 from rascil.processing_components import show_image, create_test_image, \
     plot_uvcoverage, plot_visibility
+from rascil.workflows import weight_list_rsexecute_workflow
 
 from images import create_image_from_fits
 
@@ -94,7 +97,7 @@ def visibilities_from_image(vt,fitsfile,scale_factor=1.0,return_cellsize=True, r
 	else:
 		return(ivt)
 
-def dirty_psf_from_visibilities(vt,cellsize,npix=512):
+def dirty_psf_from_visibilities(vt,cellsize,npix=512,weighting="uniform",robustness=0.0):
 
 	'''
 	Now that visibility data corresponds to Nifty-Gridder sampling of Fourier plane of data
@@ -107,6 +110,13 @@ def dirty_psf_from_visibilities(vt,cellsize,npix=512):
 	# First create empty rascil Image instance from visibilities
 	model = create_image_from_visibility(vt,cellsize=cellsize,npixel=npix)
 	print ("Model image plate scale (arcsec) is %e"%np.abs((model.image_acc.wcs.wcs.cdelt[0]*3600)))
+	# Reweight visibilities if not natural weighting
+	if (weighting != "natural"):
+		grid_weights = create_griddata_from_image(model,polarisation_frame=model.image_acc.polarisation_frame)
+		grid_weights = grid_visibility_weight_to_griddata(vt,grid_weights)
+		vt=griddata_visibility_reweight(vt, grid_weights[0], weighting=weighting, 
+										robustness=robustness, sumwt=grid_weights[1])
+
 	dirty, sumwt = invert_ng(vt, model, context='2d')
 	psf, sumwt   = invert_ng(vt, model, context='2d', dopsf=True)
 
