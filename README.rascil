@@ -8,3 +8,20 @@ python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galacti
 
 # PSF image
 python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --mode invert --imaging_dopsf True 
+
+
+
+
+
+
+For multistep. This currently won't work with as is because I have yet to change and commit some code, but this is the general idea. It is also necessary to have make_lowres.jl make_fullres.jl make_multistep.jl in the directory. These also need to be modified slightly as they expect a sky image
+
+
+#rascil full
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_small_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode full --ferrari_lambda 0.02
+
+#rascil low
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_small_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode low --ferrari_lambda 0.5
+
+#rascil low
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_small_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode low --ferrari_lambda 0.02 --ferrari_lowfreq_image lowfreqimage.fits
