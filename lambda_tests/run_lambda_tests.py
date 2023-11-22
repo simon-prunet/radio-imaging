@@ -24,18 +24,24 @@ def compute_snr(gt, recon):
 def compute_rmse(gt, recon):
 	return np.sqrt(np.mean((gt-recon) ** 2))
 
+def exp_growth(x, low, high, steepness = 2):
+	return low * (high / low) ** (x ** steepness)
+
 gt_filename = sys.argv[1]
 dirty_filename = sys.argv[2]
 psf_filename = sys.argv[3]
 
 lambda_low = float(sys.argv[4])
 lambda_high = float(sys.argv[5])
-lambda_step = float(sys.argv[6])
+num_samples = int(sys.argv[6])
 
 snr_filename = sys.argv[7]
 rmse_filename = sys.argv[8]
 
-lambdas = numpy.arange(lambda_low, lambda_high, lambda_step)
+lambdas = numpy.arange(0, 1, 1 / float(num_samples))
+for i, v in lambdas:
+	lambdas[i] = exp_growth(v, lambda_low, lambda_high)
+
 snrs = [0] * len(lambdas)
 rmses = [0] * len(lambdas)
 
