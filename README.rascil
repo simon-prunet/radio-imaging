@@ -18,10 +18,33 @@ For multistep. This currently won't work with as is because I have yet to change
 
 
 #rascil full
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_small_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode full --ferrari_lambda 0.02
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode full --ferrari_lambda 0.01
 
 #rascil low
 python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_small_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode low --ferrari_lambda 0.5
 
-#rascil low
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_small_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode low --ferrari_lambda 0.02 --ferrari_lowfreq_image lowfreqimage.fits
+#rascil multistep
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_long_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode multi-step --ferrari_lambda 0.01 --ferrari_lowfreq_image lowfreqimage.fits
+
+
+#for copying databases over to docker 
+docker cp ~/radio-imaging/data3/Meerkat_Galactic_center_small_baselines.ms/ <image_name>:/root/
+docker cp ~/radio-imaging/data3/Meerkat_Galactic_center_long_baselines.ms/ <image_name>:/root/
+docker cp ~/radio-imaging/data/Meerkat_Galactic_center.ms/ <image_name>:/root/
+
+#for copying rascil related files over to docker
+docker cp ~/rascil-main/. <image_name>:/rascil-main/
+docker cp ~/ska-sdp-func-python/. <image_name>:/tmp/ska-sdp-func-python
+
+#for SNR db test
+
+#full
+python $RASCIL/rascil/apps/rascil_imager.py --mode cip --ingest_msname SNR_G55_10s.calib.ms --ingest_dd 0 1 2 3 --ingest_vis_nchan 64 --ingest_chan_per_vis 8 --ingest_average_vis True --imaging_npixel 512 --imaging_cellsize 3.878509448876288e-05 --imaging_weighting robust --imaging_robustness -0.5 --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode full --ferrari_lambda 0.01
+
+#low
+python $RASCIL/rascil/apps/rascil_imager.py --mode cip --ingest_msname SNR_G55_10_small_baselines.calib.ms --ingest_dd 0 1 2 3 --ingest_vis_nchan 64 --ingest_chan_per_vis 8 --ingest_average_vis True --imaging_npixel 512 --imaging_cellsize 3.878509448876288e-05 --imaging_weighting robust --imaging_robustness -0.5 --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode low --ferrari_lambda 0.5
+
+#multistep
+python /rascil-main/rascil/apps/rascil_imager.py --mode cip --ingest_msname SNR_G55_10_long_baselines.calib.ms --ingest_dd 0 1 2 3 --ingest_vis_nchan 64 --ingest_chan_per_vis 8 --ingest_average_vis True --imaging_npixel 512 --imaging_cellsize 3.878509448876288e-05 --imaging_weighting robust --imaging_robustness -0.5 --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode multi-step --ferrari_lambda 0.01 --ferrari_lowfreq_image SNR_G55_10_small_baselines.calib_nmoment4_cip_deconvolved.fits
+
+docker run -v $HOME:$HOME -p 8888:8888 -it ri2 /bin/bash

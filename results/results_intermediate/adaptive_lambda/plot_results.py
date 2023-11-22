@@ -16,7 +16,8 @@ def readFitsTo2Dnparr(filename):
 	return res
 
 def signaltonoise(sky, inputImage):
-	return 20*math.log10(np.linalg.norm(sky)/np.linalg.norm(sky-inputImage))
+	error_img = sky-inputImage
+	return 20*math.log10(np.linalg.norm(sky)/np.linalg.norm(error_img)), np.absolute(error_img)
 
 path = sys.argv[1]
 
@@ -26,8 +27,8 @@ first_deconv = readFitsTo2Dnparr(path+"/deconv_iteration_0_channel_0.fits")
 last_deconv = readFitsTo2Dnparr(path+"/final_deconv.fits")
 last_residual = readFitsTo2Dnparr(path+"/dirty_iteration_5_channel_0.fits")
 
-sd1 = signaltonoise(sky, first_deconv)
-sd2 = signaltonoise(sky, last_deconv)
+sd1, err_first = signaltonoise(sky, first_deconv)
+sd2, err_last = signaltonoise(sky, last_deconv)
 sddirty = signaltonoise(sky, dirty)
 
 print(sddirty)
@@ -49,8 +50,8 @@ ax2.set_yticks([])
 ax3.set_xticks([])
 ax3.set_yticks([])
 
-im1 = ax1.imshow(first_deconv, interpolation='nearest', cmap='turbo', origin='lower')
-im2 = ax2.imshow(last_deconv, interpolation='nearest', cmap='turbo', origin='lower')
+im1 = ax1.imshow(err_first, interpolation='nearest', cmap='turbo', origin='lower')
+im2 = ax2.imshow(err_last, interpolation='nearest', cmap='turbo', origin='lower')
 im3 = ax3.imshow(last_residual, interpolation='nearest', cmap='turbo', origin='lower')
 
 divider1 = make_axes_locatable(ax1)
