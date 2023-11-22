@@ -38,6 +38,8 @@ num_samples = int(sys.argv[6])
 snr_filename = sys.argv[7]
 rmse_filename = sys.argv[8]
 
+testname = sys.argv[9]
+
 lambdas = numpy.arange(0, 1, 1 / float(num_samples))
 for i, v in lambdas:
 	lambdas[i] = exp_growth(v, lambda_low, lambda_high)
@@ -59,7 +61,7 @@ while len(gt.shape) > 2:
     gt = gt[0]
 
 for i, curr_lambda in enumerate(lambdas):
-	curr_output_name = "lambda_" + str(curr_lambda) + ".fits"
+	curr_output_name = testname + "_lambda_" + str(curr_lambda) + ".fits"
 	#normalization of lambda, otherwise ideal value of lambda becomes more dependent on image amplitudes
 	curr_lambda /= max_val if max_val > 1e-10 else 9999999999
 	os.system("julia make_fullres.jl " + str(curr_lambda) + " " + psf_filename + " " + dirty_filename + " " + curr_output_name)
