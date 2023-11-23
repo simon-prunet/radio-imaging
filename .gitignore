@@ -1,0 +1,5 @@
+results/lambda_results/SGRA_full/*.fits
+results/lambda_results/SGRA_noisy/*.fits
+results/lambda_results/SGRA_shortexp/*.fits
+results/lambda_results/SGRB_full/*.fits
+results/lambda_results/SGRE_full/*.fits
