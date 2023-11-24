@@ -3,3 +3,8 @@ results/lambda_results/SGRA_noisy/*.fits
 results/lambda_results/SGRA_shortexp/*.fits
 results/lambda_results/SGRB_full/*.fits
 results/lambda_results/SGRE_full/*.fits
+results/lambda_results/SGRA_shortbaselines/*.fits
+results/lambda_results/SGRA_multistep/*.fits
+results/lambda_results/SGRA_firstresidual/*.fits
+results/lambda_results/SGRA_secondresidual/*.fits
+*.fits
