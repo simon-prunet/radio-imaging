@@ -147,3 +147,36 @@ def circularConv(gt, psf):
 
 def linearConv(gt, psf):
 	return signal.fftconvolve(gt, psf, mode='same')
+
+def addNoiseToVis(vis, perc):
+	stdv_real = numpy.std(numpy.array(vis.vis.real).flatten())
+	stdv_imag = numpy.std(numpy.array(vis.vis.imag).flatten())
+
+	stdv_real *= perc
+	stdv_imag *= perc
+
+	noise_real = numpy.random.normal(loc=0, scale=stdv_real, size=vis.vis.shape)
+	noise_imag = numpy.random.normal(loc=0, scale=stdv_imag, size=vis.vis.shape)
+
+	noise = numpy.vectorize(complex)(noise_real, noise_imag)
+	vis_with_noise = vis.vis + noise
+
+	nvis = vis.copy(deep=True, zero=True)
+	nvis["vis"].data = vis_with_noise
+
+	return nvis
+
+def plotNImages(images, names, cmap):
+	num_images = len(images)
+
+	fig, axes = plt.subplots(1, num_images)
+
+	im = None
+
+	for i, img in enumerate(images):
+		axes[i].set_title(names[i])
+		im = axes[i].imshow(img, cmap=cmap, origin='lower')
+
+	plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
+
+	plt.show()
