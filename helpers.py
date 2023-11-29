@@ -10,9 +10,9 @@ import csv
 from scipy import signal
 
 def write_to_csv(data, filename):
-	with open(filename, 'w', newline='') as file:
-	    writer = csv.writer(file)
-	    writer.writerow(data)
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(data)
 
 def write_nparr_to_fits(data, filename):
     hdu = fits.PrimaryHDU(data)
@@ -21,162 +21,182 @@ def write_nparr_to_fits(data, filename):
     hdulist.close()
 
 def compute_snr(gt, recon):
-	return 20 * numpy.log10(numpy.linalg.norm(gt) / numpy.linalg.norm(gt-recon))
+    return 20 * numpy.log10(numpy.linalg.norm(gt) / numpy.linalg.norm(gt-recon))
 
 def compute_rmse(gt, recon):
-	return numpy.sqrt(numpy.mean((gt-recon) ** 2))
+    return numpy.sqrt(numpy.mean((gt-recon) ** 2))
 
 def compute_maxabserr(gt, recon):
-	return numpy.max(numpy.abs(gt - recon))
+    return numpy.max(numpy.abs(gt - recon))
 
 def compute_errstd(gt, recon):
-	return numpy.std(gt - recon)
+    return numpy.std(gt - recon)
 
 def compute_ssim(gt, recon):
-	gt_mean = numpy.mean(gt)
-	recon_mean = numpy.mean(recon)
-	#gt_variance = numpy.variance(gt)
-	#recon_variance = numpy.variance(recon)
-	covariance_mat = numpy.cov([gt.flatten(), recon.flatten()])
+    gt_mean = numpy.mean(gt)
+    recon_mean = numpy.mean(recon)
+    #gt_variance = numpy.variance(gt)
+    #recon_variance = numpy.variance(recon)
+    covariance_mat = numpy.cov([gt.flatten(), recon.flatten()])
 
-	gt_variance = covariance_mat[0, 0]
-	recon_variance = covariance_mat[1, 1]
-	covariance = covariance_mat[0, 1]
+    gt_variance = covariance_mat[0, 0]
+    recon_variance = covariance_mat[1, 1]
+    covariance = covariance_mat[0, 1]
 
-	dynamic_range = numpy.max(gt) - numpy.min(gt) * 2
+    dynamic_range = numpy.max(gt) - numpy.min(gt) * 2
 
-	c1 = (0.01 * dynamic_range) ** 2
-	c2 = (0.03 * dynamic_range) ** 2
-	c3 = c2 / 2
+    c1 = (0.01 * dynamic_range) ** 2
+    c2 = (0.03 * dynamic_range) ** 2
+    c3 = c2 / 2
 
-	l = (2 * gt_mean * recon_mean + c1) / (gt_mean ** 2 + recon_mean ** 2 + c1)
-	c = (2 * numpy.sqrt(gt_variance) * numpy.sqrt(recon_variance) + c2) / (gt_variance + recon_variance + c2)
-	s = (covariance + c3) / (numpy.sqrt(gt_variance) * numpy.sqrt(recon_variance) + c3)
+    l = (2 * gt_mean * recon_mean + c1) / (gt_mean ** 2 + recon_mean ** 2 + c1)
+    c = (2 * numpy.sqrt(gt_variance) * numpy.sqrt(recon_variance) + c2) / (gt_variance + recon_variance + c2)
+    s = (covariance + c3) / (numpy.sqrt(gt_variance) * numpy.sqrt(recon_variance) + c3)
 
-	return (l ** 1) * (c ** 1) * (s ** 3)
+    return (l ** 1) * (c ** 1) * (s ** 3)
 
-	#return ((2 * gt_mean * recon_mean + c1) * (2 * covariance + c2)) / ((gt_mean ** 2 + recon_mean ** 2 + c1) * (gt_variance + recon_variance + c2))
+    #return ((2 * gt_mean * recon_mean + c1) * (2 * covariance + c2)) / ((gt_mean ** 2 + recon_mean ** 2 + c1) * (gt_variance + recon_variance + c2))
 
 
 def exp_growth(x, low, high, steepness = 2):
-	return low * (high / low) ** (x ** steepness)
+    return low * (high / low) ** (x ** steepness)
 
 def readFits(filename):
-	dat = fits.open(filename)[0].data
-	while len(dat.shape) > 2:
-	    dat = dat[0]
+    dat = fits.open(filename)[0].data
+    while len(dat.shape) > 2:
+        dat = dat[0]
 
-	return dat
+    return dat
 
 def plot1D(x, y, xlabel, ylabel):
-	plt.plot(x, y)
-	plt.xlabel(xlabel)
-	plt.ylabel(ylabel)
-	plt.show()
+    plt.plot(x, y)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.show()
 
 def plotGDP(gt, dirty, psf, cmap):
-	fig, axes = plt.subplots(1, 3)
-	axes[0].set_title("True Sky")
-	axes[0].imshow(gt, cmap=cmap, origin='lower')
+    fig, axes = plt.subplots(1, 3)
+    axes[0].set_title("True Sky")
+    axes[0].imshow(gt, cmap=cmap, origin='lower')
 
-	axes[1].set_title("Dirty Image")
-	axes[1].imshow(dirty, cmap=cmap, origin='lower')
+    axes[1].set_title("Dirty Image")
+    axes[1].imshow(dirty, cmap=cmap, origin='lower')
 
-	axes[2].set_title("PSF")
-	axes[2].imshow(psf, cmap=cmap, origin='lower')
+    axes[2].set_title("PSF")
+    axes[2].imshow(psf, cmap=cmap, origin='lower')
 
-	plt.show()
+    plt.show()
 
 def plotSNRvsSSIM(lambdas, path, snr_idx, ssim_idx, gt, cmap):
-	snr_fn = path + "lambda_" + str(lambdas[snr_idx]) + ".fits"
-	ssim_fn = path + "lambda_" + str(lambdas[ssim_idx]) + ".fits"
+    snr_fn = path + "lambda_" + str(lambdas[snr_idx]) + ".fits"
+    ssim_fn = path + "lambda_" + str(lambdas[ssim_idx]) + ".fits"
 
-	snrfile = readFits(snr_fn)
-	ssimfile = readFits(ssim_fn)
+    snrfile = readFits(snr_fn)
+    ssimfile = readFits(ssim_fn)
 
-	err_snr = numpy.abs(gt - snrfile)
-	err_ssim = abs(gt - ssimfile)
+    err_snr = numpy.abs(gt - snrfile)
+    err_ssim = abs(gt - ssimfile)
 
-	fig, axes = plt.subplots(1, 2)
-	axes[0].set_title("Best SNR Image $\lambda = " + "{:.2f}".format(lambdas[snr_idx]) + "$")
-	im = axes[0].imshow(snrfile, cmap=cmap, origin='lower')
+    fig, axes = plt.subplots(1, 2)
+    axes[0].set_title("Best SNR Image $\lambda = " + "{:.2f}".format(lambdas[snr_idx]) + "$")
+    im = axes[0].imshow(snrfile, cmap=cmap, origin='lower')
 
-	axes[1].set_title("Best SSIM Image $\lambda = " + "{:.2f}".format(lambdas[ssim_idx]) + "$")
-	im = axes[1].imshow(ssimfile, cmap=cmap, origin='lower')
+    axes[1].set_title("Best SSIM Image $\lambda = " + "{:.2f}".format(lambdas[ssim_idx]) + "$")
+    im = axes[1].imshow(ssimfile, cmap=cmap, origin='lower')
 
-	plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
+    plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
 
-	plt.show()
+    plt.show()
 
-	fig, axes = plt.subplots(1, 2)
+    fig, axes = plt.subplots(1, 2)
 
-	axes[0].set_title("SNR Absolute Error Image")
-	im = axes[0].imshow(err_snr, cmap=cmap, origin='lower')
+    axes[0].set_title("SNR Absolute Error Image")
+    im = axes[0].imshow(err_snr, cmap=cmap, origin='lower')
 
-	axes[1].set_title("SSIM Absolute Error Image")
-	im = axes[1].imshow(err_ssim, cmap=cmap, origin='lower')
-	
-	plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
+    axes[1].set_title("SSIM Absolute Error Image")
+    im = axes[1].imshow(err_ssim, cmap=cmap, origin='lower')
+    
+    plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
 
-	plt.show()
+    plt.show()
 
 
 def read_csv(filename):
-	data = []
-	with open(filename, newline='') as file:
-	    reader = csv.reader(file, delimiter=',')
-	    for row in reader:
-	    	data += row
+    data = []
+    with open(filename, newline='') as file:
+        reader = csv.reader(file, delimiter=',')
+        for row in reader:
+            data += row
 
-	return data
+    return data
 
 def computeErrorForSavedResults(gt, lambdas, path, ofilename, errorMetric):
-	errors = [0] * len(lambdas)
-	for i, val in enumerate(lambdas):
-		curr_filename = path + "lambda_" + str(val) + ".fits"
-		curr_file = readFits(curr_filename)
-		errors[i] = errorMetric(gt, curr_file)
+    errors = [0] * len(lambdas)
+    for i, val in enumerate(lambdas):
+        curr_filename = path + "lambda_" + str(val) + ".fits"
+        curr_file = readFits(curr_filename)
+        errors[i] = errorMetric(gt, curr_file)
 
-	write_to_csv(errors, path + ofilename)
+    write_to_csv(errors, path + ofilename)
 
 def circularConv(gt, psf):
-	psf_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(psf)))
-	gt_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(gt)))
+    psf_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(psf)))
+    gt_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(gt)))
 
-	return (numpy.fft.ifftshift(numpy.fft.fft2(numpy.fft.fftshift(psf_fft * gt_fft)))).real
+    return (numpy.fft.ifftshift(numpy.fft.fft2(numpy.fft.fftshift(psf_fft * gt_fft)))).real
 
 def linearConv(gt, psf):
-	return signal.fftconvolve(gt, psf, mode='same')
+    return signal.fftconvolve(gt, psf, mode='same')
 
 def addNoiseToVis(vis, perc):
-	stdv_real = numpy.std(numpy.array(vis.vis.real).flatten())
-	stdv_imag = numpy.std(numpy.array(vis.vis.imag).flatten())
+    stdv_real = numpy.std(numpy.array(vis.vis.real).flatten())
+    stdv_imag = numpy.std(numpy.array(vis.vis.imag).flatten())
 
-	stdv_real *= perc
-	stdv_imag *= perc
+    stdv_real *= (perc / 100)
+    stdv_imag *= (perc / 100)
 
-	noise_real = numpy.random.normal(loc=0, scale=stdv_real, size=vis.vis.shape)
-	noise_imag = numpy.random.normal(loc=0, scale=stdv_imag, size=vis.vis.shape)
+    noise_real = numpy.random.normal(loc=0, scale=stdv_real, size=vis.vis.shape)
+    noise_imag = numpy.random.normal(loc=0, scale=stdv_imag, size=vis.vis.shape)
 
-	noise = numpy.vectorize(complex)(noise_real, noise_imag)
-	vis_with_noise = vis.vis + noise
+    noise = numpy.vectorize(complex)(noise_real, noise_imag)
+    vis_with_noise = vis.vis + noise
 
-	nvis = vis.copy(deep=True, zero=True)
-	nvis["vis"].data = vis_with_noise
+    nvis = vis.copy(deep=True, zero=True)
+    nvis["vis"].data = vis_with_noise
 
-	return nvis
+    return nvis
 
 def plotNImages(images, names, cmap):
-	num_images = len(images)
+    num_images = len(images)
 
-	fig, axes = plt.subplots(1, num_images)
+    fig, axes = plt.subplots(1, num_images)
 
-	im = None
+    im = None
 
-	for i, img in enumerate(images):
-		axes[i].set_title(names[i])
-		im = axes[i].imshow(img, cmap=cmap, origin='lower')
+    for i, img in enumerate(images):
+        while(len(img.shape) > 2):
+            img = img[0]
 
-	plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
+        if num_images > 1:
+            axes[i].set_title(names[i])
+            im = axes[i].imshow(img, cmap=cmap, origin='lower')
+        else:
+            axes.set_title(names[i])
+            im = axes.imshow(img, cmap=cmap, origin='lower')
 
-	plt.show()
+    if num_images > 1:
+        fig.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
+    else:
+        fig.colorbar(im, ax=axes, shrink = 0.7) 
+
+    plt.show()
+
+def plot1Dscatter(x, label):
+    f = plt.figure()
+    f.set_figheight(1)
+    
+    plt.xlabel(label)
+    plt.tick_params(left = False, labelleft = False) 
+    plt.scatter(x, [0] * len(x))
+
+    plt.show()
