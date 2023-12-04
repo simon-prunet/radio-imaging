@@ -77,14 +77,14 @@ def select_visibilities(vt, uvmin=0, uvmax=np.inf):
 	return(nvt)
 
 
-def visibilities_from_image(vt,fitsfile,scale_factor=1.0,return_cellsize=True, return_image=False):
+def visibilities_from_image(vt,fitsfile,scale_factor=1.0,return_cellsize=True, return_image=False, override_cellsize=False, ocellsize=1):
 	'''
 	Load an image from fits file, and create an Image structure, with 
 	corresponding wcs info
 	'''
 	advice = advise_wide_field(vt, guard_band_image=3.0, delA=0.1, facets=1, 
 		oversampling_synthesised_beam=4.0)
-	cellsize = scale_factor*advice['cellsize']
+	cellsize = ocellsize if override_cellsize else scale_factor*advice['cellsize']
 
 	im = create_image_from_fits(fitsfile,frequency=vt.frequency.data,cellsize=cellsize,phasecentre=vt.phasecentre)
 	ivt = predict_ng(vt,im,context='2d')

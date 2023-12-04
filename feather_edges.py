@@ -5,7 +5,8 @@ import sys
 ifilename = sys.argv[1]
 feather_size = int(sys.argv[2])
 feather_end = int(sys.argv[3])
-ofilename = sys.argv[4]
+min_level = float(sys.argv[4])
+ofilename = sys.argv[5]
 
 f = fits.open(ifilename)
 
@@ -31,7 +32,7 @@ for y, row in enumerate(data):
 
             feather = min(feather_x, feather_y)
 
-        data[x, y] *= feather
+        data[x, y] = feather * data[x, y] + (1 - feather) * min_level * data[x, y]
 
 newf = fits.PrimaryHDU()
 newf.data =[[data]]

@@ -6,8 +6,11 @@ import matplotlib
 import numpy
 
 import csv
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from scipy import signal
+
+from ska_sdp_func_python.visibility import subtract_visibility
 
 def write_to_csv(data, filename):
     with open(filename, 'w', newline='') as file:
@@ -74,18 +77,54 @@ def plot1D(x, y, xlabel, ylabel):
     plt.ylabel(ylabel)
     plt.show()
 
-def plotGDP(gt, dirty, psf, cmap):
-    fig, axes = plt.subplots(1, 3)
-    axes[0].set_title("True Sky")
-    axes[0].imshow(gt, cmap=cmap, origin='lower')
+def plotNImages(images, names, cmap, same_scale=False):
+    num_images = len(images)
 
-    axes[1].set_title("Dirty Image")
-    axes[1].imshow(dirty, cmap=cmap, origin='lower')
+    fig, axes = plt.subplots(1, num_images)
 
-    axes[2].set_title("PSF")
-    axes[2].imshow(psf, cmap=cmap, origin='lower')
+    im = None
+
+    vmin = 999999999999
+    vmax = -999999999999
+
+    if same_scale:
+        for img in images:
+            vmin = min(vmin, numpy.min(img))
+            vmax = max(vmax, numpy.max(img))
+
+    for i, img in enumerate(images):
+        while(len(img.shape) > 2):
+            img = img[0]
+
+        if num_images > 1:
+            axes[i].set_title(names[i])
+            if same_scale:
+                im = axes[i].imshow(img, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
+            else:
+                im = axes[i].imshow(img, cmap=cmap, origin='lower')
+
+            divider = make_axes_locatable(axes[i])
+            cax = divider.append_axes("bottom", size="5%", pad=0.25)
+
+            cb = fig.colorbar(im, orientation='horizontal', cax=cax)
+            cb.ax.locator_params(nbins=5)
+        else:
+            axes.set_title(names[i])
+            if same_scale:
+                im = axes.imshow(img, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
+            else:
+                im = axes.imshow(img, cmap=cmap, origin='lower')
+
+            divider = make_axes_locatable(axes)
+            cax = divider.append_axes("bottom", size="5%", pad=0.25)
+
+            cb = fig.colorbar(im, orientation='horizontal', cax=cax)
+            cb.ax.locator_params(nbins=5)
 
     plt.show()
+
+def plotGDP(gt, dirty, psf, cmap):
+    plotNImages([gt, dirty, psf], ["True Sky", "Dirty Image", "PSF"], cmap)
 
 def plotSNRvsSSIM(lambdas, path, snr_idx, ssim_idx, gt, cmap):
     snr_fn = path + "lambda_" + str(lambdas[snr_idx]) + ".fits"
@@ -97,28 +136,11 @@ def plotSNRvsSSIM(lambdas, path, snr_idx, ssim_idx, gt, cmap):
     err_snr = numpy.abs(gt - snrfile)
     err_ssim = abs(gt - ssimfile)
 
-    fig, axes = plt.subplots(1, 2)
-    axes[0].set_title("Best SNR Image $\lambda = " + "{:.2f}".format(lambdas[snr_idx]) + "$")
-    im = axes[0].imshow(snrfile, cmap=cmap, origin='lower')
+    snr_title = "Best SNR Image $\lambda = " + "{:.2f}".format(lambdas[snr_idx]) + "$"
+    ssim_title = "Best SSIM Image $\lambda = " + "{:.2f}".format(lambdas[ssim_idx]) + "$"
 
-    axes[1].set_title("Best SSIM Image $\lambda = " + "{:.2f}".format(lambdas[ssim_idx]) + "$")
-    im = axes[1].imshow(ssimfile, cmap=cmap, origin='lower')
-
-    plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
-
-    plt.show()
-
-    fig, axes = plt.subplots(1, 2)
-
-    axes[0].set_title("SNR Absolute Error Image")
-    im = axes[0].imshow(err_snr, cmap=cmap, origin='lower')
-
-    axes[1].set_title("SSIM Absolute Error Image")
-    im = axes[1].imshow(err_ssim, cmap=cmap, origin='lower')
-    
-    plt.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
-
-    plt.show()
+    plotNImages([snrfile, ssimfile], [snr_title, ssim_title], cmap)
+    plotNImages([err_snr, err_ssim], ["SNR Absolute Diff", "SSIM Absolute Diff"], cmap, same_scale=True)
 
 
 def read_csv(filename):
@@ -139,64 +161,68 @@ def computeErrorForSavedResults(gt, lambdas, path, ofilename, errorMetric):
 
     write_to_csv(errors, path + ofilename)
 
+# def conv(f, g, p1=-1, p2=-1) :                                                                                                                                                           
+#     if p1 > 0 and p2 > 0:                                                                                   
+#         p1, p2 = (numpy.r_[f.shape]-g.shape).astype(int)//2                                                                                                                              
+#         print(str(p1) + " " + str(p2))
+#         gpad = numpy.pad(g,((p1,p1),(p2,p2)),mode='edge')                                                                                                                                                                                                                                          
+    
+#     print(gpad.shape)
+#     print(f.shape)
+#     gpad = numpy.fft.ifftshift(gpad)
+
+#     FG = numpy.fft.fft2(f) * numpy.conj(numpy.fft.fft2(gpad))
+#     return numpy.real(numpy.fft.ifft2(FG)) 
+
 def circularConv(gt, psf):
     psf_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(psf)))
     gt_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(gt)))
 
-    return (numpy.fft.ifftshift(numpy.fft.fft2(numpy.fft.fftshift(psf_fft * gt_fft)))).real
+    return numpy.real(numpy.fft.ifftshift(numpy.fft.ifft2(numpy.fft.fftshift(numpy.conj(psf_fft) * gt_fft))))
 
 def linearConv(gt, psf):
+    psf_padded = numpy.zeros((int(psf.shape[0] * 2), int(psf.shape[1] * 2)))
+    psf_padded[int(psf.shape[0] / 2) : int(psf.shape[0] / 2 + psf.shape[0]), int(psf.shape[1] / 2) : int(psf.shape[1] / 2 + psf.shape[1])] = psf
+    gt_padded = numpy.zeros((int(gt.shape[0] * 2), int(gt.shape[1] * 2)))
+    gt_padded[int(gt.shape[0] / 2) : int(gt.shape[0] / 2 + gt.shape[0]), int(gt.shape[1] / 2) : int(gt.shape[1] / 2 + gt.shape[1])] = gt
+
+    psf_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(psf)))
+    gt_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(gt)))
+    psf_fft_padded = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(psf_padded)))
+    gt_fft_padded = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(gt_padded)))
+
+    return numpy.real(numpy.fft.ifftshift(numpy.fft.ifft2(numpy.fft.fftshift(numpy.conj(psf_fft_padded) * gt_fft_padded)))[int(gt.shape[0] / 2) : int(gt.shape[0] / 2 + gt.shape[0]), int(gt.shape[1] / 2) : int(gt.shape[0] / 2 + gt.shape[0])])
+
+def linearConvScipy(gt, psf):
     return signal.fftconvolve(gt, psf, mode='same')
 
-def addNoiseToVis(vis, perc):
-    stdv_real = numpy.std(numpy.array(vis.vis.real).flatten())
-    stdv_imag = numpy.std(numpy.array(vis.vis.imag).flatten())
+def addNoiseToVis(vis, perc, real_deviation=-1, imag_deviation=-1):
+    real_deviation = numpy.std(vis.vis.data.real.flatten()) if real_deviation < 0 else real_deviation
+    imag_deviation = numpy.std(vis.vis.data.imag.flatten()) if imag_deviation < 0 else real_deviation
 
-    stdv_real *= (perc / 100)
-    stdv_imag *= (perc / 100)
+    real_deviation *= (perc / 100)
+    imag_deviation *= (perc / 100)
 
-    noise_real = numpy.random.normal(loc=0, scale=stdv_real, size=vis.vis.shape)
-    noise_imag = numpy.random.normal(loc=0, scale=stdv_imag, size=vis.vis.shape)
+    noise_real = numpy.random.normal(loc=0, scale=real_deviation, size=vis.vis.shape)
+    noise_imag = numpy.random.normal(loc=0, scale=imag_deviation, size=vis.vis.shape)
 
     noise = numpy.vectorize(complex)(noise_real, noise_imag)
     vis_with_noise = vis.vis + noise
 
-    nvis = vis.copy(deep=True, zero=True)
+    nvis = vis.copy(deep=True)
     nvis["vis"].data = vis_with_noise
 
     return nvis
 
-def plotNImages(images, names, cmap):
-    num_images = len(images)
-
-    fig, axes = plt.subplots(1, num_images)
-
-    im = None
-
-    for i, img in enumerate(images):
-        while(len(img.shape) > 2):
-            img = img[0]
-
-        if num_images > 1:
-            axes[i].set_title(names[i])
-            im = axes[i].imshow(img, cmap=cmap, origin='lower')
-        else:
-            axes.set_title(names[i])
-            im = axes.imshow(img, cmap=cmap, origin='lower')
-
-    if num_images > 1:
-        fig.colorbar(im, ax=axes.ravel().tolist(), shrink = 0.7) 
-    else:
-        fig.colorbar(im, ax=axes, shrink = 0.7) 
-
-    plt.show()
-
 def plot1Dscatter(x, label):
     f = plt.figure()
     f.set_figheight(1)
-    
+
     plt.xlabel(label)
     plt.tick_params(left = False, labelleft = False) 
     plt.scatter(x, [0] * len(x))
 
     plt.show()
+
+def subtractVis(recon, model):
+    return subtract_visibility(recon, model)
