@@ -20,7 +20,9 @@ RUN ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
  
 RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'import Pkg; Pkg.add("FITSIO")' && \
-    julia -e 'import Pkg; Pkg.add(url="https://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@github.com/andferrari/DeconvMultiStep.jl")'
+    julia -e 'import Pkg; Pkg.add(url="https://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@github.com/andferrari/DeconvMultiStep.jl")' && \
+    julia -e 'import Pkg; Pkg.add("ImageFiltering")' && \
+    julia -e 'import Pkg; Pkg.add("url="https://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@github.com/andferrari/IUWT.jl"")'
 
 # Add tailored version of ska-sdp-func-python from gitlab fork. Build and pip install
 
@@ -71,11 +73,9 @@ ENV PYTHONPATH=$RASCIL:$PYTHONPATH
 RUN cd ~ && \
  jp=$(julia -E 'using DeconvMultiStep;pathof(DeconvMultiStep)' | tr -d '"') && \
  jdir=$(dirname "${jp}")"/../rascil/" && \
- cp "${jdir}make_lowres.jl" "." && \
- cp "${jdir}make_fullres.jl" "." && \ 
- cp "${jdir}make_multistep.jl" "." && \
- cp "${jdir}create_multistep_constraint.jl" "." && \
- cp "${jdir}compute_lambda.jl" "."
+ cp "${jdir}*.jl" "."
+
+#for some reason the incorrect version of ska-sdp-func-python is being installed so I am re-installing here
 
 RUN pip uninstall -y ska-sdp-datamodels && \
  pip uninstall -y ska-sdp-func-python
@@ -86,5 +86,3 @@ RUN cd /tmp/ska-sdp-datamodels && \
 RUN cd /tmp/ska-sdp-func-python && \
  poetry build && \
  pip install dist/ska_sdp_func_python-0.1.4-py3-none-any.whl
-
-RUN julia -e 'using Pkg; Pkg.add("ImageFiltering")'

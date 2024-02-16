@@ -77,7 +77,7 @@ def plot1D(x, y, xlabel, ylabel):
     plt.ylabel(ylabel)
     plt.show()
 
-def plotNImages(images, names, cmap, same_scale=False):
+def plotNImages(images, names, cmap, same_scale=False, scale_mul=1.0, output_file=None, additional_scale_imgs=None, hide_ticks=False, colorbar_location="bottom", cbar_labelsize=None, logNorm=False, vpadding=0):
     num_images = len(images)
 
     fig, axes = plt.subplots(1, num_images)
@@ -91,6 +91,15 @@ def plotNImages(images, names, cmap, same_scale=False):
         for img in images:
             vmin = min(vmin, numpy.min(img))
             vmax = max(vmax, numpy.max(img))
+        if additional_scale_imgs is not None:
+            for img in additional_scale_imgs:
+                vmin = min(vmin, numpy.min(img))
+                vmax = max(vmax, numpy.max(img))
+
+    vmin *= scale_mul
+    vmax *= scale_mul
+    vmin -= vpadding
+    vmax += vpadding
 
     for i, img in enumerate(images):
         while(len(img.shape) > 2):
@@ -104,10 +113,13 @@ def plotNImages(images, names, cmap, same_scale=False):
                 im = axes[i].imshow(img, cmap=cmap, origin='lower')
 
             divider = make_axes_locatable(axes[i])
-            cax = divider.append_axes("bottom", size="5%", pad=0.25)
+            cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
 
             cb = fig.colorbar(im, orientation='horizontal', cax=cax)
+            #cb.formatter.set_powerlimits((-10, 10))
             cb.ax.locator_params(nbins=5)
+            if cbar_labelsize is not None:
+                cb.ax.tick_params(labelsize=cbar_labelsize)
         else:
             axes.set_title(names[i])
             if same_scale:
@@ -116,31 +128,34 @@ def plotNImages(images, names, cmap, same_scale=False):
                 im = axes.imshow(img, cmap=cmap, origin='lower')
 
             divider = make_axes_locatable(axes)
-            cax = divider.append_axes("bottom", size="5%", pad=0.25)
+            cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
 
             cb = fig.colorbar(im, orientation='horizontal', cax=cax)
+            #cb.formatter.set_powerlimits((-10, 10))
             cb.ax.locator_params(nbins=5)
+            if cbar_labelsize is not None:
+                cb.ax.tick_params(labelsize=cbar_labelsize)
 
-    plt.show()
+    if hide_ticks:
+        axes.set_xticks([])
+        axes.set_yticks([])
+
+
+    if output_file is not None:
+        plt.savefig(output_file, pad_inches=0.0, bbox_inches='tight')
+    else:
+        plt.show()
 
 def plotGDP(gt, dirty, psf, cmap):
     plotNImages([gt, dirty, psf], ["True Sky", "Dirty Image", "PSF"], cmap)
 
-def plotSNRvsSSIM(lambdas, path, snr_idx, ssim_idx, gt, cmap):
+def plotSNRvsSSIM(lambdas, path, snr_idx, gt, cmap, same_scale = False):
     snr_fn = path + "lambda_" + str(lambdas[snr_idx]) + ".fits"
-    ssim_fn = path + "lambda_" + str(lambdas[ssim_idx]) + ".fits"
-
     snrfile = readFits(snr_fn)
-    ssimfile = readFits(ssim_fn)
-
     err_snr = numpy.abs(gt - snrfile)
-    err_ssim = abs(gt - ssimfile)
-
     snr_title = "Best SNR Image $\lambda = " + "{:.2f}".format(lambdas[snr_idx]) + "$"
-    ssim_title = "Best SSIM Image $\lambda = " + "{:.2f}".format(lambdas[ssim_idx]) + "$"
 
-    plotNImages([snrfile, ssimfile], [snr_title, ssim_title], cmap)
-    plotNImages([err_snr, err_ssim], ["SNR Absolute Diff", "SSIM Absolute Diff"], cmap, same_scale=True)
+    plotNImages([snrfile, err_snr], [snr_title, "SNR absolute error"], cmap, same_scale = same_scale)
 
 
 def read_csv(filename):
@@ -160,19 +175,6 @@ def computeErrorForSavedResults(gt, lambdas, path, ofilename, errorMetric):
         errors[i] = errorMetric(gt, curr_file)
 
     write_to_csv(errors, path + ofilename)
-
-# def conv(f, g, p1=-1, p2=-1) :                                                                                                                                                           
-#     if p1 > 0 and p2 > 0:                                                                                   
-#         p1, p2 = (numpy.r_[f.shape]-g.shape).astype(int)//2                                                                                                                              
-#         print(str(p1) + " " + str(p2))
-#         gpad = numpy.pad(g,((p1,p1),(p2,p2)),mode='edge')                                                                                                                                                                                                                                          
-    
-#     print(gpad.shape)
-#     print(f.shape)
-#     gpad = numpy.fft.ifftshift(gpad)
-
-#     FG = numpy.fft.fft2(f) * numpy.conj(numpy.fft.fft2(gpad))
-#     return numpy.real(numpy.fft.ifft2(FG)) 
 
 def circularConv(gt, psf):
     psf_fft = numpy.fft.fftshift(numpy.fft.fft2(numpy.fft.ifftshift(psf)))
@@ -226,3 +228,19 @@ def plot1Dscatter(x, label):
 
 def subtractVis(recon, model):
     return subtract_visibility(recon, model)
+
+
+def compute_windowed_var(image, window):
+    estimated_variance = numpy.zeros(image.shape)
+
+    #convolving initial signal with a variance estimation kernel with a size 2xwindow_hsize+1
+    for y in range(image.shape[1]):
+        for x in range(image.shape[0]):
+            start_x = max(x - window, 0)
+            end_x = min(x + window + 1, image.shape[0])
+            start_y = max(y - window, 0)
+            end_y = min(y + window + 1, image.shape[1])
+
+            estimated_variance[x, y] = numpy.var(image[start_x:end_x, start_y:end_y])
+            
+    return estimated_variance

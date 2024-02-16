@@ -1,2 +1,6 @@
 results/*.fits filter=lfs diff=lfs merge=lfs -text
 results/ filter=lfs diff=lfs merge=lfs -text
+results/noise_results filter=lfs diff=lfs merge=lfs -text
+results/results_intermediate filter=lfs diff=lfs merge=lfs -text
+results/cut_results filter=lfs diff=lfs merge=lfs -text
+results/lambda_results filter=lfs diff=lfs merge=lfs -text
