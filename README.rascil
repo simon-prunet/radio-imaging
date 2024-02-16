@@ -10,21 +10,18 @@ python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galacti
 python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --mode invert --imaging_dopsf True 
 
 
+For running multi-step algorithm in RASCIL, the julia files need to be in the same directory, but this should not be an issue as the Dockerfile should automatically copy everything to the home directory.
 
+#Example commands
 
+##rascil full
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode full --mstep_lambda 0.01 --mstep_lambda_mul 1 --mstep_wavelet daubechies
 
+##low-resolution step on small_baselines_dataset.ms with ell=50, delta=5, initial $\frac{\lambda}{\|\hat{i}\|_2} = 0.05$ with $2\times$ increase every major cycle, and daubechies wavelets 
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname small_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode low --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5
 
-For multistep. This currently won't work with as is because I have yet to change and commit some code, but this is the general idea. It is also necessary to have make_lowres.jl make_fullres.jl make_multistep.jl in the directory. These also need to be modified slightly as they expect a sky image
-
-
-#rascil full
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode full --ferrari_lambda 0.01
-
-#rascil low
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_small_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode low --ferrari_lambda 0.5
-
-#rascil multistep
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center_long_baselines.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode multi-step --ferrari_lambda 0.01 --ferrari_lowfreq_image lowfreqimage.fits
+##full-resolution step on long_baselines_dataset.ms with ell=50, delta=5, initial $\frac{\lambda}{\|\hat{i}\|_2} = 0.05$ with $2\times$ increase every major cycle, daubechies wavelets, and a low-resolution input image named small_baselines_dataset_deconvolved.fits
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname long_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode multi-step --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_lowfreq_image small_baselines_dataset_deconvolved.fits --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5
 
 
 #for copying databases over to docker 
@@ -36,15 +33,3 @@ docker cp ~/radio-imaging/data/Meerkat_Galactic_center.ms/ <image_name>:/root/
 docker cp ~/rascil-main/. <image_name>:/rascil-main/
 docker cp ~/ska-sdp-func-python/. <image_name>:/tmp/ska-sdp-func-python
 
-#for SNR db test
-
-#full
-python $RASCIL/rascil/apps/rascil_imager.py --mode cip --ingest_msname SNR_G55_10s.calib.ms --ingest_dd 0 1 2 3 --ingest_vis_nchan 64 --ingest_chan_per_vis 8 --ingest_average_vis True --imaging_npixel 512 --imaging_cellsize 3.878509448876288e-05 --imaging_weighting robust --imaging_robustness -0.5 --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode full --ferrari_lambda 0.01
-
-#low
-python $RASCIL/rascil/apps/rascil_imager.py --mode cip --ingest_msname SNR_G55_10_small_baselines.calib.ms --ingest_dd 0 1 2 3 --ingest_vis_nchan 64 --ingest_chan_per_vis 8 --ingest_average_vis True --imaging_npixel 512 --imaging_cellsize 3.878509448876288e-05 --imaging_weighting robust --imaging_robustness -0.5 --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode low --ferrari_lambda 0.5
-
-#multistep
-python /rascil-main/rascil/apps/rascil_imager.py --mode cip --ingest_msname SNR_G55_10_long_baselines.calib.ms --ingest_dd 0 1 2 3 --ingest_vis_nchan 64 --ingest_chan_per_vis 8 --ingest_average_vis True --imaging_npixel 512 --imaging_cellsize 3.878509448876288e-05 --imaging_weighting robust --imaging_robustness -0.5 --clean_nmajor 5 --clean_algorithm ferrari --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --ferrari_output_intermediate True --ferrari_mode multi-step --ferrari_lambda 0.01 --ferrari_lowfreq_image SNR_G55_10_small_baselines.calib_nmoment4_cip_deconvolved.fits
-
-docker run -v $HOME:$HOME -p 8888:8888 -it ri2 /bin/bash
