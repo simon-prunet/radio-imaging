@@ -1,0 +1,17 @@
+2023-11-14 13:17:33	INFO	::casa	
+2023-11-14 13:17:33	INFO	::casa	
+2023-11-14 13:17:33	INFO	::casa	
+2023-11-14 13:17:33	INFO	::casa	
+2023-11-14 13:17:33	INFO	::casa	Python version 3.8.10
+2023-11-14 13:17:33	INFO	::casa	CASA Version CASALITH 6.6.0.20
+2023-11-14 13:17:33	INFO	::casa	
+2023-11-14 13:17:33	INFO	::casa	optional configuration file config.py not found, continuing CASA startup without it
+2023-11-14 13:17:33	INFO	::casa	
+2023-11-14 13:17:33	INFO	::casa	Checking Measures tables in data repository sub-directory /usr/local/bin/CASA/casa-6.6.0-20-py3.8.el7/lib/py/lib/python3.8/site-packages/casadata/__data__/geodetic
+2023-11-14 13:17:33	INFO	::casa	  IERSeop2000 (version date, last date in table (UTC)): 2023/09/01/15:00, 2023/08/02/00:00:00
+2023-11-14 13:17:33	INFO	::casa	  IERSeop97 (version date, last date in table (UTC)): 2023/09/01/15:00, 2023/08/02/00:00:00
+2023-11-14 13:17:33	INFO	::casa	  IERSpredict (version date, last date in table (UTC)): 2023/09/24/15:00, 2023/12/23/00:00:00
+2023-11-14 13:17:33	INFO	::casa	  TAI_UTC (version date, last date in table (UTC)): 2023/09/11/15:00, 2017/01/01/00:00:00
+2023-11-14 13:18:07	INFO	plotms::::casa	##########################################
+2023-11-14 13:18:07	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 13:18:07	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms/', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='', xdatacolumn='', xframe='', xinterp='', yaxis='', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='RR,LL', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='64', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='field', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )

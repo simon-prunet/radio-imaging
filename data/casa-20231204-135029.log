@@ -1,0 +1,69 @@
+2023-12-04 13:50:31	INFO	::casa	
+2023-12-04 13:50:31	INFO	::casa	
+2023-12-04 13:50:31	INFO	::casa	
+2023-12-04 13:50:31	INFO	::casa	
+2023-12-04 13:50:31	INFO	::casa	Python version 3.8.10
+2023-12-04 13:50:31	INFO	::casa	CASA Version CASALITH 6.6.0.20
+2023-12-04 13:50:32	INFO	::casa	
+2023-12-04 13:50:32	INFO	::casa	optional configuration file config.py not found, continuing CASA startup without it
+2023-12-04 13:50:32	INFO	::casa	
+2023-12-04 13:50:32	INFO	::casa	Checking Measures tables in data repository sub-directory /usr/local/bin/CASA/casa-6.6.0-20-py3.8.el7/lib/py/lib/python3.8/site-packages/casadata/__data__/geodetic
+2023-12-04 13:50:32	INFO	::casa	  IERSeop2000 (version date, last date in table (UTC)): 2023/09/01/15:00, 2023/08/02/00:00:00
+2023-12-04 13:50:32	INFO	::casa	  IERSeop97 (version date, last date in table (UTC)): 2023/09/01/15:00, 2023/08/02/00:00:00
+2023-12-04 13:50:32	INFO	::casa	  IERSpredict (version date, last date in table (UTC)): 2023/09/24/15:00, 2023/12/23/00:00:00
+2023-12-04 13:50:32	INFO	::casa	  TAI_UTC (version date, last date in table (UTC)): 2023/09/11/15:00, 2017/01/01/00:00:00
+2023-12-04 13:51:31	INFO	plotms::::casa	##########################################
+2023-12-04 13:51:31	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-12-04 13:51:31	INFO	plotms::::casa	plotms( vis='SGRA.ms/', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='', xdatacolumn='', xframe='', xinterp='', yaxis='', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-12-04 13:51:31	INFO	plotms::::casa	casaplotms started: 0.0.0.0:39373
+2023-12-04 13:51:31	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-12-04 13:51:32	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-12-04 13:51:32	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	START     Current memory usage: 15201.1 kilobytes.
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	Plotting table SGRA.ms
+2023-12-04 13:51:32	INFO	plotms::::casa	Task plotms complete. Start time: 2023-12-04 14:51:30.820901 End time: 2023-12-04 14:51:31.582877
+2023-12-04 13:51:32	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-12-04 13:51:32	INFO	plotms::::casa	##########################################
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	Loading page header cache
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	Data selection will yield a total of 249600 plottable points (flagged and unflagged).
+2023-12-04 13:51:32	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00449808 GB of memory (18.0212 bytes/point).
+2023-12-04 13:51:32	INFO	PlotMS::load_cache+	This is 0.0138264% of the memory avail. to CASA (32.5325 GB).
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	Loading chunks......
+2023-12-04 13:51:33	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-12-04 13:51:33	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-12-04 13:51:33	INFO	PlotMS::load_cache	Finished loading.
+2023-12-04 13:51:33	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-12-04 13:51:33	INFO	PlotMS::load_cache	Axes ranges:
+2023-12-04 13:51:33	INFO	PlotMS::load_cache+	Time: 4.45347e+09 to 4.45348e+09 (unflagged); (no flagged data)
+2023-12-04 13:51:33	INFO	PlotMS::load_cache+	Amp:data: 0.0129884 to 1180.07 (unflagged); (no flagged data)
+2023-12-04 13:51:33	INFO	PlotMS::load_cache	Finished indexing.
+2023-12-04 13:51:32	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +7960.11 kilobytes.
+2023-12-04 13:51:33	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2023-12-04 13:52:19	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2023-12-04 13:52:19	INFO	PlotMS::load_cache	START     Current memory usage: 39525.7 kilobytes.
+2023-12-04 13:52:19	INFO	PlotMS::load_cache	Plotting table SGRA.ms
+2023-12-04 13:52:19	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-12-04 13:52:19	INFO	PlotMS::load_cache	Loading page header cache
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	Data selection will yield a total of 249600 plottable points (flagged and unflagged).
+2023-12-04 13:52:20	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00849168 GB of memory (34.0212 bytes/point).
+2023-12-04 13:52:20	INFO	PlotMS::load_cache+	This is 0.0261022% of the memory avail. to CASA (32.5325 GB).
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	Loading chunks......
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	Finished loading.
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	Axes ranges:
+2023-12-04 13:52:20	INFO	PlotMS::load_cache+	U: -7294.41 to 7228.19 (unflagged); (no flagged data)
+2023-12-04 13:52:20	INFO	PlotMS::load_cache+	V: -4617.45 to 6070.87 (unflagged); (no flagged data)
+2023-12-04 13:52:20	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-12-04 13:52:20	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-12-04 13:52:20	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-12-04 13:52:20	INFO	PlotMS::load_cache	Finished indexing.
+2023-12-04 13:52:19	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +4175.59 kilobytes.
+2023-12-04 13:52:20	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2023-12-04 13:53:08	INFO	QPExporter::export	START     Current memory usage: 39795.7 kilobytes.
+2023-12-04 13:53:08	INFO	QPExporter::export	END       Time: +0 seconds.  Memory: -39.6562 kilobytes.
+2023-12-04 13:53:09	INFO	PlotMS::plot	Exported meerkat_uv_coverage
+2023-12-04 13:53:09	INFO	PlotMS::export	Successfully exported plot to meerkat_uv_coverage!

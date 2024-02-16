@@ -1,0 +1,1498 @@
+08/12/2023 01:51:10 PM.905 rascil-logger INFO 
+RASCIL Continuum Imager
+
+08/12/2023 01:51:10 PM.905 rascil-logger INFO Started : 2023-12-08 13:51:10.905262
+08/12/2023 01:51:10 PM.905 rascil-logger INFO Writing log to /home/sunwang/radio-imaging/data/Meerkat_Galactic_center.log
+08/12/2023 01:51:10 PM.905 rascil-logger INFO Gettting client via get_dask_client
+08/12/2023 01:51:11 PM.93 distributed.http.proxy INFO To route to workers diagnostics web server please install jupyter-server-proxy: python -m pip install jupyter-server-proxy
+08/12/2023 01:51:11 PM.112 distributed.scheduler INFO State start
+08/12/2023 01:51:11 PM.113 distributed.scheduler INFO   Scheduler at:     tcp://127.0.0.1:44931
+08/12/2023 01:51:11 PM.114 distributed.scheduler INFO   dashboard at:  http://127.0.0.1:8787/status
+08/12/2023 01:51:11 PM.126 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:42503'
+08/12/2023 01:51:11 PM.128 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:39907'
+08/12/2023 01:51:11 PM.130 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:34761'
+08/12/2023 01:51:11 PM.131 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:41311'
+08/12/2023 01:51:11 PM.133 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:40767'
+08/12/2023 01:51:11 PM.134 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:43029'
+08/12/2023 01:51:11 PM.136 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:34385'
+08/12/2023 01:51:12 PM.175 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:37905', name: 2, status: init, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.177 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:37905
+08/12/2023 01:51:12 PM.177 distributed.core INFO Starting established connection to tcp://127.0.0.1:39062
+08/12/2023 01:51:12 PM.177 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:41501', name: 0, status: init, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.177 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:41501
+08/12/2023 01:51:12 PM.177 distributed.core INFO Starting established connection to tcp://127.0.0.1:39072
+08/12/2023 01:51:12 PM.180 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:37757', name: 4, status: init, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.180 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:37757
+08/12/2023 01:51:12 PM.180 distributed.core INFO Starting established connection to tcp://127.0.0.1:39090
+08/12/2023 01:51:12 PM.181 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:45851', name: 1, status: init, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.181 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:45851
+08/12/2023 01:51:12 PM.181 distributed.core INFO Starting established connection to tcp://127.0.0.1:39080
+08/12/2023 01:51:12 PM.183 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:39219', name: 6, status: init, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.183 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:39219
+08/12/2023 01:51:12 PM.183 distributed.core INFO Starting established connection to tcp://127.0.0.1:39098
+08/12/2023 01:51:12 PM.184 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:35669', name: 3, status: init, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.184 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:35669
+08/12/2023 01:51:12 PM.184 distributed.core INFO Starting established connection to tcp://127.0.0.1:39112
+08/12/2023 01:51:12 PM.187 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:35603', name: 5, status: init, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.187 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:35603
+08/12/2023 01:51:12 PM.187 distributed.core INFO Starting established connection to tcp://127.0.0.1:39126
+08/12/2023 01:51:12 PM.211 distributed.scheduler INFO Receive client connection: Client-767e58af-95c8-11ee-96d2-c9d95e128ece
+08/12/2023 01:51:12 PM.211 distributed.core INFO Starting established connection to tcp://127.0.0.1:39140
+08/12/2023 01:51:12 PM.219 rascil-logger INFO Dask nanny: set mem_alloc_trim_=0
+08/12/2023 01:51:12 PM.219 rascil-logger INFO Dask timeouts: connect 30s tcp: 30s
+08/12/2023 01:51:12 PM.219 rascil-logger INFO Dask nanny environment {'MALLOC_TRIM_THRESHOLD_': 0}
+08/12/2023 01:51:12 PM.222 rascil-logger INFO {'calibrate_with_dp3': False,
+ 'calibration_B_first_selfcal': 4,
+ 'calibration_B_phase_only': 'False',
+ 'calibration_B_timeslice': None,
+ 'calibration_G_first_selfcal': 3,
+ 'calibration_G_phase_only': 'False',
+ 'calibration_G_timeslice': None,
+ 'calibration_T_first_selfcal': 1,
+ 'calibration_T_phase_only': 'True',
+ 'calibration_T_timeslice': None,
+ 'calibration_context': 'T',
+ 'calibration_global_solution': 'True',
+ 'calibration_reset_skymodel': 'True',
+ 'clean_algorithm': 'msclean',
+ 'clean_beam': None,
+ 'clean_component_method': 'fit',
+ 'clean_component_threshold': None,
+ 'clean_facets': 1,
+ 'clean_fractional_threshold': 0.3,
+ 'clean_gain': 0.1,
+ 'clean_niter': 1000,
+ 'clean_nmajor': 5,
+ 'clean_nmoment': 4,
+ 'clean_overlap': 32,
+ 'clean_psf_support': 256,
+ 'clean_restore_facets': 1,
+ 'clean_restore_overlap': 32,
+ 'clean_restore_taper': 'tukey',
+ 'clean_restored_output': 'integrated',
+ 'clean_scales': [0],
+ 'clean_taper': 'tukey',
+ 'clean_threshold': 0.001,
+ 'clean_use_radler': 'False',
+ 'dask_connect_timeout': None,
+ 'dask_malloc_trim_threshold': 0,
+ 'dask_memory': None,
+ 'dask_memory_usage_file': None,
+ 'dask_nodes': None,
+ 'dask_nthreads': None,
+ 'dask_nworkers': None,
+ 'dask_scheduler': None,
+ 'dask_scheduler_file': None,
+ 'dask_tcp_timeout': None,
+ 'flagging_strategy_name': 'generic',
+ 'imaging_cellsize': 1.849451e-05,
+ 'imaging_context': 'ng',
+ 'imaging_dft_kernel': None,
+ 'imaging_dopsf': 'False',
+ 'imaging_flat_sky': False,
+ 'imaging_gaussian_taper': None,
+ 'imaging_nchan': 1,
+ 'imaging_ng_threads': 4,
+ 'imaging_npixel': 512,
+ 'imaging_phasecentre': None,
+ 'imaging_pol': 'stokesI',
+ 'imaging_rmax': None,
+ 'imaging_rmin': None,
+ 'imaging_robustness': 0.0,
+ 'imaging_uvmax': None,
+ 'imaging_uvmin': None,
+ 'imaging_w_stacking': True,
+ 'imaging_weighting': 'uniform',
+ 'ingest_average_vis': 'False',
+ 'ingest_chan_per_vis': 1,
+ 'ingest_dd': [0],
+ 'ingest_msname': '/home/sunwang/radio-imaging/data/Meerkat_Galactic_center.ms',
+ 'ingest_vis_nchan': 1,
+ 'input_dp3_skymodel': None,
+ 'input_skycomponent_file': None,
+ 'logfile': None,
+ 'mode': 'cip',
+ 'num_bright_sources': None,
+ 'perform_flagging': 'False',
+ 'performance_file': None,
+ 'use_dask': 'True',
+ 'use_initial_skymodel': False}
+08/12/2023 01:51:12 PM.223 rascil-logger INFO Current working directory is /home/sunwang/rascil_test
+08/12/2023 01:51:12 PM.223 rascil-logger INFO create_visibility_from_ms_rsexecute: Defining graph
+08/12/2023 01:51:12 PM.223 rascil-logger INFO create_visibility_from_ms_rsexecute: will load MS data descriptors [0] into 1 Visibility's of 1 channels
+08/12/2023 01:51:12 PM.234 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:42503'. Reason: nanny-close
+08/12/2023 01:51:12 PM.234 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:51:12 PM.234 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:39907'. Reason: nanny-close
+08/12/2023 01:51:12 PM.235 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:51:12 PM.235 distributed.worker INFO Stopping worker at tcp://127.0.0.1:41501. Reason: nanny-close
+08/12/2023 01:51:12 PM.235 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:34761'. Reason: nanny-close
+08/12/2023 01:51:12 PM.235 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:51:12 PM.235 distributed.core INFO Connection to tcp://127.0.0.1:44931 has been closed.
+08/12/2023 01:51:12 PM.235 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:41311'. Reason: nanny-close
+08/12/2023 01:51:12 PM.235 distributed.worker INFO Stopping worker at tcp://127.0.0.1:45851. Reason: nanny-close
+08/12/2023 01:51:12 PM.236 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:51:12 PM.236 distributed.worker INFO Stopping worker at tcp://127.0.0.1:37905. Reason: nanny-close
+08/12/2023 01:51:12 PM.236 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:40767'. Reason: nanny-close
+08/12/2023 01:51:12 PM.236 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:51:12 PM.236 distributed.core INFO Connection to tcp://127.0.0.1:44931 has been closed.
+08/12/2023 01:51:12 PM.236 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:43029'. Reason: nanny-close
+08/12/2023 01:51:12 PM.236 distributed.worker INFO Stopping worker at tcp://127.0.0.1:35669. Reason: nanny-close
+08/12/2023 01:51:12 PM.236 distributed.core INFO Connection to tcp://127.0.0.1:44931 has been closed.
+08/12/2023 01:51:12 PM.237 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:51:12 PM.237 distributed.worker INFO Stopping worker at tcp://127.0.0.1:37757. Reason: nanny-close
+08/12/2023 01:51:12 PM.237 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:34385'. Reason: nanny-close
+08/12/2023 01:51:12 PM.237 distributed.core INFO Connection to tcp://127.0.0.1:44931 has been closed.
+08/12/2023 01:51:12 PM.237 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:51:12 PM.237 distributed.core INFO Connection to tcp://127.0.0.1:44931 has been closed.
+08/12/2023 01:51:12 PM.237 distributed.worker INFO Stopping worker at tcp://127.0.0.1:35603. Reason: nanny-close
+08/12/2023 01:51:12 PM.238 distributed.worker INFO Stopping worker at tcp://127.0.0.1:39219. Reason: nanny-close
+08/12/2023 01:51:12 PM.238 distributed.core INFO Connection to tcp://127.0.0.1:44931 has been closed.
+08/12/2023 01:51:12 PM.238 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:39072; closing.
+08/12/2023 01:51:12 PM.238 distributed.core INFO Connection to tcp://127.0.0.1:44931 has been closed.
+08/12/2023 01:51:12 PM.238 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:39080; closing.
+08/12/2023 01:51:12 PM.239 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:39062; closing.
+08/12/2023 01:51:12 PM.239 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:39112; closing.
+08/12/2023 01:51:12 PM.239 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:39090; closing.
+08/12/2023 01:51:12 PM.239 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:41501', name: 0, status: closing, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.239 distributed.core INFO Removing comms to tcp://127.0.0.1:41501
+08/12/2023 01:51:12 PM.239 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:45851', name: 1, status: closing, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.240 distributed.core INFO Removing comms to tcp://127.0.0.1:45851
+08/12/2023 01:51:12 PM.240 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:37905', name: 2, status: closing, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.240 distributed.core INFO Removing comms to tcp://127.0.0.1:37905
+08/12/2023 01:51:12 PM.240 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:35669', name: 3, status: closing, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.240 distributed.core INFO Removing comms to tcp://127.0.0.1:35669
+08/12/2023 01:51:12 PM.240 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:37757', name: 4, status: closing, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.240 distributed.core INFO Removing comms to tcp://127.0.0.1:37757
+08/12/2023 01:51:12 PM.241 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:39126; closing.
+08/12/2023 01:51:12 PM.241 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:35603', name: 5, status: closing, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.241 distributed.core INFO Removing comms to tcp://127.0.0.1:35603
+08/12/2023 01:51:12 PM.241 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:39098; closing.
+08/12/2023 01:51:12 PM.242 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:39219', name: 6, status: closing, memory: 0, processing: 0>
+08/12/2023 01:51:12 PM.242 distributed.core INFO Removing comms to tcp://127.0.0.1:39219
+08/12/2023 01:51:12 PM.242 distributed.scheduler INFO Lost all workers
+08/12/2023 01:51:12 PM.242 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:44931 remote=tcp://127.0.0.1:39126>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:51:12 PM.539 distributed.scheduler INFO Scheduler closing...
+08/12/2023 01:51:12 PM.539 distributed.scheduler INFO Scheduler closing all comms
+08/12/2023 01:53:03 PM.26 rascil-logger INFO 
+RASCIL Continuum Imager
+
+08/12/2023 01:53:03 PM.27 rascil-logger INFO Started : 2023-12-08 13:53:03.027084
+08/12/2023 01:53:03 PM.27 rascil-logger INFO Writing log to /home/sunwang/radio-imaging/data/Meerkat_Galactic_center.log
+08/12/2023 01:53:03 PM.27 rascil-logger INFO Gettting client via get_dask_client
+08/12/2023 01:53:03 PM.172 distributed.http.proxy INFO To route to workers diagnostics web server please install jupyter-server-proxy: python -m pip install jupyter-server-proxy
+08/12/2023 01:53:03 PM.191 distributed.scheduler INFO State start
+08/12/2023 01:53:03 PM.192 distributed.scheduler INFO   Scheduler at:     tcp://127.0.0.1:34675
+08/12/2023 01:53:03 PM.193 distributed.scheduler INFO   dashboard at:  http://127.0.0.1:8787/status
+08/12/2023 01:53:03 PM.205 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:46389'
+08/12/2023 01:53:03 PM.207 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:39401'
+08/12/2023 01:53:03 PM.208 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:45703'
+08/12/2023 01:53:03 PM.210 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:46569'
+08/12/2023 01:53:03 PM.212 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:45007'
+08/12/2023 01:53:03 PM.213 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:38349'
+08/12/2023 01:53:03 PM.214 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:34491'
+08/12/2023 01:53:04 PM.247 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:38271', name: 6, status: init, memory: 0, processing: 0>
+08/12/2023 01:53:04 PM.250 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:38271
+08/12/2023 01:53:04 PM.250 distributed.core INFO Starting established connection to tcp://127.0.0.1:37888
+08/12/2023 01:53:04 PM.251 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:39763', name: 5, status: init, memory: 0, processing: 0>
+08/12/2023 01:53:04 PM.251 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:39763
+08/12/2023 01:53:04 PM.251 distributed.core INFO Starting established connection to tcp://127.0.0.1:37878
+08/12/2023 01:53:04 PM.267 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:45149', name: 2, status: init, memory: 0, processing: 0>
+08/12/2023 01:53:04 PM.267 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:45149
+08/12/2023 01:53:04 PM.267 distributed.core INFO Starting established connection to tcp://127.0.0.1:37894
+08/12/2023 01:53:04 PM.270 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:36031', name: 1, status: init, memory: 0, processing: 0>
+08/12/2023 01:53:04 PM.270 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:36031
+08/12/2023 01:53:04 PM.270 distributed.core INFO Starting established connection to tcp://127.0.0.1:37902
+08/12/2023 01:53:04 PM.283 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:44237', name: 4, status: init, memory: 0, processing: 0>
+08/12/2023 01:53:04 PM.283 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:44237
+08/12/2023 01:53:04 PM.283 distributed.core INFO Starting established connection to tcp://127.0.0.1:37908
+08/12/2023 01:53:04 PM.283 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:44543', name: 0, status: init, memory: 0, processing: 0>
+08/12/2023 01:53:04 PM.284 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:44543
+08/12/2023 01:53:04 PM.284 distributed.core INFO Starting established connection to tcp://127.0.0.1:37924
+08/12/2023 01:53:04 PM.284 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:44319', name: 3, status: init, memory: 0, processing: 0>
+08/12/2023 01:53:04 PM.284 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:44319
+08/12/2023 01:53:04 PM.284 distributed.core INFO Starting established connection to tcp://127.0.0.1:37928
+08/12/2023 01:53:04 PM.289 distributed.scheduler INFO Receive client connection: Client-b952c804-95c8-11ee-98b8-c9d95e128ece
+08/12/2023 01:53:04 PM.289 distributed.core INFO Starting established connection to tcp://127.0.0.1:37942
+08/12/2023 01:53:04 PM.296 rascil-logger INFO Dask nanny: set mem_alloc_trim_=0
+08/12/2023 01:53:04 PM.296 rascil-logger INFO Dask timeouts: connect 30s tcp: 30s
+08/12/2023 01:53:04 PM.296 rascil-logger INFO Dask nanny environment {'MALLOC_TRIM_THRESHOLD_': 0}
+08/12/2023 01:53:04 PM.300 rascil-logger INFO {'calibrate_with_dp3': False,
+ 'calibration_B_first_selfcal': 4,
+ 'calibration_B_phase_only': 'False',
+ 'calibration_B_timeslice': None,
+ 'calibration_G_first_selfcal': 3,
+ 'calibration_G_phase_only': 'False',
+ 'calibration_G_timeslice': None,
+ 'calibration_T_first_selfcal': 1,
+ 'calibration_T_phase_only': 'True',
+ 'calibration_T_timeslice': None,
+ 'calibration_context': 'T',
+ 'calibration_global_solution': 'True',
+ 'calibration_reset_skymodel': 'True',
+ 'clean_algorithm': 'msclean',
+ 'clean_beam': None,
+ 'clean_component_method': 'fit',
+ 'clean_component_threshold': None,
+ 'clean_facets': 1,
+ 'clean_fractional_threshold': 0.3,
+ 'clean_gain': 0.1,
+ 'clean_niter': 1000,
+ 'clean_nmajor': 5,
+ 'clean_nmoment': 4,
+ 'clean_overlap': 32,
+ 'clean_psf_support': 256,
+ 'clean_restore_facets': 1,
+ 'clean_restore_overlap': 32,
+ 'clean_restore_taper': 'tukey',
+ 'clean_restored_output': 'integrated',
+ 'clean_scales': [0],
+ 'clean_taper': 'tukey',
+ 'clean_threshold': 0.001,
+ 'clean_use_radler': 'False',
+ 'dask_connect_timeout': None,
+ 'dask_malloc_trim_threshold': 0,
+ 'dask_memory': None,
+ 'dask_memory_usage_file': None,
+ 'dask_nodes': None,
+ 'dask_nthreads': None,
+ 'dask_nworkers': None,
+ 'dask_scheduler': None,
+ 'dask_scheduler_file': None,
+ 'dask_tcp_timeout': None,
+ 'flagging_strategy_name': 'generic',
+ 'imaging_cellsize': 1.849451e-05,
+ 'imaging_context': 'ng',
+ 'imaging_dft_kernel': None,
+ 'imaging_dopsf': 'False',
+ 'imaging_flat_sky': False,
+ 'imaging_gaussian_taper': None,
+ 'imaging_nchan': 1,
+ 'imaging_ng_threads': 4,
+ 'imaging_npixel': 512,
+ 'imaging_phasecentre': None,
+ 'imaging_pol': 'stokesI',
+ 'imaging_rmax': None,
+ 'imaging_rmin': None,
+ 'imaging_robustness': 0.0,
+ 'imaging_uvmax': None,
+ 'imaging_uvmin': None,
+ 'imaging_w_stacking': True,
+ 'imaging_weighting': 'uniform',
+ 'ingest_average_vis': 'False',
+ 'ingest_chan_per_vis': 1,
+ 'ingest_dd': [0],
+ 'ingest_msname': '/home/sunwang/radio-imaging/data/Meerkat_Galactic_center.ms',
+ 'ingest_vis_nchan': 1,
+ 'input_dp3_skymodel': None,
+ 'input_skycomponent_file': None,
+ 'logfile': None,
+ 'mode': 'cip',
+ 'num_bright_sources': None,
+ 'perform_flagging': 'False',
+ 'performance_file': None,
+ 'use_dask': 'True',
+ 'use_initial_skymodel': False}
+08/12/2023 01:53:04 PM.300 rascil-logger INFO Current working directory is /home/sunwang/rascil_test
+08/12/2023 01:53:04 PM.300 rascil-logger INFO create_visibility_from_ms_rsexecute: Defining graph
+08/12/2023 01:53:04 PM.300 rascil-logger INFO create_visibility_from_ms_rsexecute: will load MS data descriptors [0] into 1 Visibility's of 1 channels
+08/12/2023 01:53:04 PM.356 rascil-logger INFO rascil.imager.perf_graph: Size of cip graph = 9575 B, time to construct 0.054885149002075195 s
+08/12/2023 01:53:04 PM.356 rascil-logger INFO rascil.imager.cip: Starting compute of continuum imaging pipeline graph 
+08/12/2023 01:53:04 PM.375 rascil-logger INFO create_visibility_from_ms: Reading unique fields [0], unique data descriptions [0]
+08/12/2023 01:53:07 PM.252 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:53:07 PM.254 func-python-logger INFO deconvolve_cube cip cycle 0: Cleaning entire image
+08/12/2023 01:53:07 PM.255 func-python-logger INFO msclean_kernel_list cip cycle 0: Starting Multi-scale clean of each polarisation and channel separately
+08/12/2023 01:53:07 PM.257 func-python-logger INFO msclean_kernel_list cip cycle 0: Processing pol 0, channel 0
+08/12/2023 01:53:07 PM.259 func-python-logger INFO msclean cip cycle 0: Peak of PSF = 0.999999999999906 at (256, 256)
+08/12/2023 01:53:07 PM.260 func-python-logger INFO msclean cip cycle 0: Peak of Dirty = 2.117552 Jy/beam at (254, 256) 
+08/12/2023 01:53:07 PM.312 func-python-logger INFO msclean cip cycle 0: Coupling matrix =
+ [[1.]]
+08/12/2023 01:53:07 PM.313 func-python-logger INFO msclean cip cycle 0: Max abs in dirty Image = 2.117552 Jy/beam
+08/12/2023 01:53:07 PM.313 func-python-logger INFO msclean cip cycle 0: Start of minor cycle
+08/12/2023 01:53:07 PM.313 func-python-logger INFO msclean cip cycle 0: This minor cycle will stop at 1000 iterations or peak < 0.635266 (Jy/beam)
+08/12/2023 01:53:07 PM.313 func-python-logger INFO msclean cip cycle 0: Timing for setup: 0.057 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0]
+08/12/2023 01:53:07 PM.315 func-python-logger INFO msclean cip cycle 0: Minor cycle 0, peak [2.1175521] at [254, 256, 0]
+08/12/2023 01:53:07 PM.595 func-python-logger INFO msclean cip cycle 0: Minor cycle 100, peak [0.69493767] at [270, 253, 0]
+08/12/2023 01:53:07 PM.877 func-python-logger INFO msclean cip cycle 0: Minor cycle 200, peak [0.63145076] at [263, 255, 0]
+08/12/2023 01:53:08 PM.158 func-python-logger INFO msclean cip cycle 0: Minor cycle 300, peak [0.58991865] at [262, 250, 0]
+08/12/2023 01:53:08 PM.278 func-python-logger INFO msclean cip cycle 0: At iteration 342, absolute value of peak 0.571664 is below stopping threshold 0.635266
+08/12/2023 01:53:08 PM.278 func-python-logger INFO msclean cip cycle 0: End of minor cycle
+08/12/2023 01:53:08 PM.278 func-python-logger INFO msclean cip cycle 0: Timing for clean: 0.964 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0], 343 iterations, time per clean 2.812 (ms)
+08/12/2023 01:53:08 PM.282 func-python-logger INFO deconvolve_cube cip cycle 0: Deconvolution finished
+08/12/2023 01:53:08 PM.799 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:53:08 PM.800 func-python-logger INFO deconvolve_cube cip cycle 1: Cleaning entire image
+08/12/2023 01:53:08 PM.801 func-python-logger INFO msclean_kernel_list cip cycle 1: Starting Multi-scale clean of each polarisation and channel separately
+08/12/2023 01:53:08 PM.802 func-python-logger INFO msclean_kernel_list cip cycle 1: Processing pol 0, channel 0
+08/12/2023 01:53:08 PM.803 func-python-logger INFO msclean cip cycle 1: Peak of PSF = 0.999999999999906 at (256, 256)
+08/12/2023 01:53:08 PM.803 func-python-logger INFO msclean cip cycle 1: Peak of Dirty = 0.571665 Jy/beam at (264, 251) 
+08/12/2023 01:53:08 PM.851 func-python-logger INFO msclean cip cycle 1: Coupling matrix =
+ [[1.]]
+08/12/2023 01:53:08 PM.852 func-python-logger INFO msclean cip cycle 1: Max abs in dirty Image = 0.571665 Jy/beam
+08/12/2023 01:53:08 PM.852 func-python-logger INFO msclean cip cycle 1: Start of minor cycle
+08/12/2023 01:53:08 PM.852 func-python-logger INFO msclean cip cycle 1: This minor cycle will stop at 1000 iterations or peak < 0.171500 (Jy/beam)
+08/12/2023 01:53:08 PM.852 func-python-logger INFO msclean cip cycle 1: Timing for setup: 0.050 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0]
+08/12/2023 01:53:08 PM.853 func-python-logger INFO msclean cip cycle 1: Minor cycle 0, peak [0.57166523] at [264, 251, 0]
+08/12/2023 01:53:09 PM.142 func-python-logger INFO msclean cip cycle 1: Minor cycle 100, peak [0.54677036] at [240, 262, 0]
+08/12/2023 01:53:09 PM.422 func-python-logger INFO msclean cip cycle 1: Minor cycle 200, peak [0.5213675] at [262, 238, 0]
+08/12/2023 01:53:09 PM.699 func-python-logger INFO msclean cip cycle 1: Minor cycle 300, peak [0.50193952] at [271, 251, 0]
+08/12/2023 01:53:09 PM.978 func-python-logger INFO msclean cip cycle 1: Minor cycle 400, peak [0.48168929] at [266, 250, 0]
+08/12/2023 01:53:10 PM.258 func-python-logger INFO msclean cip cycle 1: Minor cycle 500, peak [0.46544949] at [286, 239, 0]
+08/12/2023 01:53:10 PM.536 func-python-logger INFO msclean cip cycle 1: Minor cycle 600, peak [0.45027153] at [268, 242, 0]
+08/12/2023 01:53:10 PM.820 func-python-logger INFO msclean cip cycle 1: Minor cycle 700, peak [0.43931621] at [221, 258, 0]
+08/12/2023 01:53:11 PM.114 func-python-logger INFO msclean cip cycle 1: Minor cycle 800, peak [0.43027378] at [249, 206, 0]
+08/12/2023 01:53:11 PM.406 func-python-logger INFO msclean cip cycle 1: Minor cycle 900, peak [0.41866079] at [296, 213, 0]
+08/12/2023 01:53:11 PM.697 func-python-logger INFO msclean cip cycle 1: End of minor cycle
+08/12/2023 01:53:11 PM.697 func-python-logger INFO msclean cip cycle 1: Timing for clean: 2.845 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0], 1000 iterations, time per clean 2.845 (ms)
+08/12/2023 01:53:11 PM.701 func-python-logger INFO deconvolve_cube cip cycle 1: Deconvolution finished
+08/12/2023 01:53:12 PM.253 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:53:12 PM.254 func-python-logger INFO deconvolve_cube cip cycle 2: Cleaning entire image
+08/12/2023 01:53:12 PM.255 func-python-logger INFO msclean_kernel_list cip cycle 2: Starting Multi-scale clean of each polarisation and channel separately
+08/12/2023 01:53:12 PM.256 func-python-logger INFO msclean_kernel_list cip cycle 2: Processing pol 0, channel 0
+08/12/2023 01:53:12 PM.257 func-python-logger INFO msclean cip cycle 2: Peak of PSF = 0.999999999999906 at (256, 256)
+08/12/2023 01:53:12 PM.257 func-python-logger INFO msclean cip cycle 2: Peak of Dirty = 0.410181 Jy/beam at (240, 247) 
+08/12/2023 01:53:12 PM.304 func-python-logger INFO msclean cip cycle 2: Coupling matrix =
+ [[1.]]
+08/12/2023 01:53:12 PM.305 func-python-logger INFO msclean cip cycle 2: Max abs in dirty Image = 0.410181 Jy/beam
+08/12/2023 01:53:12 PM.305 func-python-logger INFO msclean cip cycle 2: Start of minor cycle
+08/12/2023 01:53:12 PM.305 func-python-logger INFO msclean cip cycle 2: This minor cycle will stop at 1000 iterations or peak < 0.123054 (Jy/beam)
+08/12/2023 01:53:12 PM.305 func-python-logger INFO msclean cip cycle 2: Timing for setup: 0.049 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0]
+08/12/2023 01:53:12 PM.307 func-python-logger INFO msclean cip cycle 2: Minor cycle 0, peak [0.41018138] at [240, 247, 0]
+08/12/2023 01:53:12 PM.577 func-python-logger INFO msclean cip cycle 2: Minor cycle 100, peak [0.40136918] at [276, 232, 0]
+08/12/2023 01:53:12 PM.847 func-python-logger INFO msclean cip cycle 2: Minor cycle 200, peak [0.39434116] at [252, 243, 0]
+08/12/2023 01:53:13 PM.117 func-python-logger INFO msclean cip cycle 2: Minor cycle 300, peak [0.38782987] at [231, 241, 0]
+08/12/2023 01:53:13 PM.389 func-python-logger INFO msclean cip cycle 2: Minor cycle 400, peak [0.38041014] at [252, 234, 0]
+08/12/2023 01:53:13 PM.657 func-python-logger INFO msclean cip cycle 2: Minor cycle 500, peak [0.37403676] at [247, 207, 0]
+08/12/2023 01:53:13 PM.924 func-python-logger INFO msclean cip cycle 2: Minor cycle 600, peak [0.37005915] at [235, 241, 0]
+08/12/2023 01:53:14 PM.190 func-python-logger INFO msclean cip cycle 2: Minor cycle 700, peak [0.36313144] at [269, 235, 0]
+08/12/2023 01:53:14 PM.455 func-python-logger INFO msclean cip cycle 2: Minor cycle 800, peak [0.35718291] at [238, 214, 0]
+08/12/2023 01:53:14 PM.719 func-python-logger INFO msclean cip cycle 2: Minor cycle 900, peak [0.35386671] at [264, 212, 0]
+08/12/2023 01:53:14 PM.984 func-python-logger INFO msclean cip cycle 2: End of minor cycle
+08/12/2023 01:53:14 PM.984 func-python-logger INFO msclean cip cycle 2: Timing for clean: 2.679 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0], 1000 iterations, time per clean 2.679 (ms)
+08/12/2023 01:53:14 PM.989 func-python-logger INFO deconvolve_cube cip cycle 2: Deconvolution finished
+08/12/2023 01:53:15 PM.542 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:53:15 PM.544 func-python-logger INFO deconvolve_cube cip cycle 3: Cleaning entire image
+08/12/2023 01:53:15 PM.545 func-python-logger INFO msclean_kernel_list cip cycle 3: Starting Multi-scale clean of each polarisation and channel separately
+08/12/2023 01:53:15 PM.547 func-python-logger INFO msclean_kernel_list cip cycle 3: Processing pol 0, channel 0
+08/12/2023 01:53:15 PM.548 func-python-logger INFO msclean cip cycle 3: Peak of PSF = 0.999999999999906 at (256, 256)
+08/12/2023 01:53:15 PM.549 func-python-logger INFO msclean cip cycle 3: Peak of Dirty = 0.347409 Jy/beam at (225, 250) 
+08/12/2023 01:53:15 PM.595 func-python-logger INFO msclean cip cycle 3: Coupling matrix =
+ [[1.]]
+08/12/2023 01:53:15 PM.596 func-python-logger INFO msclean cip cycle 3: Max abs in dirty Image = 0.347409 Jy/beam
+08/12/2023 01:53:15 PM.596 func-python-logger INFO msclean cip cycle 3: Start of minor cycle
+08/12/2023 01:53:15 PM.596 func-python-logger INFO msclean cip cycle 3: This minor cycle will stop at 1000 iterations or peak < 0.104223 (Jy/beam)
+08/12/2023 01:53:15 PM.596 func-python-logger INFO msclean cip cycle 3: Timing for setup: 0.049 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0]
+08/12/2023 01:53:15 PM.597 func-python-logger INFO msclean cip cycle 3: Minor cycle 0, peak [0.34740896] at [225, 250, 0]
+08/12/2023 01:53:15 PM.889 func-python-logger INFO msclean cip cycle 3: Minor cycle 100, peak [0.34297584] at [247, 213, 0]
+08/12/2023 01:53:16 PM.177 func-python-logger INFO msclean cip cycle 3: Minor cycle 200, peak [0.33846901] at [249, 208, 0]
+08/12/2023 01:53:16 PM.467 func-python-logger INFO msclean cip cycle 3: Minor cycle 300, peak [0.33543018] at [229, 226, 0]
+08/12/2023 01:53:16 PM.753 func-python-logger INFO msclean cip cycle 3: Minor cycle 400, peak [0.33071324] at [289, 241, 0]
+08/12/2023 01:53:17 PM.40 func-python-logger INFO msclean cip cycle 3: Minor cycle 500, peak [0.32707443] at [233, 266, 0]
+08/12/2023 01:53:17 PM.325 func-python-logger INFO msclean cip cycle 3: Minor cycle 600, peak [0.32304236] at [248, 269, 0]
+08/12/2023 01:53:17 PM.611 func-python-logger INFO msclean cip cycle 3: Minor cycle 700, peak [0.3204432] at [277, 248, 0]
+08/12/2023 01:53:17 PM.900 func-python-logger INFO msclean cip cycle 3: Minor cycle 800, peak [0.31558374] at [290, 246, 0]
+08/12/2023 01:53:18 PM.186 func-python-logger INFO msclean cip cycle 3: Minor cycle 900, peak [0.31309715] at [247, 204, 0]
+08/12/2023 01:53:18 PM.457 func-python-logger INFO msclean cip cycle 3: End of minor cycle
+08/12/2023 01:53:18 PM.457 func-python-logger INFO msclean cip cycle 3: Timing for clean: 2.861 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0], 1000 iterations, time per clean 2.861 (ms)
+08/12/2023 01:53:18 PM.461 func-python-logger INFO deconvolve_cube cip cycle 3: Deconvolution finished
+08/12/2023 01:53:18 PM.997 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:53:18 PM.998 func-python-logger INFO deconvolve_cube cip cycle 4: Cleaning entire image
+08/12/2023 01:53:18 PM.999 func-python-logger INFO msclean_kernel_list cip cycle 4: Starting Multi-scale clean of each polarisation and channel separately
+08/12/2023 01:53:19 PM.1 func-python-logger INFO msclean_kernel_list cip cycle 4: Processing pol 0, channel 0
+08/12/2023 01:53:19 PM.2 func-python-logger INFO msclean cip cycle 4: Peak of PSF = 0.999999999999906 at (256, 256)
+08/12/2023 01:53:19 PM.2 func-python-logger INFO msclean cip cycle 4: Peak of Dirty = 0.309418 Jy/beam at (232, 264) 
+08/12/2023 01:53:19 PM.48 func-python-logger INFO msclean cip cycle 4: Coupling matrix =
+ [[1.]]
+08/12/2023 01:53:19 PM.49 func-python-logger INFO msclean cip cycle 4: Max abs in dirty Image = 0.309418 Jy/beam
+08/12/2023 01:53:19 PM.49 func-python-logger INFO msclean cip cycle 4: Start of minor cycle
+08/12/2023 01:53:19 PM.49 func-python-logger INFO msclean cip cycle 4: This minor cycle will stop at 1000 iterations or peak < 0.092825 (Jy/beam)
+08/12/2023 01:53:19 PM.49 func-python-logger INFO msclean cip cycle 4: Timing for setup: 0.048 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0]
+08/12/2023 01:53:19 PM.50 func-python-logger INFO msclean cip cycle 4: Minor cycle 0, peak [0.30941811] at [232, 264, 0]
+08/12/2023 01:53:19 PM.341 func-python-logger INFO msclean cip cycle 4: Minor cycle 100, peak [0.30677127] at [250, 211, 0]
+08/12/2023 01:53:19 PM.626 func-python-logger INFO msclean cip cycle 4: Minor cycle 200, peak [0.30307137] at [265, 253, 0]
+08/12/2023 01:53:19 PM.898 func-python-logger INFO msclean cip cycle 4: Minor cycle 300, peak [0.29963992] at [249, 227, 0]
+08/12/2023 01:53:20 PM.171 func-python-logger INFO msclean cip cycle 4: Minor cycle 400, peak [0.29716863] at [229, 232, 0]
+08/12/2023 01:53:20 PM.442 func-python-logger INFO msclean cip cycle 4: Minor cycle 500, peak [0.29264925] at [246, 251, 0]
+08/12/2023 01:53:20 PM.713 func-python-logger INFO msclean cip cycle 4: Minor cycle 600, peak [0.28979336] at [254, 226, 0]
+08/12/2023 01:53:20 PM.984 func-python-logger INFO msclean cip cycle 4: Minor cycle 700, peak [0.28802743] at [288, 228, 0]
+08/12/2023 01:53:21 PM.255 func-python-logger INFO msclean cip cycle 4: Minor cycle 800, peak [0.28476736] at [236, 222, 0]
+08/12/2023 01:53:21 PM.527 func-python-logger INFO msclean cip cycle 4: Minor cycle 900, peak [0.28164698] at [260, 246, 0]
+08/12/2023 01:53:21 PM.794 func-python-logger INFO msclean cip cycle 4: End of minor cycle
+08/12/2023 01:53:21 PM.794 func-python-logger INFO msclean cip cycle 4: Timing for clean: 2.745 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0], 1000 iterations, time per clean 2.745 (ms)
+08/12/2023 01:53:21 PM.799 func-python-logger INFO deconvolve_cube cip cycle 4: Deconvolution finished
+08/12/2023 01:53:22 PM.344 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:53:22 PM.345 func-python-logger INFO deconvolve_cube cip cycle 5: Cleaning entire image
+08/12/2023 01:53:22 PM.346 func-python-logger INFO msclean_kernel_list cip cycle 5: Starting Multi-scale clean of each polarisation and channel separately
+08/12/2023 01:53:22 PM.348 func-python-logger INFO msclean_kernel_list cip cycle 5: Processing pol 0, channel 0
+08/12/2023 01:53:22 PM.349 func-python-logger INFO msclean cip cycle 5: Peak of PSF = 0.999999999999906 at (256, 256)
+08/12/2023 01:53:22 PM.350 func-python-logger INFO msclean cip cycle 5: Peak of Dirty = 0.278745 Jy/beam at (295, 220) 
+08/12/2023 01:53:22 PM.405 func-python-logger INFO msclean cip cycle 5: Coupling matrix =
+ [[1.]]
+08/12/2023 01:53:22 PM.406 func-python-logger INFO msclean cip cycle 5: Max abs in dirty Image = 0.278745 Jy/beam
+08/12/2023 01:53:22 PM.406 func-python-logger INFO msclean cip cycle 5: Start of minor cycle
+08/12/2023 01:53:22 PM.406 func-python-logger INFO msclean cip cycle 5: This minor cycle will stop at 1000 iterations or peak < 0.083623 (Jy/beam)
+08/12/2023 01:53:22 PM.406 func-python-logger INFO msclean cip cycle 5: Timing for setup: 0.058 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0]
+08/12/2023 01:53:22 PM.407 func-python-logger INFO msclean cip cycle 5: Minor cycle 0, peak [0.27874454] at [295, 220, 0]
+08/12/2023 01:53:22 PM.700 func-python-logger INFO msclean cip cycle 5: Minor cycle 100, peak [0.27587316] at [230, 216, 0]
+08/12/2023 01:53:22 PM.986 func-python-logger INFO msclean cip cycle 5: Minor cycle 200, peak [0.27293754] at [251, 240, 0]
+08/12/2023 01:53:23 PM.276 func-python-logger INFO msclean cip cycle 5: Minor cycle 300, peak [0.27059262] at [237, 248, 0]
+08/12/2023 01:53:23 PM.563 func-python-logger INFO msclean cip cycle 5: Minor cycle 400, peak [0.26827937] at [293, 236, 0]
+08/12/2023 01:53:23 PM.848 func-python-logger INFO msclean cip cycle 5: Minor cycle 500, peak [0.26580711] at [274, 225, 0]
+08/12/2023 01:53:24 PM.133 func-python-logger INFO msclean cip cycle 5: Minor cycle 600, peak [0.2629562] at [243, 219, 0]
+08/12/2023 01:53:24 PM.414 func-python-logger INFO msclean cip cycle 5: Minor cycle 700, peak [0.26016285] at [284, 258, 0]
+08/12/2023 01:53:24 PM.688 func-python-logger INFO msclean cip cycle 5: Minor cycle 800, peak [0.25767184] at [238, 243, 0]
+08/12/2023 01:53:24 PM.957 func-python-logger INFO msclean cip cycle 5: Minor cycle 900, peak [0.25512646] at [229, 249, 0]
+08/12/2023 01:53:25 PM.229 func-python-logger INFO msclean cip cycle 5: End of minor cycle
+08/12/2023 01:53:25 PM.229 func-python-logger INFO msclean cip cycle 5: Timing for clean: 2.823 (s) for dirty shape (512, 512), PSF shape (512, 512) , scales [0], 1000 iterations, time per clean 2.823 (ms)
+08/12/2023 01:53:25 PM.233 func-python-logger INFO deconvolve_cube cip cycle 5: Deconvolution finished
+08/12/2023 01:53:25 PM.805 distributed.worker WARNING Compute Failed
+Key:       skymodel_restore-2f6d9fc7-1483-41a8-a23c-1e8b47521b62
+Function:  skymodel_restore
+args:      (<ska_sdp_datamodels.sky_model.sky_model.SkyModel object at 0x7fe22554d0f0>, <xarray.Image>
+Dimensions:       (frequency: 1, polarisation: 1, y: 512, x: 512)
+Coordinates:
+  * frequency     (frequency) float64 1e+09
+  * polarisation  (polarisation) <U1 'I'
+  * y             (y) float64 -0.5283 -0.5283 -0.5283 ... -0.5189 -0.5189
+  * x             (x) float64 0.9726 0.9727 0.9727 ... 0.9821 0.9821 0.9821
+Data variables:
+    pixels        (frequency, polarisation, y, x) float64 0.02935 ... 0.03453
+Attributes:
+    data_model:           Image
+    _polarisation_frame:  stokesI
+    _projection:          ('RA---SIN', 'DEC--SIN')
+    spectral_type:        FREQ
+    clean_beam:           None
+    refpixel:             [257. 257.   1.   1.]
+    channel_bandwidth:    1000000000.0
+    ra:                   0.9773843811168246
+    dec:                  -0.5235987755982988, {'bmaj': 0.002437433306488838, 'bmin': 0.0020428933444252167, 'bpa': -17.141568163995757})
+kwargs:    {}
+Exception: "ValueError('All bin edges are NaN.')"
+
+08/12/2023 01:53:25 PM.820 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:46389'. Reason: nanny-close
+08/12/2023 01:53:25 PM.820 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:53:25 PM.820 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:39401'. Reason: nanny-close
+08/12/2023 01:53:25 PM.820 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:45703'. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.worker INFO Stopping worker at tcp://127.0.0.1:44543. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:46569'. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.worker INFO Stopping worker at tcp://127.0.0.1:36031. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.worker INFO Stopping worker at tcp://127.0.0.1:45149. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:45007'. Reason: nanny-close
+08/12/2023 01:53:25 PM.821 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:53:25 PM.822 distributed.core INFO Connection to tcp://127.0.0.1:34675 has been closed.
+08/12/2023 01:53:25 PM.822 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:38349'. Reason: nanny-close
+08/12/2023 01:53:25 PM.822 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:53:25 PM.822 distributed.worker INFO Stopping worker at tcp://127.0.0.1:44319. Reason: nanny-close
+08/12/2023 01:53:25 PM.822 distributed.core INFO Connection to tcp://127.0.0.1:34675 has been closed.
+08/12/2023 01:53:25 PM.822 distributed.core INFO Connection to tcp://127.0.0.1:34675 has been closed.
+08/12/2023 01:53:25 PM.822 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:34491'. Reason: nanny-close
+08/12/2023 01:53:25 PM.822 distributed.worker INFO Stopping worker at tcp://127.0.0.1:44237. Reason: nanny-close
+08/12/2023 01:53:25 PM.822 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:53:25 PM.822 distributed.worker INFO Stopping worker at tcp://127.0.0.1:39763. Reason: nanny-close
+08/12/2023 01:53:25 PM.823 distributed.core INFO Connection to tcp://127.0.0.1:34675 has been closed.
+08/12/2023 01:53:25 PM.822 distributed.worker INFO Stopping worker at tcp://127.0.0.1:38271. Reason: nanny-close
+08/12/2023 01:53:25 PM.823 distributed.core INFO Connection to tcp://127.0.0.1:34675 has been closed.
+08/12/2023 01:53:25 PM.823 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:37924; closing.
+08/12/2023 01:53:25 PM.823 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:37902; closing.
+08/12/2023 01:53:25 PM.823 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:37894; closing.
+08/12/2023 01:53:25 PM.823 distributed.core INFO Connection to tcp://127.0.0.1:34675 has been closed.
+08/12/2023 01:53:25 PM.823 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:44543', name: 0, status: closing, memory: 0, processing: 0>
+08/12/2023 01:53:25 PM.823 distributed.core INFO Removing comms to tcp://127.0.0.1:44543
+08/12/2023 01:53:25 PM.823 distributed.core INFO Connection to tcp://127.0.0.1:34675 has been closed.
+08/12/2023 01:53:25 PM.824 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:36031', name: 1, status: closing, memory: 3, processing: 0>
+08/12/2023 01:53:25 PM.824 distributed.core INFO Removing comms to tcp://127.0.0.1:36031
+08/12/2023 01:53:25 PM.824 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:45149', name: 2, status: closing, memory: 0, processing: 0>
+08/12/2023 01:53:25 PM.824 distributed.core INFO Removing comms to tcp://127.0.0.1:45149
+08/12/2023 01:53:25 PM.824 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:37908; closing.
+08/12/2023 01:53:25 PM.824 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:37928; closing.
+08/12/2023 01:53:25 PM.825 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:44237', name: 4, status: closing, memory: 0, processing: 0>
+08/12/2023 01:53:25 PM.825 distributed.core INFO Removing comms to tcp://127.0.0.1:44237
+08/12/2023 01:53:25 PM.825 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:44319', name: 3, status: closing, memory: 0, processing: 1>
+08/12/2023 01:53:25 PM.825 distributed.core INFO Removing comms to tcp://127.0.0.1:44319
+08/12/2023 01:53:25 PM.825 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:37878; closing.
+08/12/2023 01:53:25 PM.826 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:39763', name: 5, status: closing, memory: 0, processing: 0>
+08/12/2023 01:53:25 PM.826 distributed.core INFO Removing comms to tcp://127.0.0.1:39763
+08/12/2023 01:53:25 PM.826 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:37888; closing.
+08/12/2023 01:53:25 PM.826 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:34675 remote=tcp://127.0.0.1:37908>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:53:25 PM.827 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:34675 remote=tcp://127.0.0.1:37928>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:53:25 PM.827 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:38271', name: 6, status: closing, memory: 0, processing: 1>
+08/12/2023 01:53:25 PM.827 distributed.core INFO Removing comms to tcp://127.0.0.1:38271
+08/12/2023 01:53:25 PM.827 distributed.scheduler INFO Lost all workers
+08/12/2023 01:53:26 PM.132 distributed.scheduler INFO Scheduler closing...
+08/12/2023 01:53:26 PM.132 distributed.scheduler INFO Scheduler closing all comms
+08/12/2023 01:54:50 PM.112 rascil-logger INFO 
+RASCIL Continuum Imager
+
+08/12/2023 01:54:50 PM.112 rascil-logger INFO Started : 2023-12-08 13:54:50.112365
+08/12/2023 01:54:50 PM.112 rascil-logger INFO Writing log to /home/sunwang/radio-imaging/data/Meerkat_Galactic_center.log
+08/12/2023 01:54:50 PM.112 rascil-logger INFO Gettting client via get_dask_client
+08/12/2023 01:54:50 PM.257 distributed.http.proxy INFO To route to workers diagnostics web server please install jupyter-server-proxy: python -m pip install jupyter-server-proxy
+08/12/2023 01:54:50 PM.276 distributed.scheduler INFO State start
+08/12/2023 01:54:50 PM.278 distributed.scheduler INFO   Scheduler at:     tcp://127.0.0.1:41025
+08/12/2023 01:54:50 PM.278 distributed.scheduler INFO   dashboard at:  http://127.0.0.1:8787/status
+08/12/2023 01:54:50 PM.291 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:40947'
+08/12/2023 01:54:50 PM.292 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:37767'
+08/12/2023 01:54:50 PM.293 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:36545'
+08/12/2023 01:54:50 PM.294 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:40473'
+08/12/2023 01:54:50 PM.296 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:46613'
+08/12/2023 01:54:50 PM.297 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:39679'
+08/12/2023 01:54:50 PM.298 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:33155'
+08/12/2023 01:54:51 PM.334 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:36017', name: 5, status: init, memory: 0, processing: 0>
+08/12/2023 01:54:51 PM.336 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:36017
+08/12/2023 01:54:51 PM.336 distributed.core INFO Starting established connection to tcp://127.0.0.1:43996
+08/12/2023 01:54:51 PM.337 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:37641', name: 1, status: init, memory: 0, processing: 0>
+08/12/2023 01:54:51 PM.337 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:37641
+08/12/2023 01:54:51 PM.337 distributed.core INFO Starting established connection to tcp://127.0.0.1:44004
+08/12/2023 01:54:51 PM.338 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:34395', name: 3, status: init, memory: 0, processing: 0>
+08/12/2023 01:54:51 PM.338 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:34395
+08/12/2023 01:54:51 PM.338 distributed.core INFO Starting established connection to tcp://127.0.0.1:44014
+08/12/2023 01:54:51 PM.339 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:40673', name: 2, status: init, memory: 0, processing: 0>
+08/12/2023 01:54:51 PM.340 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:40673
+08/12/2023 01:54:51 PM.340 distributed.core INFO Starting established connection to tcp://127.0.0.1:44026
+08/12/2023 01:54:51 PM.340 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:34047', name: 4, status: init, memory: 0, processing: 0>
+08/12/2023 01:54:51 PM.340 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:34047
+08/12/2023 01:54:51 PM.340 distributed.core INFO Starting established connection to tcp://127.0.0.1:44032
+08/12/2023 01:54:51 PM.346 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:39723', name: 6, status: init, memory: 0, processing: 0>
+08/12/2023 01:54:51 PM.346 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:39723
+08/12/2023 01:54:51 PM.346 distributed.core INFO Starting established connection to tcp://127.0.0.1:44048
+08/12/2023 01:54:51 PM.346 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:43729', name: 0, status: init, memory: 0, processing: 0>
+08/12/2023 01:54:51 PM.346 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:43729
+08/12/2023 01:54:51 PM.347 distributed.core INFO Starting established connection to tcp://127.0.0.1:44060
+08/12/2023 01:54:51 PM.373 distributed.scheduler INFO Receive client connection: Client-f926b225-95c8-11ee-99f8-c9d95e128ece
+08/12/2023 01:54:51 PM.374 distributed.core INFO Starting established connection to tcp://127.0.0.1:44074
+08/12/2023 01:54:51 PM.382 rascil-logger INFO Dask nanny: set mem_alloc_trim_=0
+08/12/2023 01:54:51 PM.382 rascil-logger INFO Dask timeouts: connect 30s tcp: 30s
+08/12/2023 01:54:51 PM.382 rascil-logger INFO Dask nanny environment {'MALLOC_TRIM_THRESHOLD_': 0}
+08/12/2023 01:54:51 PM.385 rascil-logger INFO {'calibrate_with_dp3': False,
+ 'calibration_B_first_selfcal': 4,
+ 'calibration_B_phase_only': 'False',
+ 'calibration_B_timeslice': None,
+ 'calibration_G_first_selfcal': 3,
+ 'calibration_G_phase_only': 'False',
+ 'calibration_G_timeslice': None,
+ 'calibration_T_first_selfcal': 1,
+ 'calibration_T_phase_only': 'True',
+ 'calibration_T_timeslice': None,
+ 'calibration_context': 'T',
+ 'calibration_global_solution': 'True',
+ 'calibration_reset_skymodel': 'True',
+ 'clean_algorithm': 'hogbom',
+ 'clean_beam': None,
+ 'clean_component_method': 'fit',
+ 'clean_component_threshold': None,
+ 'clean_facets': 1,
+ 'clean_fractional_threshold': 0.3,
+ 'clean_gain': 0.1,
+ 'clean_niter': 1000,
+ 'clean_nmajor': 1,
+ 'clean_nmoment': 4,
+ 'clean_overlap': 32,
+ 'clean_psf_support': 256,
+ 'clean_restore_facets': 1,
+ 'clean_restore_overlap': 32,
+ 'clean_restore_taper': 'tukey',
+ 'clean_restored_output': 'integrated',
+ 'clean_scales': [0],
+ 'clean_taper': 'tukey',
+ 'clean_threshold': 0.001,
+ 'clean_use_radler': 'False',
+ 'dask_connect_timeout': None,
+ 'dask_malloc_trim_threshold': 0,
+ 'dask_memory': None,
+ 'dask_memory_usage_file': None,
+ 'dask_nodes': None,
+ 'dask_nthreads': None,
+ 'dask_nworkers': None,
+ 'dask_scheduler': None,
+ 'dask_scheduler_file': None,
+ 'dask_tcp_timeout': None,
+ 'flagging_strategy_name': 'generic',
+ 'imaging_cellsize': 1.849451e-05,
+ 'imaging_context': 'ng',
+ 'imaging_dft_kernel': None,
+ 'imaging_dopsf': 'False',
+ 'imaging_flat_sky': False,
+ 'imaging_gaussian_taper': None,
+ 'imaging_nchan': 1,
+ 'imaging_ng_threads': 4,
+ 'imaging_npixel': 512,
+ 'imaging_phasecentre': None,
+ 'imaging_pol': 'stokesI',
+ 'imaging_rmax': None,
+ 'imaging_rmin': None,
+ 'imaging_robustness': 0.0,
+ 'imaging_uvmax': None,
+ 'imaging_uvmin': None,
+ 'imaging_w_stacking': True,
+ 'imaging_weighting': 'uniform',
+ 'ingest_average_vis': 'False',
+ 'ingest_chan_per_vis': 1,
+ 'ingest_dd': [0],
+ 'ingest_msname': '/home/sunwang/radio-imaging/data/Meerkat_Galactic_center.ms',
+ 'ingest_vis_nchan': 1,
+ 'input_dp3_skymodel': None,
+ 'input_skycomponent_file': None,
+ 'logfile': None,
+ 'mode': 'cip',
+ 'num_bright_sources': None,
+ 'perform_flagging': 'False',
+ 'performance_file': None,
+ 'use_dask': 'True',
+ 'use_initial_skymodel': False}
+08/12/2023 01:54:51 PM.385 rascil-logger INFO Current working directory is /home/sunwang/rascil_test
+08/12/2023 01:54:51 PM.385 rascil-logger INFO create_visibility_from_ms_rsexecute: Defining graph
+08/12/2023 01:54:51 PM.385 rascil-logger INFO create_visibility_from_ms_rsexecute: will load MS data descriptors [0] into 1 Visibility's of 1 channels
+08/12/2023 01:54:51 PM.391 rascil-logger INFO rascil.imager.perf_graph: Size of cip graph = 14521 B, time to construct 0.004002809524536133 s
+08/12/2023 01:54:51 PM.391 rascil-logger INFO rascil.imager.cip: Starting compute of continuum imaging pipeline graph 
+08/12/2023 01:54:51 PM.440 rascil-logger INFO create_visibility_from_ms: Reading unique fields [0], unique data descriptions [0]
+08/12/2023 01:54:54 PM.375 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:54:54 PM.377 func-python-logger INFO deconvolve_cube cip cycle 0: Cleaning entire image
+08/12/2023 01:54:54 PM.378 func-python-logger INFO hogbom_kernel_list cip cycle 0: Starting Hogbom clean of each polarisation and channel separately
+08/12/2023 01:54:54 PM.378 func-python-logger INFO hogbom_kernel_list cip cycle 0: Processing pol 0, channel 0
+08/12/2023 01:54:54 PM.379 func-python-logger INFO hogbom cip cycle 0 Max abs in dirty image = 2.117552 Jy/beam
+08/12/2023 01:54:54 PM.380 func-python-logger INFO hogbom cip cycle 0 Start of minor cycle
+08/12/2023 01:54:54 PM.380 func-python-logger INFO hogbom cip cycle 0 This minor cycle will stop at 1000 iterations or peak < 0.635266 (Jy/beam)
+08/12/2023 01:54:54 PM.381 func-python-logger INFO hogbom cip cycle 0: Timing for setup: 0.002 (s) for dirty shape (512, 512), PSF shape (512, 512)
+08/12/2023 01:54:54 PM.382 func-python-logger INFO hogbom cip cycle 0 Minor cycle 0, peak 2.117552100906054 at [254, 256]
+08/12/2023 01:54:54 PM.541 func-python-logger INFO hogbom cip cycle 0 Minor cycle 100, peak 0.6949376733224529 at [270, 253]
+08/12/2023 01:54:54 PM.690 func-python-logger INFO hogbom cip cycle 0 Stopped at iteration 194, peak 0.5699489903495725 at [254, 256]
+08/12/2023 01:54:54 PM.690 func-python-logger INFO hogbom cip cycle 0 End of minor cycle
+08/12/2023 01:54:54 PM.690 func-python-logger INFO cip cycle 0 Timing for clean: 0.309 (s) for dirty (512, 512), PSF (512, 512) , 195 iterations, time per clean 1.585 (ms)
+08/12/2023 01:54:54 PM.695 func-python-logger INFO deconvolve_cube cip cycle 0: Deconvolution finished
+08/12/2023 01:54:55 PM.260 distributed.worker WARNING Compute Failed
+Key:       skymodel_restore-6169c3cb-f4a7-4389-b1cc-396b6a8edccf
+Function:  skymodel_restore
+args:      (<ska_sdp_datamodels.sky_model.sky_model.SkyModel object at 0x7f5857741660>, <xarray.Image>
+Dimensions:       (frequency: 1, polarisation: 1, y: 512, x: 512)
+Coordinates:
+  * frequency     (frequency) float64 1e+09
+  * polarisation  (polarisation) <U1 'I'
+  * y             (y) float64 -0.5283 -0.5283 -0.5283 ... -0.5189 -0.5189
+  * x             (x) float64 0.9726 0.9727 0.9727 ... 0.9821 0.9821 0.9821
+Data variables:
+    pixels        (frequency, polarisation, y, x) float64 0.03381 ... 0.03896
+Attributes:
+    data_model:           Image
+    _polarisation_frame:  stokesI
+    _projection:          ('RA---SIN', 'DEC--SIN')
+    spectral_type:        FREQ
+    clean_beam:           None
+    refpixel:             [257. 257.   1.   1.]
+    channel_bandwidth:    1000000000.0
+    ra:                   0.9773843811168246
+    dec:                  -0.5235987755982988, {'bmaj': 0.0024374333064888388, 'bmin': 0.0020428933444252163, 'bpa': -17.14156816399574})
+kwargs:    {}
+Exception: "ValueError('All bin edges are NaN.')"
+
+08/12/2023 01:54:55 PM.275 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:40947'. Reason: nanny-close
+08/12/2023 01:54:55 PM.275 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:54:55 PM.276 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:37767'. Reason: nanny-close
+08/12/2023 01:54:55 PM.276 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:54:55 PM.276 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:36545'. Reason: nanny-close
+08/12/2023 01:54:55 PM.276 distributed.worker INFO Stopping worker at tcp://127.0.0.1:43729. Reason: nanny-close
+08/12/2023 01:54:55 PM.276 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:54:55 PM.277 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:40473'. Reason: nanny-close
+08/12/2023 01:54:55 PM.277 distributed.worker INFO Stopping worker at tcp://127.0.0.1:37641. Reason: nanny-close
+08/12/2023 01:54:55 PM.277 distributed.core INFO Connection to tcp://127.0.0.1:41025 has been closed.
+08/12/2023 01:54:55 PM.277 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:54:55 PM.277 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:46613'. Reason: nanny-close
+08/12/2023 01:54:55 PM.277 distributed.worker INFO Stopping worker at tcp://127.0.0.1:40673. Reason: nanny-close
+08/12/2023 01:54:55 PM.277 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:54:55 PM.278 distributed.core INFO Connection to tcp://127.0.0.1:41025 has been closed.
+08/12/2023 01:54:55 PM.278 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:39679'. Reason: nanny-close
+08/12/2023 01:54:55 PM.278 distributed.worker INFO Stopping worker at tcp://127.0.0.1:34395. Reason: nanny-close
+08/12/2023 01:54:55 PM.278 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:54:55 PM.278 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:33155'. Reason: nanny-close
+08/12/2023 01:54:55 PM.278 distributed.worker INFO Stopping worker at tcp://127.0.0.1:34047. Reason: nanny-close
+08/12/2023 01:54:55 PM.278 distributed.core INFO Connection to tcp://127.0.0.1:41025 has been closed.
+08/12/2023 01:54:55 PM.278 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:54:55 PM.278 distributed.worker INFO Stopping worker at tcp://127.0.0.1:36017. Reason: nanny-close
+08/12/2023 01:54:55 PM.279 distributed.core INFO Connection to tcp://127.0.0.1:41025 has been closed.
+08/12/2023 01:54:55 PM.279 distributed.core INFO Connection to tcp://127.0.0.1:41025 has been closed.
+08/12/2023 01:54:55 PM.279 distributed.worker INFO Stopping worker at tcp://127.0.0.1:39723. Reason: nanny-close
+08/12/2023 01:54:55 PM.279 distributed.core INFO Connection to tcp://127.0.0.1:41025 has been closed.
+08/12/2023 01:54:55 PM.279 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:44060; closing.
+08/12/2023 01:54:55 PM.279 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:44004; closing.
+08/12/2023 01:54:55 PM.279 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:44026; closing.
+08/12/2023 01:54:55 PM.280 distributed.core INFO Connection to tcp://127.0.0.1:41025 has been closed.
+08/12/2023 01:54:55 PM.282 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:43729', name: 0, status: closing, memory: 0, processing: 0>
+08/12/2023 01:54:55 PM.282 distributed.core INFO Removing comms to tcp://127.0.0.1:43729
+08/12/2023 01:54:55 PM.283 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:37641', name: 1, status: closing, memory: 0, processing: 0>
+08/12/2023 01:54:55 PM.283 distributed.core INFO Removing comms to tcp://127.0.0.1:37641
+08/12/2023 01:54:55 PM.283 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:40673', name: 2, status: closing, memory: 0, processing: 0>
+08/12/2023 01:54:55 PM.283 distributed.core INFO Removing comms to tcp://127.0.0.1:40673
+08/12/2023 01:54:55 PM.283 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:44014; closing.
+08/12/2023 01:54:55 PM.284 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:44032; closing.
+08/12/2023 01:54:55 PM.284 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:43996; closing.
+08/12/2023 01:54:55 PM.285 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:34395', name: 3, status: closing, memory: 0, processing: 0>
+08/12/2023 01:54:55 PM.285 distributed.core INFO Removing comms to tcp://127.0.0.1:34395
+08/12/2023 01:54:55 PM.285 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:34047', name: 4, status: closing, memory: 2, processing: 0>
+08/12/2023 01:54:55 PM.285 distributed.core INFO Removing comms to tcp://127.0.0.1:34047
+08/12/2023 01:54:55 PM.286 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:36017', name: 5, status: closing, memory: 0, processing: 0>
+08/12/2023 01:54:55 PM.287 distributed.core INFO Removing comms to tcp://127.0.0.1:36017
+08/12/2023 01:54:55 PM.287 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:44048; closing.
+08/12/2023 01:54:55 PM.288 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:39723', name: 6, status: closing, memory: 0, processing: 1>
+08/12/2023 01:54:55 PM.288 distributed.core INFO Removing comms to tcp://127.0.0.1:39723
+08/12/2023 01:54:55 PM.288 distributed.scheduler INFO Lost all workers
+08/12/2023 01:54:55 PM.288 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:41025 remote=tcp://127.0.0.1:44032>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:54:55 PM.289 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:41025 remote=tcp://127.0.0.1:44014>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:54:55 PM.289 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:41025 remote=tcp://127.0.0.1:43996>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:54:55 PM.577 distributed.scheduler INFO Scheduler closing...
+08/12/2023 01:54:55 PM.578 distributed.scheduler INFO Scheduler closing all comms
+08/12/2023 01:58:26 PM.400 rascil-logger INFO 
+RASCIL Continuum Imager
+
+08/12/2023 01:58:26 PM.401 rascil-logger INFO Started : 2023-12-08 13:58:26.401000
+08/12/2023 01:58:26 PM.401 rascil-logger INFO Writing log to /home/sunwang/radio-imaging/data/Meerkat_Galactic_center.log
+08/12/2023 01:58:26 PM.401 rascil-logger INFO Gettting client via get_dask_client
+08/12/2023 01:58:26 PM.540 distributed.http.proxy INFO To route to workers diagnostics web server please install jupyter-server-proxy: python -m pip install jupyter-server-proxy
+08/12/2023 01:58:26 PM.559 distributed.scheduler INFO State start
+08/12/2023 01:58:26 PM.561 distributed.scheduler INFO   Scheduler at:     tcp://127.0.0.1:44339
+08/12/2023 01:58:26 PM.561 distributed.scheduler INFO   dashboard at:  http://127.0.0.1:8787/status
+08/12/2023 01:58:26 PM.574 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:44823'
+08/12/2023 01:58:26 PM.575 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:35555'
+08/12/2023 01:58:26 PM.577 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:45507'
+08/12/2023 01:58:26 PM.578 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:43043'
+08/12/2023 01:58:26 PM.579 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:44419'
+08/12/2023 01:58:26 PM.581 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:45699'
+08/12/2023 01:58:26 PM.581 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:35795'
+08/12/2023 01:58:27 PM.621 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:38823', name: 3, status: init, memory: 0, processing: 0>
+08/12/2023 01:58:27 PM.624 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:38823
+08/12/2023 01:58:27 PM.624 distributed.core INFO Starting established connection to tcp://127.0.0.1:49582
+08/12/2023 01:58:27 PM.624 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:32859', name: 0, status: init, memory: 0, processing: 0>
+08/12/2023 01:58:27 PM.625 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:32859
+08/12/2023 01:58:27 PM.625 distributed.core INFO Starting established connection to tcp://127.0.0.1:49562
+08/12/2023 01:58:27 PM.625 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:42421', name: 4, status: init, memory: 0, processing: 0>
+08/12/2023 01:58:27 PM.625 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:42421
+08/12/2023 01:58:27 PM.625 distributed.core INFO Starting established connection to tcp://127.0.0.1:49566
+08/12/2023 01:58:27 PM.626 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:37831', name: 5, status: init, memory: 0, processing: 0>
+08/12/2023 01:58:27 PM.626 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:37831
+08/12/2023 01:58:27 PM.626 distributed.core INFO Starting established connection to tcp://127.0.0.1:49590
+08/12/2023 01:58:27 PM.627 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:40905', name: 6, status: init, memory: 0, processing: 0>
+08/12/2023 01:58:27 PM.627 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:40905
+08/12/2023 01:58:27 PM.627 distributed.core INFO Starting established connection to tcp://127.0.0.1:49606
+08/12/2023 01:58:27 PM.629 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:34895', name: 1, status: init, memory: 0, processing: 0>
+08/12/2023 01:58:27 PM.630 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:34895
+08/12/2023 01:58:27 PM.630 distributed.core INFO Starting established connection to tcp://127.0.0.1:49616
+08/12/2023 01:58:27 PM.630 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:43223', name: 2, status: init, memory: 0, processing: 0>
+08/12/2023 01:58:27 PM.630 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:43223
+08/12/2023 01:58:27 PM.630 distributed.core INFO Starting established connection to tcp://127.0.0.1:49624
+08/12/2023 01:58:27 PM.657 distributed.scheduler INFO Receive client connection: Client-7a11b8ea-95c9-11ee-9c19-c9d95e128ece
+08/12/2023 01:58:27 PM.657 distributed.core INFO Starting established connection to tcp://127.0.0.1:49626
+08/12/2023 01:58:27 PM.664 rascil-logger INFO Dask nanny: set mem_alloc_trim_=0
+08/12/2023 01:58:27 PM.664 rascil-logger INFO Dask timeouts: connect 30s tcp: 30s
+08/12/2023 01:58:27 PM.664 rascil-logger INFO Dask nanny environment {'MALLOC_TRIM_THRESHOLD_': 0}
+08/12/2023 01:58:27 PM.667 rascil-logger INFO {'calibrate_with_dp3': False,
+ 'calibration_B_first_selfcal': 4,
+ 'calibration_B_phase_only': 'False',
+ 'calibration_B_timeslice': None,
+ 'calibration_G_first_selfcal': 3,
+ 'calibration_G_phase_only': 'False',
+ 'calibration_G_timeslice': None,
+ 'calibration_T_first_selfcal': 1,
+ 'calibration_T_phase_only': 'True',
+ 'calibration_T_timeslice': None,
+ 'calibration_context': 'T',
+ 'calibration_global_solution': 'True',
+ 'calibration_reset_skymodel': 'True',
+ 'clean_algorithm': 'hogbom',
+ 'clean_beam': None,
+ 'clean_component_method': 'fit',
+ 'clean_component_threshold': None,
+ 'clean_facets': 1,
+ 'clean_fractional_threshold': 0.3,
+ 'clean_gain': 0.1,
+ 'clean_niter': 1000,
+ 'clean_nmajor': 1,
+ 'clean_nmoment': 4,
+ 'clean_overlap': 32,
+ 'clean_psf_support': 256,
+ 'clean_restore_facets': 1,
+ 'clean_restore_overlap': 32,
+ 'clean_restore_taper': 'tukey',
+ 'clean_restored_output': 'list',
+ 'clean_scales': [0],
+ 'clean_taper': 'tukey',
+ 'clean_threshold': 0.001,
+ 'clean_use_radler': 'False',
+ 'dask_connect_timeout': None,
+ 'dask_malloc_trim_threshold': 0,
+ 'dask_memory': None,
+ 'dask_memory_usage_file': None,
+ 'dask_nodes': None,
+ 'dask_nthreads': None,
+ 'dask_nworkers': None,
+ 'dask_scheduler': None,
+ 'dask_scheduler_file': None,
+ 'dask_tcp_timeout': None,
+ 'flagging_strategy_name': 'generic',
+ 'imaging_cellsize': 1.849451e-05,
+ 'imaging_context': 'ng',
+ 'imaging_dft_kernel': None,
+ 'imaging_dopsf': 'False',
+ 'imaging_flat_sky': False,
+ 'imaging_gaussian_taper': None,
+ 'imaging_nchan': 1,
+ 'imaging_ng_threads': 4,
+ 'imaging_npixel': 512,
+ 'imaging_phasecentre': None,
+ 'imaging_pol': 'stokesI',
+ 'imaging_rmax': None,
+ 'imaging_rmin': None,
+ 'imaging_robustness': 0.0,
+ 'imaging_uvmax': None,
+ 'imaging_uvmin': None,
+ 'imaging_w_stacking': True,
+ 'imaging_weighting': 'uniform',
+ 'ingest_average_vis': 'False',
+ 'ingest_chan_per_vis': 1,
+ 'ingest_dd': [0],
+ 'ingest_msname': '/home/sunwang/radio-imaging/data/Meerkat_Galactic_center.ms',
+ 'ingest_vis_nchan': 1,
+ 'input_dp3_skymodel': None,
+ 'input_skycomponent_file': None,
+ 'logfile': None,
+ 'mode': 'cip',
+ 'num_bright_sources': None,
+ 'perform_flagging': 'False',
+ 'performance_file': None,
+ 'use_dask': 'True',
+ 'use_initial_skymodel': False}
+08/12/2023 01:58:27 PM.668 rascil-logger INFO Current working directory is /home/sunwang/rascil_test
+08/12/2023 01:58:27 PM.668 rascil-logger INFO create_visibility_from_ms_rsexecute: Defining graph
+08/12/2023 01:58:27 PM.668 rascil-logger INFO create_visibility_from_ms_rsexecute: will load MS data descriptors [0] into 1 Visibility's of 1 channels
+08/12/2023 01:58:27 PM.675 rascil-logger INFO rascil.imager.perf_graph: Size of cip graph = 16130 B, time to construct 0.005278348922729492 s
+08/12/2023 01:58:27 PM.675 rascil-logger INFO rascil.imager.cip: Starting compute of continuum imaging pipeline graph 
+08/12/2023 01:58:27 PM.725 rascil-logger INFO create_visibility_from_ms: Reading unique fields [0], unique data descriptions [0]
+08/12/2023 01:58:30 PM.629 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 01:58:30 PM.631 func-python-logger INFO deconvolve_cube cip cycle 0: Cleaning entire image
+08/12/2023 01:58:30 PM.631 func-python-logger INFO hogbom_kernel_list cip cycle 0: Starting Hogbom clean of each polarisation and channel separately
+08/12/2023 01:58:30 PM.631 func-python-logger INFO hogbom_kernel_list cip cycle 0: Processing pol 0, channel 0
+08/12/2023 01:58:30 PM.634 func-python-logger INFO hogbom cip cycle 0 Max abs in dirty image = 2.117552 Jy/beam
+08/12/2023 01:58:30 PM.634 func-python-logger INFO hogbom cip cycle 0 Start of minor cycle
+08/12/2023 01:58:30 PM.634 func-python-logger INFO hogbom cip cycle 0 This minor cycle will stop at 1000 iterations or peak < 0.635266 (Jy/beam)
+08/12/2023 01:58:30 PM.635 func-python-logger INFO hogbom cip cycle 0: Timing for setup: 0.003 (s) for dirty shape (512, 512), PSF shape (512, 512)
+08/12/2023 01:58:30 PM.637 func-python-logger INFO hogbom cip cycle 0 Minor cycle 0, peak 2.117552100906054 at [254, 256]
+08/12/2023 01:58:30 PM.800 func-python-logger INFO hogbom cip cycle 0 Minor cycle 100, peak 0.6949376733224532 at [270, 253]
+08/12/2023 01:58:30 PM.946 func-python-logger INFO hogbom cip cycle 0 Stopped at iteration 194, peak 0.5699489903495724 at [254, 256]
+08/12/2023 01:58:30 PM.946 func-python-logger INFO hogbom cip cycle 0 End of minor cycle
+08/12/2023 01:58:30 PM.946 func-python-logger INFO cip cycle 0 Timing for clean: 0.311 (s) for dirty (512, 512), PSF (512, 512) , 195 iterations, time per clean 1.593 (ms)
+08/12/2023 01:58:30 PM.951 func-python-logger INFO deconvolve_cube cip cycle 0: Deconvolution finished
+08/12/2023 01:58:31 PM.499 distributed.worker WARNING Compute Failed
+Key:       restore_cube-ea2cae8c-1104-4179-b4ce-6de6ee26fcdd
+Function:  execute_task
+args:      ((<function apply at 0x7f33b9c53010>, <function restore_cube at 0x7f33b05a4a60>, [], (<class 'dict'>, [['model', <xarray.Image>
+Dimensions:       (frequency: 1, polarisation: 1, y: 512, x: 512)
+Coordinates:
+  * frequency     (frequency) float64 1e+09
+  * polarisation  (polarisation) <U1 'I'
+  * y             (y) float64 -0.5283 -0.5283 -0.5283 ... -0.5189 -0.5189
+  * x             (x) float64 0.9726 0.9727 0.9727 ... 0.9821 0.9821 0.9821
+Data variables:
+    pixels        (frequency, polarisation, y, x) float64 0.0 0.0 ... 0.0 0.0
+Attributes:
+    data_model:           Image
+    _polarisation_frame:  stokesI
+    _projection:          ('RA---SIN', 'DEC--SIN')
+    spectral_type:        FREQ
+    clean_beam:           None
+    refpixel:             [257. 257.   1.   1.]
+    channel_bandwidth:    1000000000.0
+    ra:                   0.9773843811168246
+    dec:                  -0.5235987755982988], ['residual', <xarray.Image>
+Dimensions:       (frequency: 1, polarisation: 1, y: 512, x: 512)
+kwargs:    {}
+Exception: "ValueError('All bin edges are NaN.')"
+
+08/12/2023 01:58:31 PM.514 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:44823'. Reason: nanny-close
+08/12/2023 01:58:31 PM.514 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:58:31 PM.514 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:35555'. Reason: nanny-close
+08/12/2023 01:58:31 PM.515 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:58:31 PM.515 distributed.worker INFO Stopping worker at tcp://127.0.0.1:32859. Reason: nanny-close
+08/12/2023 01:58:31 PM.515 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:45507'. Reason: nanny-close
+08/12/2023 01:58:31 PM.515 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:58:31 PM.515 distributed.core INFO Connection to tcp://127.0.0.1:44339 has been closed.
+08/12/2023 01:58:31 PM.515 distributed.worker INFO Stopping worker at tcp://127.0.0.1:34895. Reason: nanny-close
+08/12/2023 01:58:31 PM.516 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:43043'. Reason: nanny-close
+08/12/2023 01:58:31 PM.516 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:58:31 PM.516 distributed.worker INFO Stopping worker at tcp://127.0.0.1:43223. Reason: nanny-close
+08/12/2023 01:58:31 PM.516 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:44419'. Reason: nanny-close
+08/12/2023 01:58:31 PM.516 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:58:31 PM.516 distributed.core INFO Connection to tcp://127.0.0.1:44339 has been closed.
+08/12/2023 01:58:31 PM.516 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:45699'. Reason: nanny-close
+08/12/2023 01:58:31 PM.516 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:58:31 PM.517 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:35795'. Reason: nanny-close
+08/12/2023 01:58:31 PM.517 distributed.worker INFO Stopping worker at tcp://127.0.0.1:38823. Reason: nanny-close
+08/12/2023 01:58:31 PM.517 distributed.core INFO Connection to tcp://127.0.0.1:44339 has been closed.
+08/12/2023 01:58:31 PM.517 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 01:58:31 PM.517 distributed.worker INFO Stopping worker at tcp://127.0.0.1:42421. Reason: nanny-close
+08/12/2023 01:58:31 PM.517 distributed.worker INFO Stopping worker at tcp://127.0.0.1:37831. Reason: nanny-close
+08/12/2023 01:58:31 PM.517 distributed.worker INFO Stopping worker at tcp://127.0.0.1:40905. Reason: nanny-close
+08/12/2023 01:58:31 PM.517 distributed.core INFO Connection to tcp://127.0.0.1:44339 has been closed.
+08/12/2023 01:58:31 PM.517 distributed.core INFO Connection to tcp://127.0.0.1:44339 has been closed.
+08/12/2023 01:58:31 PM.518 distributed.core INFO Connection to tcp://127.0.0.1:44339 has been closed.
+08/12/2023 01:58:31 PM.518 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:49562; closing.
+08/12/2023 01:58:31 PM.518 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:49616; closing.
+08/12/2023 01:58:31 PM.518 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:49624; closing.
+08/12/2023 01:58:31 PM.518 distributed.core INFO Connection to tcp://127.0.0.1:44339 has been closed.
+08/12/2023 01:58:31 PM.518 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:32859', name: 0, status: closing, memory: 2, processing: 0>
+08/12/2023 01:58:31 PM.518 distributed.core INFO Removing comms to tcp://127.0.0.1:32859
+08/12/2023 01:58:31 PM.519 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:34895', name: 1, status: closing, memory: 0, processing: 0>
+08/12/2023 01:58:31 PM.519 distributed.core INFO Removing comms to tcp://127.0.0.1:34895
+08/12/2023 01:58:31 PM.519 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:43223', name: 2, status: closing, memory: 0, processing: 0>
+08/12/2023 01:58:31 PM.519 distributed.core INFO Removing comms to tcp://127.0.0.1:43223
+08/12/2023 01:58:31 PM.519 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:49566; closing.
+08/12/2023 01:58:31 PM.519 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:49582; closing.
+08/12/2023 01:58:31 PM.519 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:49590; closing.
+08/12/2023 01:58:31 PM.520 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:42421', name: 4, status: closing, memory: 0, processing: 0>
+08/12/2023 01:58:31 PM.520 distributed.core INFO Removing comms to tcp://127.0.0.1:42421
+08/12/2023 01:58:31 PM.520 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:38823', name: 3, status: closing, memory: 0, processing: 0>
+08/12/2023 01:58:31 PM.520 distributed.core INFO Removing comms to tcp://127.0.0.1:38823
+08/12/2023 01:58:31 PM.520 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:37831', name: 5, status: closing, memory: 0, processing: 1>
+08/12/2023 01:58:31 PM.520 distributed.core INFO Removing comms to tcp://127.0.0.1:37831
+08/12/2023 01:58:31 PM.520 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:49606; closing.
+08/12/2023 01:58:31 PM.521 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:40905', name: 6, status: closing, memory: 0, processing: 1>
+08/12/2023 01:58:31 PM.521 distributed.core INFO Removing comms to tcp://127.0.0.1:40905
+08/12/2023 01:58:31 PM.521 distributed.scheduler INFO Lost all workers
+08/12/2023 01:58:31 PM.521 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:44339 remote=tcp://127.0.0.1:49590>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:58:31 PM.521 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:44339 remote=tcp://127.0.0.1:49582>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:58:31 PM.522 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:44339 remote=tcp://127.0.0.1:49566>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 01:58:31 PM.826 distributed.scheduler INFO Scheduler closing...
+08/12/2023 01:58:31 PM.826 distributed.scheduler INFO Scheduler closing all comms
+08/12/2023 01:59:57 PM.735 rascil-logger INFO 
+RASCIL Continuum Imager
+
+08/12/2023 01:59:57 PM.735 rascil-logger INFO Started : 2023-12-08 13:59:57.735108
+08/12/2023 01:59:57 PM.735 rascil-logger INFO Writing log to /home/sunwang/radio-imaging/data/Meerkat_Galactic_center.log
+08/12/2023 01:59:57 PM.735 rascil-logger INFO Gettting client via get_dask_client
+08/12/2023 01:59:57 PM.879 distributed.http.proxy INFO To route to workers diagnostics web server please install jupyter-server-proxy: python -m pip install jupyter-server-proxy
+08/12/2023 01:59:57 PM.898 distributed.scheduler INFO State start
+08/12/2023 01:59:57 PM.900 distributed.scheduler INFO   Scheduler at:     tcp://127.0.0.1:34233
+08/12/2023 01:59:57 PM.900 distributed.scheduler INFO   dashboard at:  http://127.0.0.1:8787/status
+08/12/2023 01:59:57 PM.912 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:42181'
+08/12/2023 01:59:57 PM.913 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:39575'
+08/12/2023 01:59:57 PM.915 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:43745'
+08/12/2023 01:59:57 PM.916 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:44187'
+08/12/2023 01:59:57 PM.918 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:43945'
+08/12/2023 01:59:57 PM.919 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:33399'
+08/12/2023 01:59:57 PM.921 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:46423'
+08/12/2023 01:59:58 PM.961 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:33389', name: 4, status: init, memory: 0, processing: 0>
+08/12/2023 01:59:58 PM.963 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:33389
+08/12/2023 01:59:58 PM.963 distributed.core INFO Starting established connection to tcp://127.0.0.1:36602
+08/12/2023 01:59:58 PM.964 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:40697', name: 6, status: init, memory: 0, processing: 0>
+08/12/2023 01:59:58 PM.964 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:40697
+08/12/2023 01:59:58 PM.964 distributed.core INFO Starting established connection to tcp://127.0.0.1:36606
+08/12/2023 01:59:58 PM.964 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:34305', name: 5, status: init, memory: 0, processing: 0>
+08/12/2023 01:59:58 PM.964 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:34305
+08/12/2023 01:59:58 PM.964 distributed.core INFO Starting established connection to tcp://127.0.0.1:36612
+08/12/2023 01:59:58 PM.965 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:46843', name: 0, status: init, memory: 0, processing: 0>
+08/12/2023 01:59:58 PM.965 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:46843
+08/12/2023 01:59:58 PM.965 distributed.core INFO Starting established connection to tcp://127.0.0.1:36616
+08/12/2023 01:59:58 PM.968 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:38399', name: 2, status: init, memory: 0, processing: 0>
+08/12/2023 01:59:58 PM.968 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:38399
+08/12/2023 01:59:58 PM.968 distributed.core INFO Starting established connection to tcp://127.0.0.1:36618
+08/12/2023 01:59:58 PM.972 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:35863', name: 1, status: init, memory: 0, processing: 0>
+08/12/2023 01:59:58 PM.972 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:35863
+08/12/2023 01:59:58 PM.972 distributed.core INFO Starting established connection to tcp://127.0.0.1:36620
+08/12/2023 01:59:58 PM.973 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:41435', name: 3, status: init, memory: 0, processing: 0>
+08/12/2023 01:59:58 PM.973 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:41435
+08/12/2023 01:59:58 PM.973 distributed.core INFO Starting established connection to tcp://127.0.0.1:36632
+08/12/2023 01:59:58 PM.998 distributed.scheduler INFO Receive client connection: Client-b08233b7-95c9-11ee-9d5c-c9d95e128ece
+08/12/2023 01:59:58 PM.998 distributed.core INFO Starting established connection to tcp://127.0.0.1:36640
+08/12/2023 01:59:59 PM.6 rascil-logger INFO Dask nanny: set mem_alloc_trim_=0
+08/12/2023 01:59:59 PM.6 rascil-logger INFO Dask timeouts: connect 30s tcp: 30s
+08/12/2023 01:59:59 PM.7 rascil-logger INFO Dask nanny environment {'MALLOC_TRIM_THRESHOLD_': 0}
+08/12/2023 01:59:59 PM.10 rascil-logger INFO {'calibrate_with_dp3': False,
+ 'calibration_B_first_selfcal': 4,
+ 'calibration_B_phase_only': 'False',
+ 'calibration_B_timeslice': None,
+ 'calibration_G_first_selfcal': 3,
+ 'calibration_G_phase_only': 'False',
+ 'calibration_G_timeslice': None,
+ 'calibration_T_first_selfcal': 1,
+ 'calibration_T_phase_only': 'True',
+ 'calibration_T_timeslice': None,
+ 'calibration_context': 'T',
+ 'calibration_global_solution': 'True',
+ 'calibration_reset_skymodel': 'True',
+ 'clean_algorithm': 'hogbom',
+ 'clean_beam': None,
+ 'clean_component_method': 'fit',
+ 'clean_component_threshold': None,
+ 'clean_facets': 1,
+ 'clean_fractional_threshold': 0.3,
+ 'clean_gain': 0.1,
+ 'clean_niter': 1000,
+ 'clean_nmajor': 1,
+ 'clean_nmoment': 4,
+ 'clean_overlap': 32,
+ 'clean_psf_support': 256,
+ 'clean_restore_facets': 1,
+ 'clean_restore_overlap': 32,
+ 'clean_restore_taper': 'tukey',
+ 'clean_restored_output': 'integrated',
+ 'clean_scales': [0],
+ 'clean_taper': 'tukey',
+ 'clean_threshold': 0.001,
+ 'clean_use_radler': 'False',
+ 'dask_connect_timeout': None,
+ 'dask_malloc_trim_threshold': 0,
+ 'dask_memory': None,
+ 'dask_memory_usage_file': None,
+ 'dask_nodes': None,
+ 'dask_nthreads': None,
+ 'dask_nworkers': None,
+ 'dask_scheduler': None,
+ 'dask_scheduler_file': None,
+ 'dask_tcp_timeout': None,
+ 'flagging_strategy_name': 'generic',
+ 'imaging_cellsize': 1.849451e-05,
+ 'imaging_context': 'ng',
+ 'imaging_dft_kernel': None,
+ 'imaging_dopsf': 'False',
+ 'imaging_flat_sky': False,
+ 'imaging_gaussian_taper': None,
+ 'imaging_nchan': 1,
+ 'imaging_ng_threads': 4,
+ 'imaging_npixel': 512,
+ 'imaging_phasecentre': None,
+ 'imaging_pol': 'stokesI',
+ 'imaging_rmax': None,
+ 'imaging_rmin': None,
+ 'imaging_robustness': 0.0,
+ 'imaging_uvmax': None,
+ 'imaging_uvmin': None,
+ 'imaging_w_stacking': True,
+ 'imaging_weighting': 'uniform',
+ 'ingest_average_vis': 'False',
+ 'ingest_chan_per_vis': 1,
+ 'ingest_dd': [0],
+ 'ingest_msname': '/home/sunwang/radio-imaging/data/Meerkat_Galactic_center.ms',
+ 'ingest_vis_nchan': 1,
+ 'input_dp3_skymodel': None,
+ 'input_skycomponent_file': None,
+ 'logfile': None,
+ 'mode': 'cip',
+ 'num_bright_sources': None,
+ 'perform_flagging': 'False',
+ 'performance_file': None,
+ 'use_dask': 'True',
+ 'use_initial_skymodel': False}
+08/12/2023 01:59:59 PM.10 rascil-logger INFO Current working directory is /home/sunwang/rascil_test
+08/12/2023 01:59:59 PM.10 rascil-logger INFO create_visibility_from_ms_rsexecute: Defining graph
+08/12/2023 01:59:59 PM.10 rascil-logger INFO create_visibility_from_ms_rsexecute: will load MS data descriptors [0] into 1 Visibility's of 1 channels
+08/12/2023 01:59:59 PM.16 rascil-logger INFO rascil.imager.perf_graph: Size of cip graph = 14521 B, time to construct 0.0040514469146728516 s
+08/12/2023 01:59:59 PM.16 rascil-logger INFO rascil.imager.cip: Starting compute of continuum imaging pipeline graph 
+08/12/2023 01:59:59 PM.65 rascil-logger INFO create_visibility_from_ms: Reading unique fields [0], unique data descriptions [0]
+08/12/2023 02:00:01 PM.960 rascil-logger INFO deconvolve_list_singlefacet_rsexecute_workflow: Starting clean
+08/12/2023 02:00:01 PM.962 func-python-logger INFO deconvolve_cube cip cycle 0: Cleaning entire image
+08/12/2023 02:00:01 PM.963 func-python-logger INFO hogbom_kernel_list cip cycle 0: Starting Hogbom clean of each polarisation and channel separately
+08/12/2023 02:00:01 PM.963 func-python-logger INFO hogbom_kernel_list cip cycle 0: Processing pol 0, channel 0
+08/12/2023 02:00:01 PM.965 func-python-logger INFO hogbom cip cycle 0 Max abs in dirty image = 2.117552 Jy/beam
+08/12/2023 02:00:01 PM.966 func-python-logger INFO hogbom cip cycle 0 Start of minor cycle
+08/12/2023 02:00:01 PM.966 func-python-logger INFO hogbom cip cycle 0 This minor cycle will stop at 1000 iterations or peak < 0.635266 (Jy/beam)
+08/12/2023 02:00:01 PM.967 func-python-logger INFO hogbom cip cycle 0: Timing for setup: 0.004 (s) for dirty shape (512, 512), PSF shape (512, 512)
+08/12/2023 02:00:01 PM.968 func-python-logger INFO hogbom cip cycle 0 Minor cycle 0, peak 2.117552100906054 at [254, 256]
+08/12/2023 02:00:02 PM.137 func-python-logger INFO hogbom cip cycle 0 Minor cycle 100, peak 0.6949376733224523 at [270, 253]
+08/12/2023 02:00:02 PM.288 func-python-logger INFO hogbom cip cycle 0 Stopped at iteration 194, peak 0.5699489903495725 at [254, 256]
+08/12/2023 02:00:02 PM.288 func-python-logger INFO hogbom cip cycle 0 End of minor cycle
+08/12/2023 02:00:02 PM.288 func-python-logger INFO cip cycle 0 Timing for clean: 0.321 (s) for dirty (512, 512), PSF (512, 512) , 195 iterations, time per clean 1.644 (ms)
+08/12/2023 02:00:02 PM.293 func-python-logger INFO deconvolve_cube cip cycle 0: Deconvolution finished
+08/12/2023 02:00:02 PM.848 distributed.worker WARNING Compute Failed
+Key:       skymodel_restore-6cbc6a37-19b1-4962-8191-dce50b08cf7c
+Function:  skymodel_restore
+args:      (<ska_sdp_datamodels.sky_model.sky_model.SkyModel object at 0x7fe842d34970>, <xarray.Image>
+Dimensions:       (frequency: 1, polarisation: 1, y: 512, x: 512)
+Coordinates:
+  * frequency     (frequency) float64 1e+09
+  * polarisation  (polarisation) <U1 'I'
+  * y             (y) float64 -0.5283 -0.5283 -0.5283 ... -0.5189 -0.5189
+  * x             (x) float64 0.9726 0.9727 0.9727 ... 0.9821 0.9821 0.9821
+Data variables:
+    pixels        (frequency, polarisation, y, x) float64 0.03381 ... 0.03896
+Attributes:
+    data_model:           Image
+    _polarisation_frame:  stokesI
+    _projection:          ('RA---SIN', 'DEC--SIN')
+    spectral_type:        FREQ
+    clean_beam:           None
+    refpixel:             [257. 257.   1.   1.]
+    channel_bandwidth:    1000000000.0
+    ra:                   0.9773843811168246
+    dec:                  -0.5235987755982988, {'bmaj': 0.002437433306488838, 'bmin': 0.0020428933444252163, 'bpa': -17.141568163995736})
+kwargs:    {}
+Exception: "ValueError('All bin edges are NaN.')"
+
+08/12/2023 02:00:02 PM.863 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:42181'. Reason: nanny-close
+08/12/2023 02:00:02 PM.863 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:39575'. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:43745'. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.worker INFO Stopping worker at tcp://127.0.0.1:46843. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:44187'. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:02 PM.864 distributed.worker INFO Stopping worker at tcp://127.0.0.1:35863. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:43945'. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.core INFO Connection to tcp://127.0.0.1:34233 has been closed.
+08/12/2023 02:00:02 PM.865 distributed.worker INFO Stopping worker at tcp://127.0.0.1:38399. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:33399'. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.worker INFO Stopping worker at tcp://127.0.0.1:41435. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.core INFO Connection to tcp://127.0.0.1:34233 has been closed.
+08/12/2023 02:00:02 PM.865 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:46423'. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:02 PM.865 distributed.worker INFO Stopping worker at tcp://127.0.0.1:33389. Reason: nanny-close
+08/12/2023 02:00:02 PM.866 distributed.core INFO Connection to tcp://127.0.0.1:34233 has been closed.
+08/12/2023 02:00:02 PM.866 distributed.worker INFO Stopping worker at tcp://127.0.0.1:34305. Reason: nanny-close
+08/12/2023 02:00:02 PM.866 distributed.core INFO Connection to tcp://127.0.0.1:34233 has been closed.
+08/12/2023 02:00:02 PM.866 distributed.worker INFO Stopping worker at tcp://127.0.0.1:40697. Reason: nanny-close
+08/12/2023 02:00:02 PM.866 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:36616; closing.
+08/12/2023 02:00:02 PM.866 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:36620; closing.
+08/12/2023 02:00:02 PM.866 distributed.core INFO Connection to tcp://127.0.0.1:34233 has been closed.
+08/12/2023 02:00:02 PM.867 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:46843', name: 0, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:02 PM.867 distributed.core INFO Removing comms to tcp://127.0.0.1:46843
+08/12/2023 02:00:02 PM.867 distributed.core INFO Connection to tcp://127.0.0.1:34233 has been closed.
+08/12/2023 02:00:02 PM.867 distributed.core INFO Connection to tcp://127.0.0.1:34233 has been closed.
+08/12/2023 02:00:02 PM.867 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:35863', name: 1, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:02 PM.867 distributed.core INFO Removing comms to tcp://127.0.0.1:35863
+08/12/2023 02:00:02 PM.867 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:36632; closing.
+08/12/2023 02:00:02 PM.867 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:36618; closing.
+08/12/2023 02:00:02 PM.867 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:41435', name: 3, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:02 PM.867 distributed.core INFO Removing comms to tcp://127.0.0.1:41435
+08/12/2023 02:00:02 PM.868 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:38399', name: 2, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:02 PM.868 distributed.core INFO Removing comms to tcp://127.0.0.1:38399
+08/12/2023 02:00:02 PM.868 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:36602; closing.
+08/12/2023 02:00:02 PM.868 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:36612; closing.
+08/12/2023 02:00:02 PM.868 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:33389', name: 4, status: closing, memory: 2, processing: 0>
+08/12/2023 02:00:02 PM.868 distributed.core INFO Removing comms to tcp://127.0.0.1:33389
+08/12/2023 02:00:02 PM.869 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:34305', name: 5, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:02 PM.869 distributed.core INFO Removing comms to tcp://127.0.0.1:34305
+08/12/2023 02:00:02 PM.869 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:36606; closing.
+08/12/2023 02:00:02 PM.869 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:34233 remote=tcp://127.0.0.1:36618>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 02:00:02 PM.870 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:34233 remote=tcp://127.0.0.1:36632>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 02:00:02 PM.870 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:40697', name: 6, status: closing, memory: 0, processing: 1>
+08/12/2023 02:00:02 PM.870 distributed.core INFO Removing comms to tcp://127.0.0.1:40697
+08/12/2023 02:00:02 PM.870 distributed.scheduler INFO Lost all workers
+08/12/2023 02:00:03 PM.181 distributed.scheduler INFO Scheduler closing...
+08/12/2023 02:00:03 PM.181 distributed.scheduler INFO Scheduler closing all comms
+08/12/2023 02:00:07 PM.876 rascil-logger INFO 
+RASCIL Continuum Imager
+
+08/12/2023 02:00:07 PM.876 rascil-logger INFO Started : 2023-12-08 14:00:07.876733
+08/12/2023 02:00:07 PM.876 rascil-logger INFO Writing log to /home/sunwang/radio-imaging/data/Meerkat_Galactic_center.log
+08/12/2023 02:00:07 PM.876 rascil-logger INFO Gettting client via get_dask_client
+08/12/2023 02:00:08 PM.17 distributed.http.proxy INFO To route to workers diagnostics web server please install jupyter-server-proxy: python -m pip install jupyter-server-proxy
+08/12/2023 02:00:08 PM.36 distributed.scheduler INFO State start
+08/12/2023 02:00:08 PM.38 distributed.scheduler INFO   Scheduler at:     tcp://127.0.0.1:34059
+08/12/2023 02:00:08 PM.38 distributed.scheduler INFO   dashboard at:  http://127.0.0.1:8787/status
+08/12/2023 02:00:08 PM.51 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:35615'
+08/12/2023 02:00:08 PM.52 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:33963'
+08/12/2023 02:00:08 PM.53 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:44535'
+08/12/2023 02:00:08 PM.55 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:37777'
+08/12/2023 02:00:08 PM.56 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:34177'
+08/12/2023 02:00:08 PM.57 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:39193'
+08/12/2023 02:00:08 PM.58 distributed.nanny INFO         Start Nanny at: 'tcp://127.0.0.1:42025'
+08/12/2023 02:00:09 PM.95 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:39777', name: 5, status: init, memory: 0, processing: 0>
+08/12/2023 02:00:09 PM.97 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:39777
+08/12/2023 02:00:09 PM.98 distributed.core INFO Starting established connection to tcp://127.0.0.1:57902
+08/12/2023 02:00:09 PM.98 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:38699', name: 0, status: init, memory: 0, processing: 0>
+08/12/2023 02:00:09 PM.98 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:38699
+08/12/2023 02:00:09 PM.98 distributed.core INFO Starting established connection to tcp://127.0.0.1:57916
+08/12/2023 02:00:09 PM.102 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:43983', name: 1, status: init, memory: 0, processing: 0>
+08/12/2023 02:00:09 PM.102 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:43983
+08/12/2023 02:00:09 PM.102 distributed.core INFO Starting established connection to tcp://127.0.0.1:57936
+08/12/2023 02:00:09 PM.102 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:46671', name: 3, status: init, memory: 0, processing: 0>
+08/12/2023 02:00:09 PM.102 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:46671
+08/12/2023 02:00:09 PM.102 distributed.core INFO Starting established connection to tcp://127.0.0.1:57930
+08/12/2023 02:00:09 PM.103 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:43373', name: 2, status: init, memory: 0, processing: 0>
+08/12/2023 02:00:09 PM.103 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:43373
+08/12/2023 02:00:09 PM.103 distributed.core INFO Starting established connection to tcp://127.0.0.1:57928
+08/12/2023 02:00:09 PM.103 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:39731', name: 6, status: init, memory: 0, processing: 0>
+08/12/2023 02:00:09 PM.103 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:39731
+08/12/2023 02:00:09 PM.103 distributed.core INFO Starting established connection to tcp://127.0.0.1:57922
+08/12/2023 02:00:09 PM.111 distributed.scheduler INFO Register worker <WorkerState 'tcp://127.0.0.1:32919', name: 4, status: init, memory: 0, processing: 0>
+08/12/2023 02:00:09 PM.111 distributed.scheduler INFO Starting worker compute stream, tcp://127.0.0.1:32919
+08/12/2023 02:00:09 PM.111 distributed.core INFO Starting established connection to tcp://127.0.0.1:57946
+08/12/2023 02:00:09 PM.133 distributed.scheduler INFO Receive client connection: Client-b68db0c3-95c9-11ee-9e21-c9d95e128ece
+08/12/2023 02:00:09 PM.134 distributed.core INFO Starting established connection to tcp://127.0.0.1:57956
+08/12/2023 02:00:09 PM.141 rascil-logger INFO Dask nanny: set mem_alloc_trim_=0
+08/12/2023 02:00:09 PM.141 rascil-logger INFO Dask timeouts: connect 30s tcp: 30s
+08/12/2023 02:00:09 PM.141 rascil-logger INFO Dask nanny environment {'MALLOC_TRIM_THRESHOLD_': 0}
+08/12/2023 02:00:09 PM.144 rascil-logger INFO {'calibrate_with_dp3': False,
+ 'calibration_B_first_selfcal': 4,
+ 'calibration_B_phase_only': 'False',
+ 'calibration_B_timeslice': None,
+ 'calibration_G_first_selfcal': 3,
+ 'calibration_G_phase_only': 'False',
+ 'calibration_G_timeslice': None,
+ 'calibration_T_first_selfcal': 1,
+ 'calibration_T_phase_only': 'True',
+ 'calibration_T_timeslice': None,
+ 'calibration_context': 'T',
+ 'calibration_global_solution': 'True',
+ 'calibration_reset_skymodel': 'True',
+ 'clean_algorithm': 'hogbom',
+ 'clean_beam': None,
+ 'clean_component_method': 'fit',
+ 'clean_component_threshold': None,
+ 'clean_facets': 1,
+ 'clean_fractional_threshold': 0.3,
+ 'clean_gain': 0.1,
+ 'clean_niter': 1000,
+ 'clean_nmajor': 1,
+ 'clean_nmoment': 4,
+ 'clean_overlap': 32,
+ 'clean_psf_support': 256,
+ 'clean_restore_facets': 1,
+ 'clean_restore_overlap': 32,
+ 'clean_restore_taper': 'tukey',
+ 'clean_restored_output': 'integrated',
+ 'clean_scales': [0],
+ 'clean_taper': 'tukey',
+ 'clean_threshold': 0.001,
+ 'clean_use_radler': 'False',
+ 'dask_connect_timeout': None,
+ 'dask_malloc_trim_threshold': 0,
+ 'dask_memory': None,
+ 'dask_memory_usage_file': None,
+ 'dask_nodes': None,
+ 'dask_nthreads': None,
+ 'dask_nworkers': None,
+ 'dask_scheduler': None,
+ 'dask_scheduler_file': None,
+ 'dask_tcp_timeout': None,
+ 'flagging_strategy_name': 'generic',
+ 'imaging_cellsize': 1.849451e-05,
+ 'imaging_context': 'ng',
+ 'imaging_dft_kernel': None,
+ 'imaging_dopsf': 'False',
+ 'imaging_flat_sky': False,
+ 'imaging_gaussian_taper': None,
+ 'imaging_nchan': 1,
+ 'imaging_ng_threads': 4,
+ 'imaging_npixel': 512,
+ 'imaging_phasecentre': None,
+ 'imaging_pol': 'stokesI',
+ 'imaging_rmax': None,
+ 'imaging_rmin': None,
+ 'imaging_robustness': 0.0,
+ 'imaging_uvmax': None,
+ 'imaging_uvmin': None,
+ 'imaging_w_stacking': True,
+ 'imaging_weighting': 'uniform',
+ 'ingest_average_vis': 'False',
+ 'ingest_chan_per_vis': 1,
+ 'ingest_dd': [0],
+ 'ingest_msname': '/home/sunwang/radio-imaging/data/Meerkat_Galactic_center.ms',
+ 'ingest_vis_nchan': 1,
+ 'input_dp3_skymodel': None,
+ 'input_skycomponent_file': None,
+ 'logfile': None,
+ 'mode': 'invert',
+ 'num_bright_sources': None,
+ 'perform_flagging': 'False',
+ 'performance_file': None,
+ 'use_dask': 'True',
+ 'use_initial_skymodel': False}
+08/12/2023 02:00:09 PM.144 rascil-logger INFO Current working directory is /home/sunwang/rascil_test
+08/12/2023 02:00:09 PM.144 rascil-logger INFO create_visibility_from_ms_rsexecute: Defining graph
+08/12/2023 02:00:09 PM.144 rascil-logger INFO create_visibility_from_ms_rsexecute: will load MS data descriptors [0] into 1 Visibility's of 1 channels
+08/12/2023 02:00:09 PM.145 rascil-logger INFO rascil.imager.perf_graph: Size of invert graph = 5707 B, time to construct 0.0002608299255371094 s
+08/12/2023 02:00:09 PM.145 rascil-logger INFO rascil.imager.invert: Starting compute of invert graph 
+08/12/2023 02:00:09 PM.192 rascil-logger INFO create_visibility_from_ms: Reading unique fields [0], unique data descriptions [0]
+08/12/2023 02:00:12 PM.35 rascil-logger INFO rascil.imager.invert: Finished compute of invert graph
+08/12/2023 02:00:12 PM.42 rascil-logger INFO Quality assessment:
+	Origin: qa_image
+	Context: Dirty
+	Data:
+		shape: (1, 1, 512, 512)
+		size: 2105356
+		max: 2.1175521009060536
+		min: -0.06100496175070184
+		maxabs: 2.1175521009060536
+		rms: 0.06966262267430509
+		sum: 5036.684491692151
+		medianabs: 0.018031905263273605
+		medianabsdevmedian: 0.016676971331271995
+		median: 0.008408130161388978
+
+08/12/2023 02:00:12 PM.138 rascil-logger INFO Processor time used in each function
+08/12/2023 02:00:12 PM.139 rascil-logger INFO 
+Function                         Time (s)    Percent    Number calls
+-----------------------------  ----------  ---------  --------------
+create_visibility_from_ms           1.984     70.341               1
+getitem                             0          0                   1
+select                              0.009      0.31                1
+convert_visibility_to_stokesI       0          0.001               1
+create_image_from_visibility        0.005      0.181               1
+imaging_grid_weights                0.501     17.754               1
+griddata_merge_weights              0.002      0.065               1
+imaging_re_weight                   0.036      1.27                1
+invert_visibility                   0.283     10.045               1
+sum_invert_results                  0.001      0.033               1
+08/12/2023 02:00:12 PM.139 rascil-logger INFO Total processor time 2.821 (s), total wallclock time 3.000 (s), speedup 0.94
+08/12/2023 02:00:12 PM.143 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:35615'. Reason: nanny-close
+08/12/2023 02:00:12 PM.143 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:12 PM.144 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:33963'. Reason: nanny-close
+08/12/2023 02:00:12 PM.144 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:12 PM.144 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:44535'. Reason: nanny-close
+08/12/2023 02:00:12 PM.144 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:12 PM.144 distributed.worker INFO Stopping worker at tcp://127.0.0.1:38699. Reason: nanny-close
+08/12/2023 02:00:12 PM.144 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:37777'. Reason: nanny-close
+08/12/2023 02:00:12 PM.144 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.worker INFO Stopping worker at tcp://127.0.0.1:43983. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:34177'. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:39193'. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.worker INFO Stopping worker at tcp://127.0.0.1:43373. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.worker INFO Stopping worker at tcp://127.0.0.1:46671. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.core INFO Connection to tcp://127.0.0.1:34059 has been closed.
+08/12/2023 02:00:12 PM.145 distributed.worker INFO Stopping worker at tcp://127.0.0.1:32919. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.nanny INFO Closing Nanny at 'tcp://127.0.0.1:42025'. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.nanny INFO Nanny asking worker to close. Reason: nanny-close
+08/12/2023 02:00:12 PM.145 distributed.core INFO Connection to tcp://127.0.0.1:34059 has been closed.
+08/12/2023 02:00:12 PM.145 distributed.core INFO Connection to tcp://127.0.0.1:34059 has been closed.
+08/12/2023 02:00:12 PM.146 distributed.worker INFO Stopping worker at tcp://127.0.0.1:39777. Reason: nanny-close
+08/12/2023 02:00:12 PM.146 distributed.core INFO Connection to tcp://127.0.0.1:34059 has been closed.
+08/12/2023 02:00:12 PM.146 distributed.core INFO Connection to tcp://127.0.0.1:34059 has been closed.
+08/12/2023 02:00:12 PM.146 distributed.worker INFO Stopping worker at tcp://127.0.0.1:39731. Reason: nanny-close
+08/12/2023 02:00:12 PM.146 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:57916; closing.
+08/12/2023 02:00:12 PM.146 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:57936; closing.
+08/12/2023 02:00:12 PM.146 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:57930; closing.
+08/12/2023 02:00:12 PM.146 distributed.core INFO Connection to tcp://127.0.0.1:34059 has been closed.
+08/12/2023 02:00:12 PM.147 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:38699', name: 0, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:12 PM.147 distributed.core INFO Removing comms to tcp://127.0.0.1:38699
+08/12/2023 02:00:12 PM.147 distributed.core INFO Connection to tcp://127.0.0.1:34059 has been closed.
+08/12/2023 02:00:12 PM.147 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:43983', name: 1, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:12 PM.147 distributed.core INFO Removing comms to tcp://127.0.0.1:43983
+08/12/2023 02:00:12 PM.147 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:46671', name: 3, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:12 PM.147 distributed.core INFO Removing comms to tcp://127.0.0.1:46671
+08/12/2023 02:00:12 PM.147 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:57946; closing.
+08/12/2023 02:00:12 PM.147 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:57928; closing.
+08/12/2023 02:00:12 PM.148 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:32919', name: 4, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:12 PM.148 distributed.core INFO Removing comms to tcp://127.0.0.1:32919
+08/12/2023 02:00:12 PM.148 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:43373', name: 2, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:12 PM.148 distributed.core INFO Removing comms to tcp://127.0.0.1:43373
+08/12/2023 02:00:12 PM.148 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:57902; closing.
+08/12/2023 02:00:12 PM.148 distributed.core INFO Received 'close-stream' from tcp://127.0.0.1:57922; closing.
+08/12/2023 02:00:12 PM.149 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:39777', name: 5, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:12 PM.149 distributed.core INFO Removing comms to tcp://127.0.0.1:39777
+08/12/2023 02:00:12 PM.149 distributed.scheduler INFO Remove worker <WorkerState 'tcp://127.0.0.1:39731', name: 6, status: closing, memory: 0, processing: 0>
+08/12/2023 02:00:12 PM.149 distributed.core INFO Removing comms to tcp://127.0.0.1:39731
+08/12/2023 02:00:12 PM.149 distributed.scheduler INFO Lost all workers
+08/12/2023 02:00:12 PM.149 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:34059 remote=tcp://127.0.0.1:57946>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 02:00:12 PM.149 distributed.batched INFO Batched Comm Closed <TCP (closed) Scheduler connection to worker local=tcp://127.0.0.1:34059 remote=tcp://127.0.0.1:57928>
+Traceback (most recent call last):
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/batched.py", line 115, in _background_send
+    nbytes = yield coro
+  File "/home/sunwang/.local/lib/python3.10/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/sunwang/.local/lib/python3.10/site-packages/distributed/comm/tcp.py", line 269, in write
+    raise CommClosedError()
+distributed.comm.core.CommClosedError
+08/12/2023 02:00:12 PM.447 distributed.scheduler INFO Scheduler closing...
+08/12/2023 02:00:12 PM.447 distributed.scheduler INFO Scheduler closing all comms
+08/12/2023 02:00:12 PM.549 rascil-logger INFO Resulting image(s) /home/sunwang/radio-imaging/data/Meerkat_Galactic_center_invert_dirty.fits
+08/12/2023 02:00:12 PM.549 rascil-logger INFO Started  : 2023-12-08 14:00:07.876733
+08/12/2023 02:00:12 PM.549 rascil-logger INFO Finished : 2023-12-08 14:00:12.549593

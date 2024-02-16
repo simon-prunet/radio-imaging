@@ -1,0 +1,488 @@
+2023-11-14 13:19:37	INFO	::casa	
+2023-11-14 13:19:37	INFO	::casa	
+2023-11-14 13:19:37	INFO	::casa	
+2023-11-14 13:19:37	INFO	::casa	
+2023-11-14 13:19:37	INFO	::casa	Python version 3.8.10
+2023-11-14 13:19:37	INFO	::casa	CASA Version CASALITH 6.6.0.20
+2023-11-14 13:19:37	INFO	::casa	
+2023-11-14 13:19:37	INFO	::casa	optional configuration file config.py not found, continuing CASA startup without it
+2023-11-14 13:19:37	INFO	::casa	
+2023-11-14 13:19:37	INFO	::casa	Checking Measures tables in data repository sub-directory /usr/local/bin/CASA/casa-6.6.0-20-py3.8.el7/lib/py/lib/python3.8/site-packages/casadata/__data__/geodetic
+2023-11-14 13:19:37	INFO	::casa	  IERSeop2000 (version date, last date in table (UTC)): 2023/09/01/15:00, 2023/08/02/00:00:00
+2023-11-14 13:19:37	INFO	::casa	  IERSeop97 (version date, last date in table (UTC)): 2023/09/01/15:00, 2023/08/02/00:00:00
+2023-11-14 13:19:37	INFO	::casa	  IERSpredict (version date, last date in table (UTC)): 2023/09/24/15:00, 2023/12/23/00:00:00
+2023-11-14 13:19:37	INFO	::casa	  TAI_UTC (version date, last date in table (UTC)): 2023/09/11/15:00, 2017/01/01/00:00:00
+2023-11-14 13:19:46	INFO	plotms::::casa	##########################################
+2023-11-14 13:19:46	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 13:19:46	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms/', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='', xdatacolumn='', xframe='', xinterp='', yaxis='', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='RR,LL', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='64', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='field', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-11-14 13:19:47	INFO	plotms::::casa	casaplotms started: 0.0.0.0:38929
+2023-11-14 13:19:47	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-11-14 13:19:47	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-11-14 13:19:47	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, DISPLAY.
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	START     Current memory usage: 15088.1 kilobytes.
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	  Selection: corr: RR,LL
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:19:47	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:19:47	INFO	PlotMS::load_cache+	 Channel: 64 channels
+2023-11-14 13:19:47	INFO	plotms::::casa	Task plotms complete. Start time: 2023-11-14 14:19:46.002121 End time: 2023-11-14 14:19:46.674096
+2023-11-14 13:19:47	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-11-14 13:19:47	INFO	plotms::::casa	##########################################
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:19:47	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:19:47	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:19:47	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:23:11	INFO	plotms::::casa	##########################################
+2023-11-14 13:23:11	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 13:23:11	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='u', xdatacolumn='', xframe='', xinterp='', yaxis='y', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='RR,LL', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='0', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-11-14 13:23:11	SEVERE	plotms::::casa	Exception Reported: Error in plotms: invalid yaxis value 'y'
+2023-11-14 13:23:11	INFO	plotms::::casa	Traceback (most recent call last):
+2023-11-14 13:23:11	INFO	plotms::::casa+	  File "/usr/local/bin/CASA/casa-6.6.0-20-py3.8.el7/lib/py/lib/python3.8/site-packages/casaplotms/gotasks/plotms.py", line 3085, in __call__
+2023-11-14 13:23:11	INFO	plotms::::casa+	    task_result = _plotms_t( _pc.document['vis'],_pc.document['gridrows'],_pc.document['gridcols'],_pc.document['rowindex'],_pc.document['colindex'],_pc.document['plotindex'],_pc.document['xaxis'],_pc.document['xdatacolumn'],_pc.document['xframe'],_pc.document['xinterp'],_pc.document['yaxis'],_pc.document['ydatacolumn'],_pc.document['yframe'],_pc.document['yinterp'],_pc.document['yaxislocation'],_pc.document['selectdata'],_pc.document['field'],_pc.document['spw'],_pc.document['timerange'],_pc.document['uvrange'],_pc.document['antenna'],_pc.document['scan'],_pc.document['correlation'],_pc.document['array'],_pc.document['observation'],_pc.document['intent'],_pc.document['feed'],_pc.document['msselect'],_pc.document['averagedata'],_pc.document['avgchannel'],_pc.document['avgtime'],_pc.document['avgscan'],_pc.document['avgfield'],_pc.document['avgbaseline'],_pc.document['avgantenna'],_pc.document['avgspw'],_pc.document['scalar'],_pc.document['transform'],_pc.document['freqframe'],_pc.document['restfreq'],_pc.document['veldef'],_pc.document['phasecenter'],_pc.document['extendflag'],_pc.document['extcorr'],_pc.document['extchannel'],_pc.document['iteraxis'],_pc.document['xselfscale'],_pc.document['yselfscale'],_pc.document['xsharedaxis'],_pc.document['ysharedaxis'],_pc.document['customsymbol'],_pc.document['symbolshape'],_pc.document['symbolsize'],_pc.document['symbolcolor'],_pc.document['symbolfill'],_pc.document['symboloutline'],_pc.document['coloraxis'],_pc.document['customflaggedsymbol'],_pc.document['flaggedsymbolshape'],_pc.document['flaggedsymbolsize'],_pc.document['flaggedsymbolcolor'],_pc.document['flaggedsymbolfill'],_pc.document['flaggedsymboloutline'],_pc.document['xconnector'],_pc.document['timeconnector'],_pc.document['plotrange'],_pc.document['title'],_pc.document['titlefont'],_pc.document['xlabel'],_pc.document['xaxisfont'],_pc.document['ylabel'],_pc.document['yaxisfont'],_pc.document['showmajorgrid'],_pc.document['majorwidth'],_pc.document['majorstyle'],_pc.document['majorcolor'],_pc.document['showminorgrid'],_pc.document['minorwidth'],_pc.document['minorstyle'],_pc.document['minorcolor'],_pc.document['showlegend'],_pc.document['legendposition'],_pc.document['plotfile'],_pc.document['expformat'],_pc.document['verbose'],_pc.document['exprange'],_pc.document['highres'],_pc.document['dpi'],_pc.document['width'],_pc.document['height'],_pc.document['overwrite'],_pc.document['showgui'],_pc.document['clearplots'],_pc.document['callib'],_pc.document['headeritems'],_pc.document['showatm'],_pc.document['showtsky'],_pc.document['showimage'],_pc.document['colorizeoverlay'] )
+2023-11-14 13:23:11	INFO	plotms::::casa+	  File "/usr/local/bin/CASA/casa-6.6.0-20-py3.8.el7/lib/py/lib/python3.8/site-packages/casaplotms/private/task_plotms.py", line 376, in plotms
+2023-11-14 13:23:11	INFO	plotms::::casa+	    checkVariantString('yaxis', yaxis, valid_axes)
+2023-11-14 13:23:11	INFO	plotms::::casa+	  File "/usr/local/bin/CASA/casa-6.6.0-20-py3.8.el7/lib/py/lib/python3.8/site-packages/casaplotms/private/task_plotms.py", line 909, in checkVariantString
+2023-11-14 13:23:11	INFO	plotms::::casa+	    raise ValueError("invalid " + name + " value '" + param + "'")
+2023-11-14 13:23:11	INFO	plotms::::casa+	ValueError: invalid yaxis value 'y'
+2023-11-14 13:23:11	INFO	plotms::::casa	Task plotms complete. Start time: 2023-11-14 14:23:10.521481 End time: 2023-11-14 14:23:10.522838
+2023-11-14 13:23:11	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-11-14 13:23:11	INFO	plotms::::casa	##########################################
+2023-11-14 13:23:19	INFO	plotms::::casa	##########################################
+2023-11-14 13:23:19	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 13:23:19	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='u', xdatacolumn='', xframe='', xinterp='', yaxis='v', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='RR,LL', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='0', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-11-14 13:23:19	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-11-14 13:23:19	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE.
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	START     Current memory usage: 13222.5 kilobytes.
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	  Selection: corr: RR,LL
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:23:19	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:23:19	INFO	PlotMS::load_cache+	 Channel: None.
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 13:23:19	INFO	plotms::::casa	Task plotms complete. Start time: 2023-11-14 14:23:19.291498 End time: 2023-11-14 14:23:19.329688
+2023-11-14 13:23:19	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-11-14 13:23:19	INFO	plotms::::casa	##########################################
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:23:19	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:23:19	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:23:19	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:23:37	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	START     Current memory usage: 15563.8 kilobytes.
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	  Selection: corr: RR,LL
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:23:37	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:23:37	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:23:37	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:23:37	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:23:37	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:25:02	INFO	plotms::::casa	##########################################
+2023-11-14 13:25:02	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 13:25:02	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='time', xdatacolumn='', xframe='', xinterp='', yaxis='amp', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='0:4~60', timerange='', uvrange='', antenna='', scan='', correlation='RR,LL', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='64', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='field', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-11-14 13:25:02	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-11-14 13:25:02	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, DISPLAY.
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	START     Current memory usage: 19913.5 kilobytes.
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	  Selection: spw: 0:4~60, corr: RR,LL
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:25:02	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:25:02	INFO	PlotMS::load_cache+	 Channel: 64 channels
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:25:02	INFO	plotms::::casa	Task plotms complete. Start time: 2023-11-14 14:25:01.907038 End time: 2023-11-14 14:25:01.929038
+2023-11-14 13:25:02	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-11-14 13:25:02	INFO	plotms::::casa	##########################################
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:25:02	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:25:02	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:25:02	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:25:57	INFO	plotms::::casa	##########################################
+2023-11-14 13:25:57	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 13:25:57	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='time', xdatacolumn='', xframe='', xinterp='', yaxis='amp', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='0', timerange='', uvrange='', antenna='', scan='', correlation='RR,LL', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='1', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='field', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-11-14 13:25:57	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-11-14 13:25:57	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, DISPLAY.
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	START     Current memory usage: 21272.9 kilobytes.
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	  Selection: spw: 0, corr: RR,LL
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:25:57	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:25:57	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:25:57	INFO	plotms::::casa	Task plotms complete. Start time: 2023-11-14 14:25:57.239223 End time: 2023-11-14 14:25:57.262450
+2023-11-14 13:25:57	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-11-14 13:25:57	INFO	plotms::::casa	##########################################
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:25:57	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:25:57	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:25:57	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:28	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	START     Current memory usage: 17531.1 kilobytes.
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	  Selection: spw: 0, corr: RR,LL
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:26:28	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:26:28	INFO	PlotMS::load_cache+	 Channel: 12 channels
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:28	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:28	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:28	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:42	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	START     Current memory usage: 17644.8 kilobytes.
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	  Selection: spw: 0, corr: RR,LL
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:26:42	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:26:42	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:42	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:42	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:42	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:50	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	START     Current memory usage: 17739.9 kilobytes.
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	  Selection: spw: 0, corr: RR,LL
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:26:50	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:26:50	INFO	PlotMS::load_cache+	 Channel: None.
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:50	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:50	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:50	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:53	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	START     Current memory usage: 17835.7 kilobytes.
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	  Selection: spw: 0, corr: RR,LL
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:26:53	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:26:53	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:53	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:26:53	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:26:53	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:27:02	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	START     Current memory usage: 17931.7 kilobytes.
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	  Selection: corr: RR,LL
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:27:02	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:27:02	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:27:02	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	WARNING: Error during cache loading: Poln. expression error: No match for polarization ID(s) (named RR,LL)
+2023-11-14 13:27:02	INFO	PlotMS::load_cache+	(near char. 0 in string "RR,LL")
+2023-11-14 13:27:02	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:27:06	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:27:06	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:27:06	INFO	PlotMS::load_cache	START     Current memory usage: 18028.1 kilobytes.
+2023-11-14 13:27:06	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:27:06	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:27:06	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:27:06	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:27:06	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2023-11-14 13:27:06	INFO	PlotMS::load_cache	Loading page header cache
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	Data selection will yield a total of 183337 plottable points (flagged and unflagged).
+2023-11-14 13:27:07	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00330535 GB of memory (18.0288 bytes/point).
+2023-11-14 13:27:07	INFO	PlotMS::load_cache+	This is 0.0101601% of the memory avail. to CASA (32.5325 GB).
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	Loading chunks......
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	SPW 0: number of channels averaged = 1
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 13:27:07	INFO	PlotMS::load_cache+	Time: 4.45347e+09 to 4.45348e+09 (unflagged); (no flagged data)
+2023-11-14 13:27:07	INFO	PlotMS::load_cache+	Amp:data: 0.0181645 to 1162.35 (unflagged); (no flagged data)
+2023-11-14 13:27:07	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 13:27:06	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +5473.97 kilobytes.
+2023-11-14 13:27:07	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 13:27:25	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2023-11-14 13:27:25	INFO	PlotMS::load_cache	START     Current memory usage: 29919.6 kilobytes.
+2023-11-14 13:27:25	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:27:25	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:27:25	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:27:25	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:27:25	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 13:27:25	INFO	PlotMS::load_cache	Loading page header cache
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	Data selection will yield a total of 183337 plottable points (flagged and unflagged).
+2023-11-14 13:27:26	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00623874 GB of memory (34.0288 bytes/point).
+2023-11-14 13:27:26	INFO	PlotMS::load_cache+	This is 0.019177% of the memory avail. to CASA (32.5325 GB).
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	Loading chunks......
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	SPW 0: number of channels averaged = 1
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 13:27:26	INFO	PlotMS::load_cache+	U: -2227.48 to 2248.27 (unflagged); (no flagged data)
+2023-11-14 13:27:26	INFO	PlotMS::load_cache+	V: -2115.27 to 2238.28 (unflagged); (no flagged data)
+2023-11-14 13:27:26	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 13:27:26	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 13:27:26	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 13:27:26	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 13:27:25	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +3021.02 kilobytes.
+2023-11-14 13:27:26	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 13:28:26	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:28:26	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:28:26	INFO	PlotMS::load_cache	START     Current memory usage: 24680.8 kilobytes.
+2023-11-14 13:28:26	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_long_baselines.ms
+2023-11-14 13:28:26	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:28:26	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:28:26	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:28:26	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 13:28:26	INFO	PlotMS::load_cache	Loading page header cache
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	Data selection will yield a total of 76909 plottable points (flagged and unflagged).
+2023-11-14 13:28:27	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00231255 GB of memory (30.0687 bytes/point).
+2023-11-14 13:28:27	INFO	PlotMS::load_cache+	This is 0.00710844% of the memory avail. to CASA (32.5325 GB).
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	Loading chunks......
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	SPW 0: number of channels averaged = 1
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 13:28:27	INFO	PlotMS::load_cache+	U: -7294.41 to 7228.19 (unflagged); (no flagged data)
+2023-11-14 13:28:27	INFO	PlotMS::load_cache+	V: -4617.45 to 6070.87 (unflagged); (no flagged data)
+2023-11-14 13:28:27	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 13:28:27	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 13:28:27	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 13:28:27	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 13:28:26	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +3437.61 kilobytes.
+2023-11-14 13:28:27	INFO	PlotMS::plot	Plotting 76909 unflagged points.
+2023-11-14 13:28:47	INFO	PlotMS::params_changed	Updating: REDRAW, AXES.
+2023-11-14 13:28:47	INFO	PlotMS::plot	Plotting 76909 unflagged points.
+2023-11-14 13:31:12	INFO	QPExporter::export	START     Current memory usage: 33155.3 kilobytes.
+2023-11-14 13:31:12	INFO	QPExporter::export	END       Time: +0 seconds.  Memory: +14.3906 kilobytes.
+2023-11-14 13:31:12	INFO	PlotMS::plot	Exported /home/sunwang/radio-imaging/figures/high_uv_coverage.png
+2023-11-14 13:31:12	INFO	PlotMS::export	Successfully exported plot to /home/sunwang/radio-imaging/figures/high_uv_coverage.png!
+2023-11-14 13:31:43	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:31:43	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:31:43	INFO	PlotMS::load_cache	START     Current memory usage: 32682.2 kilobytes.
+2023-11-14 13:31:43	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:31:43	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:31:43	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:31:43	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:31:43	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 13:31:43	INFO	PlotMS::load_cache	Loading page header cache
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	Data selection will yield a total of 183337 plottable points (flagged and unflagged).
+2023-11-14 13:31:44	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00550539 GB of memory (30.0288 bytes/point).
+2023-11-14 13:31:44	INFO	PlotMS::load_cache+	This is 0.0169228% of the memory avail. to CASA (32.5325 GB).
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	Loading chunks......
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	SPW 0: number of channels averaged = 1
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 13:31:44	INFO	PlotMS::load_cache+	U: -2227.48 to 2248.27 (unflagged); (no flagged data)
+2023-11-14 13:31:44	INFO	PlotMS::load_cache+	V: -2115.27 to 2238.28 (unflagged); (no flagged data)
+2023-11-14 13:31:44	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 13:31:44	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 13:31:44	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 13:31:44	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 13:31:43	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +8631.48 kilobytes.
+2023-11-14 13:31:44	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 13:32:02	INFO	QPExporter::export	START     Current memory usage: 41801.8 kilobytes.
+2023-11-14 13:32:02	INFO	QPExporter::export	END       Time: +0 seconds.  Memory: -1.73438 kilobytes.
+2023-11-14 13:32:03	INFO	PlotMS::plot	Exported /home/sunwang/radio-imaging/figures/low_uv_coverage.png
+2023-11-14 13:32:03	INFO	PlotMS::export	Successfully exported plot to /home/sunwang/radio-imaging/figures/low_uv_coverage.png!
+2023-11-14 13:32:23	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	START     Current memory usage: 34402.4 kilobytes.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center.ms
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:32:23	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Loading page header cache
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Data selection will yield a total of 249600 plottable points (flagged and unflagged).
+2023-11-14 13:32:23	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00749328 GB of memory (30.0212 bytes/point).
+2023-11-14 13:32:23	INFO	PlotMS::load_cache+	This is 0.0230332% of the memory avail. to CASA (32.5325 GB).
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Loading chunks......
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	SPW 0: number of channels averaged = 1
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 13:32:23	INFO	PlotMS::load_cache+	U: -7294.41 to 7228.19 (unflagged); (no flagged data)
+2023-11-14 13:32:23	INFO	PlotMS::load_cache+	V: -4617.45 to 6070.87 (unflagged); (no flagged data)
+2023-11-14 13:32:23	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 13:32:23	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 13:32:23	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 13:32:23	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +9849.09 kilobytes.
+2023-11-14 13:32:23	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2023-11-14 13:33:14	INFO	QPExporter::export	START     Current memory usage: 46943.8 kilobytes.
+2023-11-14 13:33:14	INFO	QPExporter::export	END       Time: +1 seconds.  Memory: -4.07812 kilobytes.
+2023-11-14 13:33:14	INFO	PlotMS::plot	Exported /home/sunwang/radio-imaging/figures/full_uv_coverage.png
+2023-11-14 13:33:14	INFO	PlotMS::export	Successfully exported plot to /home/sunwang/radio-imaging/figures/full_uv_coverage.png!
+2023-11-14 13:33:34	INFO	QPExporter::export	START     Current memory usage: 46928.9 kilobytes.
+2023-11-14 13:33:34	INFO	QPExporter::export	END       Time: +1 seconds.  Memory: +0.703125 kilobytes.
+2023-11-14 13:33:34	INFO	PlotMS::plot	Exported /home/sunwang/radio-imaging/figures/full_uv_coverage.png
+2023-11-14 13:33:34	INFO	PlotMS::export	Successfully exported plot to /home/sunwang/radio-imaging/figures/full_uv_coverage.png!
+2023-11-14 13:38:55	INFO	plotms::::casa	##########################################
+2023-11-14 13:38:55	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 13:38:55	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='u', xdatacolumn='', xframe='', xinterp='', yaxis='v', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='1', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='field', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-11-14 13:38:55	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-11-14 13:38:55	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, DISPLAY.
+2023-11-14 13:38:55	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 13:38:55	INFO	PlotMS::load_cache	START     Current memory usage: 19109.2 kilobytes.
+2023-11-14 13:38:55	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 13:38:55	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 13:38:55	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 13:38:55	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 13:38:55	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 13:38:55	INFO	plotms::::casa	Task plotms complete. Start time: 2023-11-14 14:38:55.279818 End time: 2023-11-14 14:38:55.311160
+2023-11-14 13:38:55	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-11-14 13:38:55	INFO	plotms::::casa	##########################################
+2023-11-14 13:38:55	INFO	PlotMS::load_cache	Loading page header cache
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	Data selection will yield a total of 183337 plottable points (flagged and unflagged).
+2023-11-14 13:38:56	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00550539 GB of memory (30.0288 bytes/point).
+2023-11-14 13:38:56	INFO	PlotMS::load_cache+	This is 0.0169228% of the memory avail. to CASA (32.5325 GB).
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	Loading chunks......
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	SPW 0: number of channels averaged = 1
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 13:38:56	INFO	PlotMS::load_cache+	U: -2227.48 to 2248.27 (unflagged); (no flagged data)
+2023-11-14 13:38:56	INFO	PlotMS::load_cache+	V: -2115.27 to 2238.28 (unflagged); (no flagged data)
+2023-11-14 13:38:56	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 13:38:56	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 13:38:56	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 13:38:56	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 13:38:55	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +15184.2 kilobytes.
+2023-11-14 13:38:56	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 13:40:28	INFO	PlotMS::params_changed	Updating: REDRAW, AXES.
+2023-11-14 13:40:28	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 13:55:09	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2023-11-14 13:55:09	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 13:55:22	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2023-11-14 13:55:22	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 14:50:44	INFO	plotms::::casa	##########################################
+2023-11-14 14:50:44	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2023-11-14 14:50:44	INFO	plotms::::casa	plotms( vis='Meerkat_Galactic_center_small_baselines.ms', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='u', xdatacolumn='', xframe='', xinterp='', yaxis='v', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='1', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='field', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2023-11-14 14:50:44	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2023-11-14 14:50:44	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, DISPLAY.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	START     Current memory usage: 19524.3 kilobytes.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 14:50:44	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 14:50:44	INFO	plotms::::casa	Task plotms complete. Start time: 2023-11-14 15:50:43.586056 End time: 2023-11-14 15:50:43.612520
+2023-11-14 14:50:44	INFO	plotms::::casa	##### End Task: plotms               #####
+2023-11-14 14:50:44	INFO	plotms::::casa	##########################################
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Loading page header cache
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Data selection will yield a total of 183337 plottable points (flagged and unflagged).
+2023-11-14 14:50:44	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00550539 GB of memory (30.0288 bytes/point).
+2023-11-14 14:50:44	INFO	PlotMS::load_cache+	This is 0.0169228% of the memory avail. to CASA (32.5325 GB).
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Loading chunks......
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	SPW 0: number of channels averaged = 1
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 14:50:44	INFO	PlotMS::load_cache+	U: -2227.48 to 2248.27 (unflagged); (no flagged data)
+2023-11-14 14:50:44	INFO	PlotMS::load_cache+	V: -2115.27 to 2238.28 (unflagged); (no flagged data)
+2023-11-14 14:50:44	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 14:50:44	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 14:50:44	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 14:50:44	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +14323.2 kilobytes.
+2023-11-14 14:50:44	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 14:51:09	INFO	PlotMS::params_changed	Updating: REDRAW, AXES.
+2023-11-14 14:51:09	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 14:52:01	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	START     Current memory usage: 38437.2 kilobytes.
+2023-11-14 14:52:01	INFO	PlotMS::PlotMS Warning	WARNING: Overlays are valid only when xaxis is Channel or Frequency
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 14:52:01	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 14:52:01	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 14:52:01	INFO	PlotMS::load_cache+	U: -2227.48 to 2248.27 (unflagged); (no flagged data)
+2023-11-14 14:52:01	INFO	PlotMS::load_cache+	V: -2115.27 to 2238.28 (unflagged); (no flagged data)
+2023-11-14 14:52:01	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 14:52:01	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 14:52:01	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 14:52:01	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +165.328 kilobytes.
+2023-11-14 14:52:01	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 14:52:04	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	START     Current memory usage: 38779.1 kilobytes.
+2023-11-14 14:52:04	INFO	PlotMS::PlotMS Warning	WARNING: Overlays are valid only when xaxis is Channel or Frequency
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Plotting table Meerkat_Galactic_center_small_baselines.ms
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Data Averaging: 
+2023-11-14 14:52:04	INFO	PlotMS::load_cache+	 Using VECTOR averaging.
+2023-11-14 14:52:04	INFO	PlotMS::load_cache+	 Channel: 1 (fraction of spw)
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Caching for the new plot: V(31) vs. U(30)...
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Generating the plot mask.
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Finished loading.
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Axes ranges:
+2023-11-14 14:52:04	INFO	PlotMS::load_cache+	U: -2227.48 to 2248.27 (unflagged); (no flagged data)
+2023-11-14 14:52:04	INFO	PlotMS::load_cache+	V: -2115.27 to 2238.28 (unflagged); (no flagged data)
+2023-11-14 14:52:04	WARN	PlotMS::load_cache	For a UV plot, plotms will plot the conjugates of the points in the MS.
+2023-11-14 14:52:04	WARN	PlotMS::load_cache+	However, the Locate and Flag functions will not work for these conjugate points!
+2023-11-14 14:52:04	WARN	PlotMS::load_cache+	The global ranges above do not include the conjugates.
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	Finished indexing.
+2023-11-14 14:52:04	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +1.98438 kilobytes.
+2023-11-14 14:52:04	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 14:52:15	INFO	PlotMS::params_changed	Updating: REDRAW, AXES.
+2023-11-14 14:52:15	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 14:52:20	INFO	PlotMS::params_changed	Updating: REDRAW, AXES.
+2023-11-14 14:52:20	INFO	PlotMS::plot	Plotting 183337 unflagged points.
+2023-11-14 14:52:59	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2023-11-14 14:52:59	INFO	PlotMS::plot	Plotting  points.
+2023-11-14 14:53:03	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2023-11-14 14:53:03	INFO	PlotMS::plot	Plotting 0 flagged points.
+2023-11-14 14:53:07	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2023-11-14 14:53:07	INFO	PlotMS::plot	Plotting 183337 unflagged, 0 flagged points.
+2023-11-14 14:53:09	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2023-11-14 14:53:09	INFO	PlotMS::plot	Plotting 183337 unflagged points.
