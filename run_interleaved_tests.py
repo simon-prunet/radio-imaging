@@ -20,18 +20,18 @@ for i, dataset in enumerate(actual_names):
             "--mstep_output_intermediate True --mstep_mode multi-step --mstep_lambda 0.05 " + \
             "--mstep_lambda_mul 2 --mstep_wavelet daubechies --mstep_cut_center " + str(cut) + " --mstep_cut_hw " + str(hw)
 
-            low_path = "/sunwang/radio-imaging/results/cut_results/" + dataset + "/" + str(cut) + "/" + str(hw) + "hw/low/"
-            multistep_path = "/sunwang/radio-imaging/results/cut_results/" + dataset + "/" + str(cut) + "/" + str(hw) + "hw/high/"
+            low_path = "/sunwang/radio-imaging/results/interleaved_results/" + dataset + "/" + str(cut) + "/" + str(hw) + "hw/low/"
+            multistep_path = "/sunwang/radio-imaging/results/interleaved_results/" + dataset + "/" + str(cut) + "/" + str(hw) + "hw/high/"
 
             print("RUNNING: " + low_command)
             os.system(low_command)
             os.system("rm -r " + low_path)
-            os.system("mkdir " + low_path)
+            os.makedirs(low_path, exist_ok=True)
             os.system("cp *.fits " + low_path)
             print("RUNNING: " + multistep_command)
             os.system(multistep_command)
             os.system("rm -r " + multistep_path)
-            os.system("mkdir " + multistep_path)
+            os.makedirs(multistep_path, exist_ok=True)
             os.system("cp *.fits " + multistep_path)
 
             os.system("rm *.fits")
