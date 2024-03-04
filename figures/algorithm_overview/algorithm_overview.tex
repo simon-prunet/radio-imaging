@@ -15,35 +15,41 @@
 \begin{document}
 
 \begin{tikzpicture}
-\node (low_mc1_dg) at (0,0) [draw, thick, minimum size=1cm] {D/G};
-\node (low_mc1_deconv) at (low_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {Deconv Low};
+\node (low_mc1_dg) at (0,0) [draw, thick, minimum size=1cm] {$\mathrm{D/G}$};
+\node (low_mc1_deconv) at (low_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{L}$};
 \node (low_ell) at (low_mc1_deconv.east) [minimum width=1cm, minimum height=1cm, right=5pt] {$\cdots$};
-\node (low_mcn_dg) at (low_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {D/G};
-\node (low_mcn_deconv) at (low_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {Deconv Low};
-\node (low_vis) at (low_mc1_dg.north)[above=10pt]{$\mathcal{L}$};
+\node (low_mcn_dg) at (low_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {$\mathrm{D/G}$};
+\node (low_mcn_deconv) at (low_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{L}$};
+\node (low_vis) at (low_mc1_dg.north)[above=10pt]{$\mathrm{V}_\mathcal{L}$};
 
-\draw [->] (low_mc1_dg) edge (low_mc1_deconv); 
-\draw [->] (low_mcn_dg) edge (low_mcn_deconv);
+\draw [->] (low_mc1_dg) -- (low_mc1_deconv) node [midway, above=0pt] {$\hat{i}_\mathcal{L}^1$}; 
+\draw [->] (low_mcn_dg) -- (low_mcn_deconv) node [midway, above=0pt] {$\hat{i}_\mathcal{L}^n$};
 \draw [->] (low_vis) edge (low_mc1_dg);
 \draw [->, to path={-| (\tikztotarget)}] (low_vis) edge (low_mcn_dg);
 
 \node[fit=(low_mc1_dg)(low_mc1_deconv)(low_mcn_dg)(low_mcn_deconv)(low_vis), draw, thick, inner sep=7pt](lowres_step){};
 
-\node (lowres_recon) at (lowres_step.south) [draw, thick, minimum size=1cm, below=25pt] {$i_\mathcal{L}$};
-
-\node (full_mc1_dg) at (low_mc1_dg.south) [draw, thick, minimum size=1cm, below=50pt] {D/G};
-\node (full_mc1_deconv) at (full_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {Deconv High};
+\node (full_mc1_dg) at (low_mc1_dg.south) [draw, thick, minimum size=1cm, below=60pt] {$\mathrm{D/G}$};
+\node (full_mc1_deconv) at (full_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{H}$};
 \node (full_ell) at (full_mc1_deconv.east) [minimum width=1cm, minimum height=1cm, right=5pt] {$\cdots$};
-\node (full_mcn_dg) at (full_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {D/G};
-\node (full_mcn_deconv) at (full_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {Deconv High};
-\node (full_vis) at (full_mc1_dg.north)[above=10pt]{$\mathcal{H}$};
+\node (full_mcn_dg) at (full_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {$\mathrm{D/G}$};
+\node (full_mcn_deconv) at (full_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{H}$};
+\node (full_vis) at (full_mc1_dg.north)[above=10pt]{$\mathrm{V}_\mathcal{H}$};
+\node (output_dummy) at (full_mcn_deconv.east) [right=40pt]{};
 
-\draw [->] (full_mc1_dg) edge (full_mc1_deconv); 
-\draw [->] (full_mcn_dg) edge (full_mcn_deconv);
+\draw [->] (full_mc1_dg) -- (full_mc1_deconv) node [midway, above=0pt] {$\hat{i}_\mathcal{H}^1$}; ; 
+\draw [->] (full_mcn_dg) -- (full_mcn_deconv) node [midway, above=0pt] {$\hat{i}_\mathcal{H}^n$}; ;
 \draw [->] (full_vis) edge (full_mc1_dg);
 \draw [->, to path={-| (\tikztotarget)}] (full_vis) edge (full_mcn_dg);
 
-\node[fit=(full_mc1_dg)(full_mc1_deconv)(full_mcn_dg)(full_mcn_deconv), draw, thick, inner sep=7pt](fullres_step){};
+\draw [->] (low_mc1_deconv) -- (full_mc1_deconv) node [midway, above=3pt, xshift=6pt] {$i_\mathcal{L}^1$};
+\draw [->] (low_mcn_deconv) -- (full_mcn_deconv) node [midway, above=3pt, xshift=6pt] {$i_\mathcal{L}^n$}; 
+\draw [->] (full_mcn_deconv) -- (output_dummy) node [midway, above] {$i$}; 
+
+\node[fit=(full_mc1_dg)(full_mc1_deconv)(full_mcn_dg)(full_mcn_deconv)(full_vis), draw, thick, inner sep=7pt](fullres_step){};
+
+\node[text centered, left=0pt, font=\large] at (lowres_step.west){Node 1};
+\node[text centered, left=0pt, font=\large] at (fullres_step.west){Node 2};
 
 \end{tikzpicture}
 
