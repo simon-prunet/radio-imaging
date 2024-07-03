@@ -1,35 +1,20 @@
-Use "simon" docker image. Use dirty.ipynb to generate visibilities from fits image and store them as MS. 
-Use /rascil/apps/rascil_imager.py to process the MS data and form restored images. Example below:
+#Overview
+Our method is integrated into the rascil-imager.py tool. This 
 
-/Users/prunet/Documents/Code/radio-imaging/data# python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm msclean --clean_scales 0 6 10 30 60 --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated
+## Example of cleaning our datasets using MS-CLEAN
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname data/SGRA.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm msclean --clean_scales 0 6 10 30 60 --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated
 
-# Dirty image only
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --mode invert
+## Dirty image only
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname data/SGRA.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --mode invert
 
-# PSF image
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --mode invert --imaging_dopsf True 
+## PSF
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname data/SGRA.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --mode invert --imaging_dopsf True 
 
+##Multi-step all-baselines reconstruction, initial $\frac{\lambda}{\|\hat{i}\|_2} = 0.02$ with $2\times$ increase every major cycle, and daubechies wavelets.
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode full --mstep_lambda 0.02 --mstep_lambda_mul 2 --mstep_wavelet daubechies --clean_niter 100
 
-For running multi-step algorithm in RASCIL, the julia files need to be in the same directory, but this should not be an issue as the Dockerfile should automatically copy everything to the home directory.
-
-#Example commands
-
-##rascil full
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode full --mstep_lambda 0.01 --mstep_lambda_mul 1 --mstep_wavelet daubechies
-
-##low-resolution step on small_baselines_dataset.ms with ell=50, delta=5, initial $\frac{\lambda}{\|\hat{i}\|_2} = 0.05$ with $2\times$ increase every major cycle, and daubechies wavelets 
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname small_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode low --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5
+##Multi-step low-resolution step on small_baselines_dataset.ms with $\ell=50, \delta=5$, initial $\frac{\lambda}{\|\hat{i}\|_2} = 0.05$ with $2\times$ increase every major cycle, and daubechies wavelets 
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname small_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode low --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5 --clean_niter 100
 
 ##full-resolution step on long_baselines_dataset.ms with ell=50, delta=5, initial $\frac{\lambda}{\|\hat{i}\|_2} = 0.05$ with $2\times$ increase every major cycle, daubechies wavelets, and a low-resolution input image named small_baselines_dataset_deconvolved.fits
-python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname long_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode multi-step --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_lowfreq_image small_baselines_dataset_deconvolved.fits --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5
-
-
-#for copying databases over to docker 
-docker cp ~/radio-imaging/data3/Meerkat_Galactic_center_small_baselines.ms/ <image_name>:/root/
-docker cp ~/radio-imaging/data3/Meerkat_Galactic_center_long_baselines.ms/ <image_name>:/root/
-docker cp ~/radio-imaging/data/Meerkat_Galactic_center.ms/ <image_name>:/root/
-
-#for copying rascil related files over to docker
-docker cp ~/rascil-main/. <image_name>:/rascil-main/
-docker cp ~/ska-sdp-func-python/. <image_name>:/tmp/ska-sdp-func-python
-
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname long_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode multi-step --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_lowfreq_image small_baselines_dataset_deconvolved.fits --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5 --clean_niter 100
