@@ -15,12 +15,12 @@
 \begin{document}
 
 \begin{tikzpicture}
-\node (low_mc1_dg) at (0,0) [draw, thick, minimum size=1cm] {$\mathrm{D/G}$};
-\node (low_mc1_deconv) at (low_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{L}$};
+\node (low_mc1_dg) at (0,0) [draw, thick, minimum size=1cm] {$\text{D/G}$};
+\node (low_mc1_deconv) at (low_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\text{R}_\mathcal{L}$};
 \node (low_ell) at (low_mc1_deconv.east) [minimum width=1cm, minimum height=1cm, right=5pt] {$\cdots$};
-\node (low_mcn_dg) at (low_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {$\mathrm{D/G}$};
-\node (low_mcn_deconv) at (low_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{L}$};
-\node (low_vis) at (low_mc1_dg.north)[above=10pt]{$\mathrm{V}_\mathcal{L}$};
+\node (low_mcn_dg) at (low_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {$\text{D/G}$};
+\node (low_mcn_deconv) at (low_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\text{R}_\mathcal{L}$};
+\node (low_vis) at (low_mc1_dg.north)[above=10pt]{$\text{V}_\mathcal{L}$};
 
 \draw [->] (low_mc1_dg) -- (low_mc1_deconv) node [midway, above=0pt] {$\hat{i}_\mathcal{L}^1$}; 
 \draw [->] (low_mcn_dg) -- (low_mcn_deconv) node [midway, above=0pt] {$\hat{i}_\mathcal{L}^n$};
@@ -29,12 +29,12 @@
 
 \node[fit=(low_mc1_dg)(low_mc1_deconv)(low_mcn_dg)(low_mcn_deconv)(low_vis), draw, thick, inner sep=7pt](lowres_step){};
 
-\node (full_mc1_dg) at (low_mc1_dg.south) [draw, thick, minimum size=1cm, below=60pt] {$\mathrm{D/G}$};
-\node (full_mc1_deconv) at (full_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{H}$};
+\node (full_mc1_dg) at (low_mc1_dg.south) [draw, thick, minimum size=1cm, below=60pt] {$\text{D/G}$};
+\node (full_mc1_deconv) at (full_mc1_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\text{R}_\mathcal{H}$};
 \node (full_ell) at (full_mc1_deconv.east) [minimum width=1cm, minimum height=1cm, right=5pt] {$\cdots$};
-\node (full_mcn_dg) at (full_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {$\mathrm{D/G}$};
-\node (full_mcn_deconv) at (full_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\mathrm{R}_\mathcal{H}$};
-\node (full_vis) at (full_mc1_dg.north)[above=10pt]{$\mathrm{V}_\mathcal{H}$};
+\node (full_mcn_dg) at (full_ell.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=5pt] {$\text{D/G}$};
+\node (full_mcn_deconv) at (full_mcn_dg.east) [draw, thick, minimum width=1cm, minimum height=1cm, right=20pt] {$\text{R}_\mathcal{H}$};
+\node (full_vis) at (full_mc1_dg.north)[above=10pt]{$\text{V}_\mathcal{H}$};
 \node (output_dummy) at (full_mcn_deconv.east) [right=40pt]{};
 
 \draw [->] (full_mc1_dg) -- (full_mc1_deconv) node [midway, above=0pt] {$\hat{i}_\mathcal{H}^1$}; ; 
