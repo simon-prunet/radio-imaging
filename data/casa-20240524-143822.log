@@ -1,0 +1,91 @@
+2024-05-24 14:38:22	INFO	::casa	
+2024-05-24 14:38:23	INFO	::casa	Python version 3.10.12
+2024-05-24 14:38:23	INFO	::casa	CASA Version MODULAR 6.6.3.22
+2024-05-24 14:38:37	INFO	plotms::::casa	##########################################
+2024-05-24 14:38:37	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2024-05-24 14:38:37	INFO	plotms::::casa	plotms( vis='SGRA.ms', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='', xdatacolumn='', xframe='', xinterp='', yaxis='', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=False, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2024-05-24 14:38:38	INFO	plotms::::casa	casaplotms started: 0.0.0.0:34663
+2024-05-24 14:38:38	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2024-05-24 14:38:38	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2024-05-24 14:38:38	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA.
+2024-05-24 14:38:38	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2024-05-24 14:38:38	INFO	PlotMS::load_cache	START     Current memory usage: 15444.2 kilobytes.
+2024-05-24 14:38:38	INFO	PlotMS::load_cache	Plotting table SGRA.ms
+2024-05-24 14:38:38	INFO	plotms::::casa	Task plotms complete. Start time: 2024-05-24 16:38:37.423011 End time: 2024-05-24 16:38:38.084601
+2024-05-24 14:38:38	INFO	plotms::::casa	##### End Task: plotms               #####
+2024-05-24 14:38:38	INFO	plotms::::casa	##########################################
+2024-05-24 14:38:38	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Time(2)...
+2024-05-24 14:38:38	INFO	PlotMS::load_cache	Loading page header cache
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	Data selection will yield a total of 249600 points (flagged and unflagged).
+2024-05-24 14:38:39	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00449808 GB of memory (18.0212 bytes/point).
+2024-05-24 14:38:39	INFO	PlotMS::load_cache+	This is 0.0138266% of the memory avail. to CASA (32.532 GB).
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	Loading chunks......
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	Generating the plot mask.
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	Finished loading.
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	Axes ranges:
+2024-05-24 14:38:39	INFO	PlotMS::load_cache+	Time: 4.45347e+09 to 4.45348e+09 (unflagged); (no flagged data)
+2024-05-24 14:38:39	INFO	PlotMS::load_cache+	Amp:data: 0.0129884 to 1180.07 (unflagged); (no flagged data)
+2024-05-24 14:38:39	INFO	PlotMS::load_cache	Finished indexing.
+2024-05-24 14:38:38	INFO	PlotMS::load_cache	END       Time: +1 seconds.  Memory: +7984.27 kilobytes.
+2024-05-24 14:38:39	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2024-05-24 14:42:08	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	START     Current memory usage: 32976.8 kilobytes.
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	Plotting table SGRA.ms
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Antenna1(9)...
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	Generating the plot mask.
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	Finished loading.
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	Axes ranges:
+2024-05-24 14:42:08	INFO	PlotMS::load_cache+	Antenna1: 0 to 63 (unflagged); (no flagged data)
+2024-05-24 14:42:08	INFO	PlotMS::load_cache+	Amp:data: 0.0129884 to 1180.07 (unflagged); (no flagged data)
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	Finished indexing.
+2024-05-24 14:42:08	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +1116.33 kilobytes.
+2024-05-24 14:42:08	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2024-05-24 14:42:26	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	START     Current memory usage: 34400.1 kilobytes.
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	Plotting table SGRA.ms
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Antenna2(10)...
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	Generating the plot mask.
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	Finished loading.
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	Axes ranges:
+2024-05-24 14:42:26	INFO	PlotMS::load_cache+	Antenna2: 0 to 63 (unflagged); (no flagged data)
+2024-05-24 14:42:26	INFO	PlotMS::load_cache+	Amp:data: 0.0129884 to 1180.07 (unflagged); (no flagged data)
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	Finished indexing.
+2024-05-24 14:42:26	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +0.34375 kilobytes.
+2024-05-24 14:42:26	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2024-05-24 14:43:20	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	START     Current memory usage: 33728.2 kilobytes.
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	Plotting table SGRA.ms
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	Caching for the new plot: Antenna2(10) vs. Antenna1(9)...
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	Generating the plot mask.
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	Finished loading.
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	Axes ranges:
+2024-05-24 14:43:20	INFO	PlotMS::load_cache+	Antenna1: 0 to 63 (unflagged); (no flagged data)
+2024-05-24 14:43:20	INFO	PlotMS::load_cache+	Antenna2: 0 to 63 (unflagged); (no flagged data)
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	Finished indexing.
+2024-05-24 14:43:20	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +20.3906 kilobytes.
+2024-05-24 14:43:20	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2024-05-24 14:43:41	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	START     Current memory usage: 33987.8 kilobytes.
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	Plotting table SGRA.ms
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Antenna1(9)...
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	Generating the plot mask.
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	refTime = 2000/01/01/00:00:00.0
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	Finished loading.
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	Axes ranges:
+2024-05-24 14:43:41	INFO	PlotMS::load_cache+	Antenna1: 0 to 63 (unflagged); (no flagged data)
+2024-05-24 14:43:41	INFO	PlotMS::load_cache+	Amp:data: 0.0129884 to 1180.07 (unflagged); (no flagged data)
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	Finished indexing.
+2024-05-24 14:43:41	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +0.75 kilobytes.
+2024-05-24 14:43:41	INFO	PlotMS::plot	Plotting 249600 unflagged points.
+2024-05-27 07:04:56	INFO	plotms::::casa	Terminating casaplotms, PID: 304021
+2024-05-27 07:04:56	INFO	plotms::::casa	Waiting for casaplotms to terminate. Poll return code: None, PID: 304021
+2024-05-27 07:04:57	INFO	plotms::::casa	Finished shutting down casaplotms. Poll return code: -15, PID: 304021

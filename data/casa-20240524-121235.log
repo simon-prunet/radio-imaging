@@ -1,0 +1,12 @@
+2024-05-24 12:12:35	INFO	::casa	
+2024-05-24 12:12:36	INFO	::casa	Python version 3.10.12
+2024-05-24 12:12:36	INFO	::casa	CASA Version MODULAR 6.6.3.22
+2024-05-24 12:12:42	INFO	imview::::casa	##########################################
+2024-05-24 12:12:42	INFO	imview::::casa	##### Begin Task: imview             #####
+2024-05-24 12:12:42	INFO	imview::::casa	imview( raster={}, contour={}, zoom=1, axes={}, out='' )
+2024-05-24 12:12:45	SEVERE	imview::::casa	Task imview raised an exception of class TypeError with the following message: Parameter to MergeFrom() must be instance of same class: expected img_pb2.Id got img_pb2.Id.
+2024-05-24 12:12:45	INFO	imview::::casa	Task imview complete. Start time: 2024-05-24 14:12:41.716548 End time: 2024-05-24 14:12:44.806672
+2024-05-24 12:12:45	INFO	imview::::casa	##### End Task: imview               #####
+2024-05-24 12:12:45	INFO	imview::::casa	##########################################
+2024-05-24 12:12:57	INFO	FITSCoordinateUtil::fromFITSHeader	Neither SPECSYS nor VELREF keyword given, spectral reference frame not defined ...
+2024-05-24 12:12:57	INFO	FITSCoordinateUtil::fromFITSHeader	Neither SPECSYS nor VELREF keyword given, spectral reference frame not defined ...
