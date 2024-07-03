@@ -23,6 +23,16 @@ def fromfits(filename):
 
     return dat
 
+def compute_snr(gt, recon):
+    difnorm = numpy.linalg.norm(gt-recon)
+    if difnorm == 0:
+        return 0
+        
+    return 20 * numpy.log10(numpy.linalg.norm(gt) / difnorm)
+
+def compute_rmse(gt, recon):
+    return numpy.sqrt(numpy.mean((gt-recon) ** 2))
+
 def compute_windowed_var(image, window):
     estimated_variance = numpy.zeros(image.shape)
 

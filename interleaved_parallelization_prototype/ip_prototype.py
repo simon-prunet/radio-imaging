@@ -28,10 +28,23 @@ def master():
     
     config = comm.bcast(config, root=0)
 
+    gt = iph.fromfits(config["groundtruth"])
+
     for i in range(config["nmajcyc"]):
         #for now doing this once every major cycle, but in practice only needed at the end of the reconstruction
         reconstructions = comm.gather(None, root=0)
         curr_recon = combine(reconstructions[1:], config["npixels"])
+
+        rmse_low = iph.compute_rmse(gt, reconstructions[1])
+        rmse_high = iph.compute_rmse(gt, reconstructions[2])
+        rmse_comb = iph.compute_rmse(gt, curr_recon)
+
+        print("Maj Iteration " + str(i))
+        print("RMSE low: " + str(rmse_low))
+        print("RMSE high: " + str(rmse_high))
+        print("RMSE combined: " + str(rmse_comb))
+        print("--------------------------------------")
+
         iph.tofits(curr_recon, config["output_filename"] + "_" + str(i) + ".fits")
         pass
 
@@ -58,7 +71,6 @@ def recon(step):
     lambda_mul = config["lambda_mul_low"] if step == 0 else config["lambda_mul_high"]
 
     for i in range(config["nmajcyc"]):
-        print(i)
         #We use constraints after the first major cycle, which are injected into our objective function. These constraints are sent to and obtained from the other reconstruction node
         if i > 0:
             if step == 0:
@@ -75,7 +87,7 @@ def recon(step):
             config["sep_center"], config["sep_hw"], config["visvar_window"], config["reconvar_factor"])
 
         estimate = iph.add_to_image(estimate, deconvolved)
-        comm.gather(estimate.pixels.data, root=0)
+        comm.gather(estimate.pixels.data[0,0,:,:], root=0)
 
 
 comm = MPI.COMM_WORLD
