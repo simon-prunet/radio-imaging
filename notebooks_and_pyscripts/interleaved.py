@@ -11,7 +11,6 @@ from visibilities import compute_residual, compute_psf, compute_weights, create_
 import numpy
 import os
 
-#this is currently a stub, to be implemented
 #interleaved deconvolution, currently assumes 2 partitions
 def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, cut_center, cut_halfwidth, variance_window, recon_variance_factor):
     res = numpy.array(dirty)
