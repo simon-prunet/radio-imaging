@@ -18,3 +18,6 @@ python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname small_baselines
 
 ##full-resolution step on long_baselines_dataset.ms with ell=50, delta=5, initial $\frac{\lambda}{\|\hat{i}\|_2} = 0.05$ with $2\times$ increase every major cycle, daubechies wavelets, and a low-resolution input image named small_baselines_dataset_deconvolved.fits
 python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname long_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode multi-step --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_lowfreq_image small_baselines_dataset_deconvolved.fits --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5 --clean_niter 100
+
+##msclean example with Sgr A dataset
+python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname SGRA.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 10 --clean_algorithm msclean --clean_fractional_threshold 1e-2 --clean_threshold 1e-3 --clean_scales 0 1 2 4 6 10 30 --clean_restored_output integrated --clean_niter 2000
