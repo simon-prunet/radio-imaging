@@ -115,9 +115,9 @@ def plotNImages(images, names, cmap, same_scale=False, scale_mul=1.0, output_fil
         if num_images > 1:
             axes[i].set_title(names[i])
             if same_scale:
-                im = axes[i].imshow(img, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
+                im = axes[i].imshow(img, norm="log" if logNorm else "linear",cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
             else:
-                im = axes[i].imshow(img, cmap=cmap, origin='lower')
+                im = axes[i].imshow(img, norm="log" if logNorm else "linear", cmap=cmap, origin='lower')
 
             divider = make_axes_locatable(axes[i])
             cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
@@ -130,18 +130,18 @@ def plotNImages(images, names, cmap, same_scale=False, scale_mul=1.0, output_fil
         else:
             axes.set_title(names[i])
             if same_scale:
-                im = axes.imshow(img, cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
+                im = axes.imshow(img, norm="log" if logNorm else "linear", cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
             else:
-                im = axes.imshow(img, cmap=cmap, origin='lower')
+                im = axes.imshow(img, norm="log" if logNorm else "linear", cmap=cmap, origin='lower')
 
-            divider = make_axes_locatable(axes)
-            cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
+            #divider = make_axes_locatable(axes)
+            #cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
 
-            cb = fig.colorbar(im, orientation='horizontal', cax=cax)
+            #cb = fig.colorbar(im, orientation='horizontal', cax=cax)
             #cb.formatter.set_powerlimits((-10, 10))
-            cb.ax.locator_params(nbins=5)
-            if cbar_labelsize is not None:
-                cb.ax.tick_params(labelsize=cbar_labelsize)
+            #cb.ax.locator_params(nbins=5)
+            #if cbar_labelsize is not None:
+            #    cb.ax.tick_params(labelsize=cbar_labelsize)
 
     if hide_ticks:
         axes.set_xticks([])
@@ -165,12 +165,15 @@ def plotSNRvsSSIM(lambdas, path, snr_idx, gt, cmap, same_scale = False):
     plotNImages([snrfile, err_snr], [snr_title, "SNR absolute error"], cmap, same_scale = same_scale)
 
 
-def read_csv(filename):
+def read_csv(filename, separate_rows=False):
     data = []
     with open(filename, newline='') as file:
         reader = csv.reader(file, delimiter=',')
         for row in reader:
-            data += row
+            if separate_rows:
+                data.append(row)
+            else:
+                data += row
 
     return data
 
@@ -284,7 +287,7 @@ def bandpass(image, low, high):
 
     return numpy.real(numpy.fft.fftshift(numpy.fft.ifft2(numpy.fft.ifftshift(bandpass_filter_f))))
 
-def lambdatests_allvis(lambdas, path, dirty, psf, gt, wavelet_type_idx, niter, runtests, lp_filter=None):
+def lambdatests_allvis(lambdas, path, dirty, psf, gt, wavelet_type_idx, niter, runtests, lp_filter=None, stats_type = "psnr"):
     if lp_filter is not None:
         gt = signal.fftconvolve(gt, lp_filter, mode='same')
 
@@ -306,7 +309,16 @@ def lambdatests_allvis(lambdas, path, dirty, psf, gt, wavelet_type_idx, niter, r
             if lp_filter is not None:
                 recon = signal.fftconvolve(recon, lp_filter, mode='same')
 
-            snrs[i] = compute_snr(gt, recon)
+            if stats_type == "psnr":
+                snrs[i] = compute_snr(gt, recon)
+            elif stats_type == "ispace_resid_norm":
+                recon = signal.fftconvolve(recon, psf, mode='same')
+                identity_filt = bandpass(dirty, 0, dirty.shape[0] * 2)
+                dirty = signal.fftconvolve(dirty, identity_filt, mode='same')
+
+                snrs[i] = numpy.linalg.norm(recon - dirty)
+            else:
+                snrs[i] = compute_snr(gt, recon)
             
         write_to_csv(snrs, path + "snr.dat")
 
