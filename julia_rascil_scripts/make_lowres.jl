@@ -6,23 +6,19 @@ using FFTW
 
 root = "."
 
+lambda = parse(Float64, ARGS[1])
 psf = read(FITS(joinpath(root, ARGS[2]))[1])
 dirty = read(FITS(joinpath(root, ARGS[3]))[1])
 wavelet_dict = parse(Int, ARGS[4])
+num_fista_iter = parse(Int, ARGS[5])
+output_filename = joinpath(root, ARGS[6])
 
 if wavelet_dict == 0
-    i_lowres = fista(psf, dirty, parse(Float64, ARGS[1]), 100)
+    i_lowres = fista(psf, dirty, lambda, num_fista_iter)
 else
-    i_lowres, m = fista_iuwt(psf, dirty, parse(Float64, ARGS[1]), 100)
+    i_lowres = fista_iuwt(psf, dirty, lambda, num_fista_iter)
 end
 
-a = parse(Float64, ARGS[5])
-b = 0.000000001
-
-G = make_filters(a, b, size(i_lowres, 1); σ² = 1, η² = 1)
-
-filtered = real(ifft(fft(i_lowres).*fft(ifftshift(G.LowPass))))
-
-f = FITS(joinpath(root, ARGS[6]), "w")
-write(f, filtered)
+f = FITS(output_filename, "w")
+write(f, i_lowres)
 close(f)

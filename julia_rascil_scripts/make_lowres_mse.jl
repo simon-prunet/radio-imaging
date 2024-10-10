@@ -8,28 +8,29 @@ using Tables
 
 root = "."
 
+lambda = parse(Float64, ARGS[1])
 psf = read(FITS(joinpath(root, ARGS[2]))[1])
 dirty = read(FITS(joinpath(root, ARGS[3]))[1])
 gt = read(FITS(joinpath(root, ARGS[4]))[1])
 wavelet_dict = parse(Int, ARGS[5])
+num_fista_iter = parse(Int, ARGS[6])
+output_fits = joinpath(root, ARGS[7])
+output_mse = joinpath(root, ARGS[8])
+output_coeff_dist = joinpath(root, ARGS[9])
+output_costs = joinpath(root, ARGS[10])
 
 mse = nothing
 
 if wavelet_dict == 0
-    i_lowres, mse = fista(psf, dirty, parse(Float64, ARGS[1]), 100, sky=gt)
+    i_lowres, coeff_dist, mse, costs = fista(psf, dirty, lambda, num_fista_iter, sky=gt)
 else
-    i_lowres, mse = fista_iuwt(psf, dirty, parse(Float64, ARGS[1]), 100, sky=gt)
+    i_lowres, coeff_dist, mse, costs = fista_iuwt(psf, dirty, lambda, num_fista_iter, sky=gt)
 end
 
-CSV.write(ARGS[8], Tables.table(mse))
+CSV.write(output_mse, Tables.table(mse))
+CSV.write(output_coeff_dist, Tables.table(coeff_dist))
+CSV.write(output_costs, Tables.table(costs))
 
-a = parse(Float64, ARGS[6],)
-b = 0.000000001
-
-G = make_filters(a, b, size(i_lowres, 1); σ² = 1, η² = 1)
-
-filtered = real(ifft(fft(i_lowres).*fft(ifftshift(G.LowPass))))
-
-f = FITS(joinpath(root, ARGS[7]), "w")
-write(f, filtered)
+f = FITS(output_fits, "w")
+write(f, i_lowres)
 close(f)
