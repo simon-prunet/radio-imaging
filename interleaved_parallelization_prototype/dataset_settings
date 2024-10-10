@@ -1,0 +1,5 @@
+sgra - meerkat, dec=-15, ha=-2;2, sampling=120, low=132648, high=121140, total=249600
+sgrb - mid, dec=-50, ha=-2;2, sampling=30, low=6989812, high=2532615, total=9361440
+sgrc - low, dec=-35, ha=-2;2, sampling=30, low=36213039, high=27245071, total=63037440
+hltau - alma band 6, 4 spectral windows of 4 channels each, low=39864808, high=46243732, total=85502624
+cyga - vla x band all 4 configs, low=, high=, total= 
