@@ -1,6 +1,3 @@
-Use "simon" docker image. Use dirty.ipynb to generate visibilities from fits image and store them as MS. 
-Use /rascil/apps/rascil_imager.py to process the MS data and form restored images. Example below:
-
 /Users/prunet/Documents/Code/radio-imaging/data# python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname Meerkat_Galactic_center.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 1.0274731493628636e-05 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm msclean --clean_scales 0 6 10 30 60 --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated
 
 # Dirty image only
@@ -24,7 +21,7 @@ python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname small_baselines
 python /rascil-main/rascil/apps/rascil_imager.py --ingest_msname long_baselines_dataset.ms --ingest_vis_nchan 1 --imaging_npixel 512 --imaging_cellsize 0.00001849451 --imaging_weighting uniform --clean_nmajor 5 --clean_algorithm mstep --clean_fractional_threshold 0.3 --clean_threshold 1e-3 --clean_restored_output integrated --mstep_output_intermediate True --mstep_mode multi-step --mstep_lambda 0.05 --mstep_lambda_mul 2 --mstep_lowfreq_image small_baselines_dataset_deconvolved.fits --mstep_wavelet daubechies --mstep_cut_center 50 --mstep_cut_hw 5
 
 
-#for copying databases over to docker 
+#for copying databases over to docker (alternative is to just mount the associated directory to docker)
 docker cp ~/radio-imaging/data3/Meerkat_Galactic_center_small_baselines.ms/ <image_name>:/root/
 docker cp ~/radio-imaging/data3/Meerkat_Galactic_center_long_baselines.ms/ <image_name>:/root/
 docker cp ~/radio-imaging/data/Meerkat_Galactic_center.ms/ <image_name>:/root/
