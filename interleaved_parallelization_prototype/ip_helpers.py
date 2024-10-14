@@ -629,7 +629,7 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
     res = numpy.array(dirty)
     np_psf = numpy.array(psf)
 
-    curr_lambda = 0
+    curr_lambda = initial_lambda
 
     if curr_maj_iter > 1:
         curr_lambda = initial_lambda * (lambda_mul ** (curr_maj_iter - 1))
@@ -639,15 +639,16 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
     tmp_constraint_name = "tmp_constraint_" + str(step) + ".fits"
     tmp_output_name = "tmp_output_" + str(step) + ".fits"
 
-    vis_variance = numpy.mean(compute_windowed_var(dirty, variance_window))
+    constraint = prev_estimates[1] - prev_estimates[0] if step == 0 else prev_estimates[0] - prev_estimates[1]
 
-    low_variance = vis_variance if step == 0 else vis_variance / recon_variance_factor
-    high_variance = vis_variance / recon_variance_factor if step == 0 else vis_variance
+    vis_variance = numpy.mean(compute_windowed_var(dirty, variance_window))
+    constraint_variance = numpy.mean(compute_windowed_var(constraint, variance_window))
+
+    low_variance = vis_variance if step == 0 else constraint_variance
+    high_variance = constraint_variance if step == 0 else vis_variance
 
     tofits(psf, tmp_psf_name)
     tofits(dirty, tmp_res_name)
-
-    constraint = prev_estimates[1] - prev_estimates[0] if step == 0 else prev_estimates[0] - prev_estimates[1]
 
     curr_lambda *= (numpy.linalg.norm(dirty) + numpy.linalg.norm(constraint))
 
