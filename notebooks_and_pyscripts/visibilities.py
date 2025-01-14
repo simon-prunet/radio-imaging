@@ -50,7 +50,18 @@ def generate_visibilities(phasecentre, ha_interval, integration_time=120., tel='
 	if not isinstance(phasecentre, SkyCoord):
 		print("phasecentre should be a SkyCoord instance")
 		return
-	config = create_named_configuration(tel,rmax=rmax)
+
+	config = None
+
+	if tel=="MID_AASTAR" or tel=="LOW_AASTAR":
+		from ska_ost_array_config.array_config import LowSubArray, MidSubArray
+		if tel == "MID_AASTAR":
+			config = MidSubArray(subarray_type="AA*").array_config
+		elif tel == "LOW_AASTAR":
+			config = LowSubArray(subarray_type="AA*").array_config
+	else:
+		config = create_named_configuration(tel,rmax=rmax)
+
 	if frequencies is None:
 		frequencies = np.array([1.e9])
 	if channel_bandwidths is None:
@@ -88,7 +99,7 @@ def visibilities_from_image(vt,fitsfile,scale_factor=1.0,return_cellsize=True, r
 	cellsize = ocellsize if override_cellsize else scale_factor*advice['cellsize']
 
 	im = create_image_from_fits(fitsfile,frequency=vt.frequency.data,cellsize=cellsize,phasecentre=vt.phasecentre)
-	ivt = predict_ng(vt,im,context='2d')
+	ivt = predict_ng(vt,im,context='ng')
 	if return_cellsize and return_image:
 		return(ivt,cellsize,im)
 	elif (return_cellsize and not return_image):
@@ -98,7 +109,7 @@ def visibilities_from_image(vt,fitsfile,scale_factor=1.0,return_cellsize=True, r
 	else:
 		return(ivt)
 
-def dirty_psf_from_visibilities(vt,cellsize,npix=512,weighting="uniform",robustness=0.0):
+def dirty_psf_from_visibilities(vt,cellsize,npix=512,weighting="uniform",robustness=0.0, override_cellsize=True):
 
 	'''
 	Now that visibility data corresponds to Nifty-Gridder sampling of Fourier plane of data
@@ -109,7 +120,7 @@ def dirty_psf_from_visibilities(vt,cellsize,npix=512,weighting="uniform",robustn
 	'''
 
 	# First create empty rascil Image instance from visibilities
-	model = create_image_from_visibility(vt,cellsize=cellsize,npixel=npix)
+	model = create_image_from_visibility(vt,cellsize=cellsize,npixel=npix, override_cellsize=override_cellsize)
 	print ("Model image plate scale (arcsec) is %e"%np.abs((model.image_acc.wcs.wcs.cdelt[0]*3600)))
 	# Reweight visibilities if not natural weighting
 	if (weighting != "natural"):
@@ -118,8 +129,8 @@ def dirty_psf_from_visibilities(vt,cellsize,npix=512,weighting="uniform",robustn
 		vt=griddata_visibility_reweight(vt, grid_weights[0], weighting=weighting, 
 										robustness=robustness, sumwt=grid_weights[1])
 
-	dirty, sumwt = invert_ng(vt, model, context='2d')
-	psf, sumwt   = invert_ng(vt, model, context='2d', dopsf=True)
+	dirty, sumwt = invert_ng(vt, model, context='ng')
+	psf, sumwt   = invert_ng(vt, model, context='ng', dopsf=True)
 
 	return (dirty,psf)
 
