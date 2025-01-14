@@ -4,6 +4,8 @@ import numpy
 import time
 import sys
 from pathlib import Path
+from ska_sdp_func_python.image.cleaners import msclean
+
 
 wavelet_type_dict = {"daubechies" : 0, "iuwt" : 1}
 config_filename = sys.argv[1]
@@ -22,7 +24,10 @@ channel_start = int(config["channel_start"])
 channel_end = int(config["channel_end"])
 wavelet_idx = wavelet_type_dict[config["wavelet_dict"]]
 data_descriptors = config["data_descriptors"]
-output_dir = config["output_dir"] + "_serial/"
+output_dir = config["output_dir"] + "_msclean/"
+msc_niter = int(config["msclean_iter"])
+thresh = config["clean_thresh"]
+scales = config["clean_scales"]
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -34,7 +39,6 @@ recon_start = time.time()
 
 weight_grid, weight_timings, num_vis = iph.compute_weights_griddata_by_channel(ms_name, npixels, cellsize, channel_start, channel_end, data_descriptors)
 print("num vis: " + str(num_vis))
-print(weight_timings)
 
 psf, estimate, psf_timings, weight = iph.compute_psf_by_channel(ms_name, npixels, cellsize, weight_grid, weighting, robustness, channel_start, channel_end, data_descriptors)
 
@@ -52,6 +56,10 @@ nmaj = config["nmajcyc"] + 1
 mc_start = time.time()
 iph.write_to_csv([mc_start - recon_start], timings_file)
 
+sens = None
+gain = 0.1
+fracthresh = 1e-3
+
 for i in range(nmaj):
     curr_mc_start = time.time()
     residual, resid_timings = iph.compute_residual_bychannel(estimate, ms_name, npixels, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors)
@@ -59,7 +67,8 @@ for i in range(nmaj):
     iph.tofits(residual.pixels.data[0,0,:,:], output_dir + "residual_" + str(i) + ".fits")
 
     deconvolve_start = time.time()
-    deconvolved = iph.deconvolve_single(residual.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], config["nfistaiter"], wavelet_idx, i, init_lambda, lambda_mul)
+    
+    deconvolved, _ = msclean(residual["pixels"].data[0, 0, :, :], psf["pixels"].data[0, 0, :, :], None, sens, gain, thresh, msc_niter, scales, fracthresh)
 
     iph.tofits(deconvolved, output_dir + "deconvolved_" + str(i) + ".fits")
 

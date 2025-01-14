@@ -25,6 +25,21 @@ from astropy.units import Quantity
 from astropy import units as u
 import csv
 
+import copy
+import logging
+
+import ducc0.wgridder as ng 
+from ska_sdp_datamodels.image.image_model import Image
+from ska_sdp_datamodels.science_data_model.polarisation_functions import (
+    convert_pol_frame,
+)
+
+from ska_sdp_func_python.imaging.base import (
+    shift_vis_to_image,
+)
+
+
+
 def write_to_csv(data, filename):
     with open(filename, 'a+', newline='') as file:
         writer = csv.writer(file)
@@ -67,6 +82,10 @@ def compute_windowed_var(image, window):
             estimated_variance[x, y] = numpy.var(image[start_x:end_x, start_y:end_y])
             
     return estimated_variance
+
+def generate_fake_baselines(nbaselines):
+    for i in range(0, nbaselines):
+        yield 0, 0
 
 #copy of rascil's create_visibility_from_ms function, but with a fix to the channel allocation so that it works with large datasets
 #also handy as the latest version of rascil has removed this function
@@ -294,9 +313,13 @@ def create_visibility_from_ms2(
             antenna2 = list(map(lambda i: ant_map[i], antenna2))
 
             baselines = pandas.MultiIndex.from_tuples(
-                generate_baselines(nants), names=("antenna1", "antenna2")
+                generate_fake_baselines(ms_vis.shape[0]), names=("antenna1", "antenna2")
+                #generate_baselines(nants), names=("antenna1", "antenna2")
+                #generate_baselines(1), names=("antenna1", "antenna2")
             )
-            nbaselines = len(baselines)
+
+            #nbaselines = len(baselines)
+            nbaselines = ms_vis.shape[0]
 
             location = EarthLocation(
                 x=Quantity(xyz[0][0], "m"),
@@ -342,6 +365,9 @@ def create_visibility_from_ms2(
                 numpy.unique(time_index_row)
             ), "Error in finding data times"
 
+            #ntimes = ms_vis.shape[0]
+            ntimes = 1
+
             bv_times = numpy.zeros([ntimes])
             bv_vis = numpy.zeros([ntimes, nbaselines, nchan, npol]).astype("complex")
             bv_flags = numpy.zeros([ntimes, nbaselines, nchan, npol]).astype("int")
@@ -350,8 +376,14 @@ def create_visibility_from_ms2(
             bv_integration_time = numpy.zeros([ntimes])
 
             for row, _ in enumerate(time):
-                ibaseline = baselines.get_loc((antenna1[row], antenna2[row]))
-                time_index = time_index_row[row]
+                #ibaseline = baselines.get_loc((antenna1[row], antenna2[row]))
+                #ibaseline = 0
+                ibaseline = row
+
+                #time_index = time_index_row[row]
+                #time_index = row
+                time_index = 0
+
                 bv_times[time_index] = time[row]
                 bv_vis[time_index, ibaseline, ...] = ms_vis[row, ...]
                 bv_flags[time_index, ibaseline, ...][
@@ -428,10 +460,11 @@ def compute_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weightin
             read_start = time.time()
             [measured_vis], _ = create_visibility_from_ms2(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
             polarization_start = time.time()
+            
             measured_vis = convert_visibility_to_stokesI(measured_vis)
+            
             weight_start = time.time()
             measured_vis = griddata_visibility_reweight(measured_vis, weight_grid[0], weighting=weighting, robustness=robustness, sumwt=weight_grid[1])
-
             allocate_start = time.time()
             estimated_vis = measured_vis.copy(deep=True)
             predict_start = time.time()
@@ -476,6 +509,44 @@ def compute_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weightin
     return final_residual, [read_from_disk_total, convert_polarization_total, weight_total, malloc_total, predict_total, subtract_total, invert_total, add_total]
 
 
+#computes jacknifed residual piecemeal channel by channel, this is so that we can handle very large datasets and not be bound by memory
+#assumes that all channels are treated together, and that we only deal with Stokes I polarization
+def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors, algorithm='ng'):
+    final_residual = None
+
+    channels = range(channel_start, channel_end + 1)
+    rng = np.random.default_rng(42)
+
+    for dd in data_descriptors:
+        for curr_channel in channels:
+            [measured_vis], _ = create_visibility_from_ms2(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            measured_vis = convert_visibility_to_stokesI(measured_vis)
+
+            for (i, j, k, l), vis in numpy.ndenumerate(measured_vis.vis):
+                if rng.random() > 0.5:
+                    measured_vis.vis.data[i, j, k, l] *= -1
+
+            measured_vis = griddata_visibility_reweight(measured_vis, weight_grid[0], weighting=weighting, robustness=robustness, sumwt=weight_grid[1])
+
+            estimated_vis = measured_vis.copy(deep=True)
+            estimated_vis = predict_ng(estimated_vis, sky_estimate, context=algorithm)
+            residual_vis = subtract_visibility(measured_vis, estimated_vis)
+
+            if final_residual is None:
+                final_residual = create_empty_image(measured_vis, npixel, cellsize)
+
+            channel_residual, sumwt = invert_ng(residual_vis, final_residual, context=algorithm)
+
+            final_residual = add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:])
+
+            gc.collect()
+
+    gc.collect()
+
+    return final_residual
+
+
+
 def compute_psf(vis, npixel, cellsize):
     model = create_image_from_visibility(vis,cellsize=cellsize,npixel=npixel, polarisation_frame=vis.visibility_acc.polarisation_frame)
     psf, sumwt = invert_ng(vis, model, context='ng', dopsf=True)
@@ -496,6 +567,8 @@ def compute_psf_by_channel(ms_name, npixel, cellsize, weight_grid, weighting, ro
 
     channels = range(channel_start, channel_end + 1)
 
+    weight = 0
+
     for dd in data_descriptors:
         for curr_channel in channels:
             read_start = time.time()
@@ -510,6 +583,7 @@ def compute_psf_by_channel(ms_name, npixel, cellsize, weight_grid, weighting, ro
 
             invert_start = time.time()
             curr_psf, sumwt = invert_ng(vis, model, context=algorithm, dopsf=True)
+            weight += sumwt[0,0]
 
             add_start = time.time()
             if psf is None:
@@ -535,7 +609,7 @@ def compute_psf_by_channel(ms_name, npixel, cellsize, weight_grid, weighting, ro
 
     gc.collect()
 
-    return psf, model, [read_total, polarization_total, weight_total, invert_total, add_total]
+    return psf, model, [read_total, polarization_total, weight_total, invert_total, add_total], weight
 
 def compute_weights(vis, npixel, cellsize, weighting, robustness=0.0):
     if (weighting != "natural"):
@@ -567,7 +641,6 @@ def compute_weights_griddata_by_channel(ms_name, npixel, cellsize, channel_start
             read_start = time.time()
             [vis], num_vis = create_visibility_from_ms2(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
             total_vis += num_vis
-
             pol_start = time.time()
             vis = convert_visibility_to_stokesI(vis)
 
@@ -590,11 +663,10 @@ def compute_weights_griddata_by_channel(ms_name, npixel, cellsize, channel_start
             read_timings.append(pol_start - read_start)
             polarization_timings.append(grid_start - pol_start)
             grid_timings.append(channel_end - grid_start)
-            print(str(dd) + ": " + str(curr_channel))
 
     read_total = sum(read_timings)
     polarization_total = sum(polarization_timings)
-    weight_total = sum(polarization_timings)
+    weight_total = sum(grid_timings)
 
     gc.collect()
 
@@ -631,8 +703,11 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
 
     curr_lambda = initial_lambda
 
-    if curr_maj_iter > 1:
-        curr_lambda = initial_lambda * (lambda_mul ** (curr_maj_iter - 1))
+    if step == 0:
+        curr_lambda = initial_lambda * (lambda_mul ** (curr_maj_iter))
+    else:
+        if curr_maj_iter > 1:
+            curr_lambda = initial_lambda * (lambda_mul ** (curr_maj_iter - 1))
 
     tmp_psf_name = "tmp_psf_" + str(step) + ".fits"
     tmp_res_name = "tmp_residual_" + str(step) + ".fits"
@@ -662,8 +737,80 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
     return deconvolved
 
 
-#stub for now, implemented later
+def deconvolve_multistep(dirty, psf, constraint, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, cut_center, cut_halfwidth, variance_window, recon_variance_factor):
+    res = numpy.array(dirty)
+    np_psf = numpy.array(psf)
+
+    curr_lambda = initial_lambda * (lambda_mul ** (curr_maj_iter))
+
+    tmp_psf_name = "tmp_psf.fits"
+    tmp_res_name = "tmp_residual.fits"
+    tmp_constraint_name = "tmp_constraint.fits"
+    tmp_output_name = "tmp_output.fits"
+
+    vis_variance = numpy.mean(compute_windowed_var(dirty, variance_window))
+    constraint_variance = numpy.mean(compute_windowed_var(constraint, variance_window))
+
+    low_variance = constraint_variance
+    high_variance = vis_variance
+
+    tofits(psf, tmp_psf_name)
+    tofits(dirty, tmp_res_name)
+
+    curr_lambda *= (numpy.linalg.norm(dirty) + numpy.linalg.norm(constraint))
+
+    tofits(constraint, tmp_constraint_name)
+
+    os.system("julia julia/make_multistep_interleaved.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + tmp_constraint_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + \
+            str(low_variance) + " " + str(high_variance) + " " + str(cut_center) + " " + str(cut_halfwidth)  + " 1 " + str(curr_maj_iter + 1) + " " + tmp_output_name)
+
+    deconvolved = fromfits(tmp_output_name)
+
+    return deconvolved
+
+
 def add_to_image(image, nparr):
     image.pixels.data[0,0,:,:] += nparr
 
     return image
+
+def filter_rad(x, delta, ell, sigma2, eta2):
+    if 0 <= x and x < ell - delta: 
+        low = 1.0/numpy.sqrt(eta2)
+        high = 0.0
+    elif ell + delta < x: 
+        low = 0.0
+        high = 1.0/numpy.sqrt(sigma2)
+    else:
+        low = 0.5*(1 - numpy.sin(2*numpy.pi*(x - ell)/(4*delta)))
+        high = 0.5*(1 + numpy.sin(2*numpy.pi*(x - ell)/(4*delta)))
+        tmp = numpy.sqrt(sigma2*high**2 + eta2*low**2)
+        low /= tmp
+        high /= tmp
+
+    return low, high
+
+#assumes square image
+def create_filters(num_pix, delta, ell, sigma2, eta2):
+    ffilt_low = numpy.zeros((num_pix, num_pix))
+    ffilt_high = numpy.zeros((num_pix, num_pix))
+
+    center = num_pix / 2 + 1 if num_pix % 2 == 0 else (num_pix + 1) / 2
+
+    for i in range(num_pix):
+        for j in range(num_pix):
+            dist_to_c = numpy.sqrt((i - center) ** 2 + (j - center) ** 2)
+            ffilt_low[i, j], ffilt_high[i, j] = filter_rad(dist_to_c, ell, delta, sigma2, eta2)
+
+    filt_low = numpy.real(numpy.fft.ifftshift(numpy.fft.ifft2(numpy.fft.fftshift(ffilt_low))))
+    filt_high = numpy.real(numpy.fft.ifftshift(numpy.fft.ifft2(numpy.fft.fftshift(ffilt_high))))
+
+    return filt_low, filt_high
+
+def convolve2d(img1, img2):
+    fimg1 = numpy.fft.fft2(img1)
+    fimg2 = numpy.fft.fft2(numpy.fft.ifftshift(img2))
+
+    return numpy.real(numpy.fft.ifft2(fimg1 * fimg2))
+
+
