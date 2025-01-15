@@ -1,6 +1,12 @@
 # radio-imaging
 
-This repository contains the implementation and results for the paper entitled "Multi-Step Deconvolution of Radio-Interferometric Images". The code is implemented in Julia, and integrated in rascil. These are not stored directly on this repository but rather in a variety of others, specifically:
+This repository contains the implementation and results for the following papers:
+1. Wang, S., Prunet, S., Mignot, S. and Ferrari, A., 2024. Multi-step reconstruction of radio-interferometric images. Astronomy & Astrophysics, 692, p.A61
+2. Wang, S., Mignot, S., Prunet, S., Di Mascolo, L., Spinelli, M. and Ferrari, A., 2025. A Decentralized Framework for Radio-Interferometric Image Reconstruction. (tbd)
+
+The instructions below are for the paper "Multi-step reconstruction of radio-interferometric images". Instructions for running the code for "A Decentralized Framework for Radio-Interferometric Image Reconstruction" can be found under the subdirectory "interleaved_parallelization_prototype". 
+
+The code is implemented in Julia, and integrated in rascil. These are not stored directly on this repository but rather in a variety of others, specifically:
 1. Julia code: https://github.com/andferrari/DeconvMultiStep.jl
 2. RASCIL integration: https://gitlab.com/prunet1/ska-sdp-func-python and https://gitlab.com/igorawratu/rascil-main
 
@@ -15,6 +21,7 @@ The entire system is contained within a docker image, for which the Dockerfile i
 
 ## Splitting measurement sets
 Measurement sets can be split using casa. Specifically, one can use casatools.ms, for which documentation can be found: https://casadocs.readthedocs.io/en/stable/api/tt/casatools.ms.html#casatools.ms
+Update: The dirty.ipynb notebook has been updated to also be able to split the datasets
 
 ## Results
 The results for the paper are presented in a variety of jupyter notebooks. These are:
