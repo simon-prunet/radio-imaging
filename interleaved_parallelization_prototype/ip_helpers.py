@@ -737,6 +737,60 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
     return deconvolved
 
 
+#interleaved deconvolution for multiple partitions
+def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, ells, delta, variance_window):
+    res = numpy.array(dirty)
+    np_psf = numpy.array(psf)
+
+    #a more intricate strategy may be required here
+    curr_lambda = initial_lambda * (lambda_mul ** (curr_maj_iter))
+
+    tmp_psf_name = "tmp_psf_" + str(partition) + ".fits"
+    tmp_res_name = "tmp_residual_" + str(partition) + ".fits"
+    
+    tmp_output_name = "tmp_output_" + str(partition) + ".fits"
+
+    sigma2s = [0] * len(prev_estimates)
+    norm_sum = 0
+
+    constraint_param = ""
+    sigma2s_param = ""
+
+    if curr_maj_iter > 0:
+        for i, est_image in enumerate(prev_estimates):
+            tmp_constraint_name = "tmp_constraint_" + str(partition) + "_" + str(i) + ".fits"
+            constraint_param += tmp_constraint_name + " "
+
+            if i == partition:
+                tofits(est_image, tmp_constraint_name)
+                sigma2s[i] = numpy.mean(compute_windowed_var(dirty, variance_window))
+                norm_sum += numpy.linalg.norm(dirty)
+                continue
+
+            constraint_image = prev_estimates[partition] - est_image
+            tofits(constraint_image, tmp_constraint_name)
+            sigma2s[i] = numpy.mean(compute_windowed_var(constraint_image, variance_window))
+            norm_sum += numpy.linalg.norm(constraint_image)
+            sigma2s_param += sigma2s[i] + " "
+
+    tofits(psf, tmp_psf_name)
+    tofits(dirty, tmp_res_name)
+
+    curr_lambda *= norm_sum
+
+    ells_param = ""
+
+    for ell in ells:
+        ells_str += str(ell) + " "
+
+    os.system("julia julia/make_multipartition.jl " + tmp_psf_name + " " + tmp_res_name + " " + str(curr_lambda) + " " + str(niter) + " " + str(len(prev_estimates)) + " " + str(partition) \
+         + " " + str(curr_maj_iter)  + " " + str(delta) + " " + tmp_output_name + " " + constraint_param + ells_param + sigma2s_param)
+
+    deconvolved = fromfits(tmp_output_name)
+
+    return deconvolved
+
+
 def deconvolve_multistep(dirty, psf, constraint, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, cut_center, cut_halfwidth, variance_window, recon_variance_factor):
     res = numpy.array(dirty)
     np_psf = numpy.array(psf)
