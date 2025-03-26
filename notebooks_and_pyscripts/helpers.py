@@ -77,7 +77,7 @@ def compute_snr(gt, recon):
     if difnorm == 0:
         return 0
         
-    return 20 * numpy.log10(numpy.linalg.norm(gt) / difnorm)
+    return 10 * numpy.log10(numpy.linalg.norm(gt) / difnorm)
 
 def compute_rmse(gt, recon):
     return numpy.sqrt(numpy.mean((gt-recon) ** 2))

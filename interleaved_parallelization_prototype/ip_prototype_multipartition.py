@@ -31,28 +31,26 @@ def master():
         data = f.read() 
 
     config = json.loads(data)
-    config = comm.bcast(config, root=0)
 
-    output_dir = config["output_dir"] + "_parallel/"
+    output_dir = config["output_dir"] + "_pl1/"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     timings_file = output_dir + "mc_timings"
 
-    load_tokens = comm.gather(None, root=0)
+    comm.Barrier()
 
     startup_end = time.time()
     iph.write_to_csv([startup_end - recon_start], timings_file)
 
-    for i in range(config["nmajcyc"]):
+    for i in range(config["nmajcycl1"]):
         mc_start = time.time()
-        #for now doing this once every major cycle, but in practice only needed at the end of the reconstruction
-        reconstructions = comm.gather(None, root=0)
+        all_estimates = comm.allgather(None)
 
-        recons_combined = combine(reconstructions, config["npixels"], average=(i > 0))
+        recons_combined = combine(all_estimates[1:], config["npixels"], average=(i > 0))
 
         iph.tofits(recons_combined, output_dir + "recon_combined_" + str(i) + ".fits")
 
-        for j, curr_recon in enumerate(reconstructions):
+        for j, curr_recon in enumerate(all_estimates[1:]):
             iph.tofits(curr_recon, output_dir + "recon_" + str(j) + "_" + str(i) + ".fits")
 
         mc_end = time.time()
@@ -93,7 +91,7 @@ def recon(partition):
 
     n_fista_iter = config["nfistaiter"]
     
-    output_dir = config["output_dir"] + "_parallel_multipartition/"
+    output_dir = config["output_dir"] + "_pl1/"
 
     breakdown_file = output_dir + "mc_timings_breakdown_" + str(partition)
 
@@ -113,34 +111,45 @@ def recon(partition):
     iph.write_to_csv(psf_timings, breakdown_file)
     iph.write_to_csv([barrier_end - barrier_start], breakdown_file)
 
-    for i in range(config["nmajcyc"]):
+    sendrecon_start = sendrecon_end = 0
+    first_res_var = 0
+
+    for i in range(config["nmajcycl1"]):
         send_start = time.time()
         #We use constraints after the first major cycle, which are injected into our objective function. These constraints are sent to and obtained from the other reconstruction node
         prev_estimates = None
         if i > 0:
+            sendrecon_start = time.time()
             prev_estimates = comm.allgather(estimate.pixels.data[0,0,:,:])
+            prev_estimates = prev_estimates[1:]
+            sendrecon_end = time.time()
+
         send_end = time.time()
 
         residual, resid_timings = iph.compute_residual_bychannel(estimate, ms_name, npixels, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors)
+
+        if i == 0:
+            first_res_var = numpy.mean(iph.compute_windowed_var(residual.pixels.data[0,0,:,:], variance_window))
 
         iph.tofits(residual.pixels.data[0,0,:,:], output_dir + "residual_" + str(partition) + "_" + str(i) + ".fits")
 
         deconv_start = time.time()
         deconvolved = iph.deconvolve_multipartition(partition, residual.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], prev_estimates, n_fista_iter, wavelet_idx, i, init_lambda, lambda_mul, \
-            ells, delta, variance_window)
+            ells, delta, variance_window, first_res_var)
         deconv_end = time.time()
 
-        estimate = iph.add_to_image(estimate, deconvolved)
+        iph.tofits(deconvolved, output_dir + "deconv_" + str(partition) + "_" + str(i) + ".fits")
 
-        sendrecon_start = time.time()
-        comm.gather(deconvolved, root=0)
-        sendrecon_end = time.time()
+        estimate = iph.add_to_image(estimate, deconvolved)
 
         resid_timings.insert(0, send_end - send_start)
         resid_timings.append(deconv_end - deconv_start)
         resid_timings.append(sendrecon_end - sendrecon_start)
 
         iph.write_to_csv(resid_timings, breakdown_file)
+
+    #this is mainly to send to master
+    prev_estimates = comm.allgather(estimate.pixels.data[0,0,:,:])
 
 
 comm = MPI.COMM_WORLD

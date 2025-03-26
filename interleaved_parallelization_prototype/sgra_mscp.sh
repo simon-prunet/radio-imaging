@@ -9,10 +9,14 @@
 #SBATCH --exclusive
 #SBATCH -A klu@cpu
 
+source ~/.bashrc
+
 module load intel-oneapi-all/2023.1
 module load gcc/12.2.0
 module load anaconda-py3/2024.06
 module load julia/1.10.4
-conda activate ri_parallelization
+conda activate /lustre/fswork/projects/rech/klu/ulc65eb/conda_envs/ri_parallelization2
+
+export JULIA_DEPOT_PATH=/lustre/fswork/projects/rech/klu/ulc65eb/libs/julia
 
 mpirun -np 3 python ip_msclean_p.py sgra.config

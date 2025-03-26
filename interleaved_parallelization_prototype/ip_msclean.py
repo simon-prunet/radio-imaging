@@ -5,6 +5,7 @@ import time
 import sys
 from pathlib import Path
 from ska_sdp_func_python.image.cleaners import msclean
+import gc
 
 
 wavelet_type_dict = {"daubechies" : 0, "iuwt" : 1}
@@ -61,13 +62,16 @@ gain = 0.1
 fracthresh = 1e-3
 
 for i in range(nmaj):
+    gc.collect()
     curr_mc_start = time.time()
+    print("Computing Residual:")
     residual, resid_timings = iph.compute_residual_bychannel(estimate, ms_name, npixels, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors)
 
     iph.tofits(residual.pixels.data[0,0,:,:], output_dir + "residual_" + str(i) + ".fits")
-
+    gc.collect()
     deconvolve_start = time.time()
     
+    print("Deconvolving:")
     deconvolved, _ = msclean(residual["pixels"].data[0, 0, :, :], psf["pixels"].data[0, 0, :, :], None, sens, gain, thresh, msc_niter, scales, fracthresh)
 
     iph.tofits(deconvolved, output_dir + "deconvolved_" + str(i) + ".fits")

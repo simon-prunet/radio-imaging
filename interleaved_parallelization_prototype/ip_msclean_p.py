@@ -6,6 +6,7 @@ import time
 import sys
 from pathlib import Path
 from ska_sdp_func_python.image.cleaners import msclean
+import gc
 
 wavelet_type_dict = {"daubechies" : 0, "iuwt" : 1}
 config_filename = sys.argv[1]
@@ -137,6 +138,7 @@ def recon(step):
     iph.write_to_csv([psf_send_end - psf_send_start], breakdown_file)
 
     for i in range(config["nmajcyc"]):
+        gc.collect()
         send_start = time.time()
         #We use constraints after the first major cycle, which are injected into our objective function. These constraints are sent to and obtained from the other reconstruction node
         if i > 0:

@@ -39,7 +39,6 @@ from ska_sdp_func_python.imaging.base import (
 )
 
 
-
 def write_to_csv(data, filename):
     with open(filename, 'a+', newline='') as file:
         writer = csv.writer(file)
@@ -480,6 +479,7 @@ def compute_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weightin
 
             add_start = time.time()
             final_residual = add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:])
+            channel_residual = None
             channel_end = time.time()
 
             gc.collect()
@@ -515,7 +515,7 @@ def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsiz
     final_residual = None
 
     channels = range(channel_start, channel_end + 1)
-    rng = np.random.default_rng(42)
+    rng = numpy.random.default_rng(42)
 
     for dd in data_descriptors:
         for curr_channel in channels:
@@ -690,7 +690,7 @@ def deconvolve_single(dirty, psf, niter, wavelet_type_idx, curr_maj_iter, initia
     tofits(psf, tmp_psf_name)
     tofits(dirty, tmp_res_name)
 
-    os.system("julia julia/make_fullres.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + tmp_output_name)
+    os.system("julia --threads 32 julia/make_fullres.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + tmp_output_name)
 
     deconvolved = fromfits(tmp_output_name)
 
@@ -716,8 +716,8 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
 
     constraint = prev_estimates[1] - prev_estimates[0] if step == 0 else prev_estimates[0] - prev_estimates[1]
 
-    vis_variance = numpy.mean(compute_windowed_var(dirty, variance_window))
-    constraint_variance = numpy.mean(compute_windowed_var(constraint, variance_window))
+    vis_variance = 1#numpy.mean(compute_windowed_var(dirty, variance_window))
+    constraint_variance = 1#numpy.mean(compute_windowed_var(constraint, variance_window))
 
     low_variance = vis_variance if step == 0 else constraint_variance
     high_variance = constraint_variance if step == 0 else vis_variance
@@ -729,29 +729,43 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
 
     tofits(constraint, tmp_constraint_name)
 
-    os.system("julia julia/make_multistep_interleaved.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + tmp_constraint_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + \
+    os.system("julia --threads 32 julia/make_multistep_interleaved.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + tmp_constraint_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + \
             str(low_variance) + " " + str(high_variance) + " " + str(cut_center) + " " + str(cut_halfwidth)  + " " + str(step) + " " + str(curr_maj_iter) + " " + tmp_output_name)
 
     deconvolved = fromfits(tmp_output_name)
 
     return deconvolved
 
-
-#interleaved deconvolution for multiple partitions
-def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, ells, delta, variance_window):
+#does the same as deconvolve_single but assumes the new lambda selection
+def deconvolve_multipartition_single(dirty, psf, niter, wavelet_type_idx, curr_maj_iter, initial_lambda):
     res = numpy.array(dirty)
     np_psf = numpy.array(psf)
 
-    #a more intricate strategy may be required here
-    curr_lambda = initial_lambda * (lambda_mul ** (curr_maj_iter))
+    tmp_psf_name = "tmp_psf.fits"
+    tmp_res_name = "tmp_residual.fits"
+    tmp_output_name = "tmp_output.fits"
+
+    tofits(psf, tmp_psf_name)
+    tofits(dirty, tmp_res_name)
+
+    os.system("julia --threads 32 julia/make_fullres.jl " + str(initial_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + tmp_output_name)
+
+    deconvolved = fromfits(tmp_output_name)
+
+    return deconvolved
+
+#interleaved deconvolution for multiple partitions
+def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, ells, delta, variance_window, dirty_var):
+    res = numpy.array(dirty)
+    np_psf = numpy.array(psf)
 
     tmp_psf_name = "tmp_psf_" + str(partition) + ".fits"
     tmp_res_name = "tmp_residual_" + str(partition) + ".fits"
     
     tmp_output_name = "tmp_output_" + str(partition) + ".fits"
 
-    sigma2s = [0] * len(prev_estimates)
-    norm_sum = 0
+    n_partitions = len(prev_estimates) if prev_estimates is not None else 1
+    sigma2s = [0] * n_partitions
 
     constraint_param = ""
     sigma2s_param = ""
@@ -763,28 +777,30 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wave
 
             if i == partition:
                 tofits(est_image, tmp_constraint_name)
-                sigma2s[i] = numpy.mean(compute_windowed_var(dirty, variance_window))
-                norm_sum += numpy.linalg.norm(dirty)
+                sigma2s[i] = dirty_var
+
                 continue
 
-            constraint_image = prev_estimates[partition] - est_image
+            constraint_image = est_image - prev_estimates[partition]
             tofits(constraint_image, tmp_constraint_name)
             sigma2s[i] = numpy.mean(compute_windowed_var(constraint_image, variance_window))
-            norm_sum += numpy.linalg.norm(constraint_image)
-            sigma2s_param += sigma2s[i] + " "
 
-    tofits(psf, tmp_psf_name)
-    tofits(dirty, tmp_res_name)
-
-    curr_lambda *= norm_sum
+    tofits(np_psf, tmp_psf_name)
+    tofits(res, tmp_res_name)
 
     ells_param = ""
 
     for ell in ells:
-        ells_str += str(ell) + " "
+        ells_param += str(ell) + " "
 
-    os.system("julia julia/make_multipartition.jl " + tmp_psf_name + " " + tmp_res_name + " " + str(curr_lambda) + " " + str(niter) + " " + str(len(prev_estimates)) + " " + str(partition) \
-         + " " + str(curr_maj_iter)  + " " + str(delta) + " " + tmp_output_name + " " + constraint_param + ells_param + sigma2s_param)
+    for sigma2 in sigma2s:
+        sigma2s_param += str(sigma2) + " "
+
+    #partition is +1 due to julia being 1 indexed
+    command = "julia --threads 32 julia/make_multipartition.jl " + tmp_psf_name + " " + tmp_res_name + " " + str(initial_lambda) + " " + str(niter) + " " + str(n_partitions) + " " + str(partition + 1) \
+         + " " + str(curr_maj_iter)  + " " + str(delta) + " " + tmp_output_name + " " + constraint_param + ells_param + sigma2s_param
+
+    os.system(command)
 
     deconvolved = fromfits(tmp_output_name)
 
@@ -815,7 +831,7 @@ def deconvolve_multistep(dirty, psf, constraint, niter, wavelet_type_idx, curr_m
 
     tofits(constraint, tmp_constraint_name)
 
-    os.system("julia julia/make_multistep_interleaved.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + tmp_constraint_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + \
+    os.system("julia --threads 32 julia/make_multistep_interleaved.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + tmp_constraint_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + \
             str(low_variance) + " " + str(high_variance) + " " + str(cut_center) + " " + str(cut_halfwidth)  + " 1 " + str(curr_maj_iter + 1) + " " + tmp_output_name)
 
     deconvolved = fromfits(tmp_output_name)
@@ -861,6 +877,74 @@ def create_filters(num_pix, delta, ell, sigma2, eta2):
 
     return filt_low, filt_high
 
+
+#n partition case
+def filter_mstep(x, deltas, ells, sigma2s):
+    x = numpy.abs(x)
+
+    filter_idx = 0
+    outer_lower = inner_lower = outer_upper = inner_upper = 0
+
+    filter_vals = [0] * len(sigma2s)
+
+    for i, sigma2 in enumerate(sigma2s):
+        outer_lower = 0 if i == 0 else ells[i - 1] - deltas[i - 1]
+        outer_upper =  10 * ells[i-1] if i == len(sigma2s) - 1 else ells[i] + deltas[i]
+        inner_lower = 0 if i == 0 else ells[i - 1] + deltas[i - 1]
+        inner_upper =  10 * ells[i-1] if i == len(sigma2s) - 1 else ells[i] - deltas[i]
+
+        #in overlap region with lower frequency
+        if x >= outer_lower and x < inner_lower:
+            curr_ell = ells[i-1]
+            curr_delta = deltas[i-1]
+            lower_sigma2 = sigma2s[i-1]
+            upper_sigma2 = sigma2s[i]
+
+            low = 0.5*(1 - numpy.sin(2*numpy.pi*(x - curr_ell)/(4*curr_delta)))
+            high = 0.5*(1 + numpy.sin(2*numpy.pi*(x - curr_ell)/(4*curr_delta)))
+            tmp = numpy.sqrt(upper_sigma2*high**2 + lower_sigma2*low**2)
+            filter_vals[i] = high / tmp
+
+        #in non-overlapping region
+        elif x >= inner_lower and x < inner_upper:
+            filter_vals[i] = 1.0/numpy.sqrt(sigma2)
+        #in overlap with higher frequency
+        elif x >= inner_upper and x < outer_upper:
+            curr_ell = ells[i]
+            curr_delta = deltas[i]
+            lower_sigma2 = sigma2s[i]
+            upper_sigma2 = sigma2s[i+1]
+
+            low = 0.5*(1 - numpy.sin(2*numpy.pi*(x - curr_ell)/(4*curr_delta)))
+            high = 0.5*(1 + numpy.sin(2*numpy.pi*(x - curr_ell)/(4*curr_delta)))
+            tmp = numpy.sqrt(upper_sigma2*high**2 + lower_sigma2*low**2)
+            filter_vals[i] = low / tmp
+        else:
+            filter_vals[i] = 0
+
+    return filter_vals
+
+def create_nfilters(num_pix, delta, ells, sigma2s):
+    ffilters = [numpy.zeros((num_pix, num_pix)) for x in range(len(sigma2s))]
+    filters = [numpy.zeros((num_pix, num_pix)) for x in range(len(sigma2s))]
+    deltas = [delta] * len(sigma2s)
+
+    center = num_pix // 2 + 1 if num_pix % 2 == 0 else (num_pix + 1) // 2
+
+    for i in range(num_pix):
+        for j in range(num_pix):
+            dist_to_c = numpy.sqrt((i - center) ** 2 + (j - center) ** 2)
+            filter_vals = filter_mstep(dist_to_c, deltas, ells, sigma2s)
+
+            for k in range(len(sigma2s)):
+                ffilters[k][i, j] = filter_vals[k]
+
+    for i, f in enumerate(ffilters):
+        filters[i] = numpy.real(numpy.fft.ifftshift(numpy.fft.ifft2(numpy.fft.fftshift(f))))
+
+    return filters, ffilters
+
+
 def convolve2d(img1, img2):
     fimg1 = numpy.fft.fft2(img1)
     fimg2 = numpy.fft.fft2(numpy.fft.ifftshift(img2))
@@ -868,3 +952,12 @@ def convolve2d(img1, img2):
     return numpy.real(numpy.fft.ifft2(fimg1 * fimg2))
 
 
+#assumes isotropic lobes
+def find_clsize(img):
+    center = img.shape[0] // 2 + 1
+    curr_pos = center
+
+    while (curr_pos + 1) < img.shape[0] and img[curr_pos + 1, center] < img[curr_pos, center]:
+        curr_pos += 1
+
+    return 2 * (curr_pos - center)
