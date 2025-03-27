@@ -748,7 +748,7 @@ def deconvolve_multipartition_single(dirty, psf, niter, wavelet_type_idx, curr_m
     tofits(psf, tmp_psf_name)
     tofits(dirty, tmp_res_name)
 
-    os.system("julia --threads 32 julia/make_fullres.jl " + str(initial_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + tmp_output_name)
+    os.system("julia --threads 32 julia/make_fullres_mp.jl " + str(initial_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + tmp_output_name)
 
     deconvolved = fromfits(tmp_output_name)
 

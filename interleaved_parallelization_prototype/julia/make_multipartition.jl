@@ -49,9 +49,9 @@ if curr_maj_cycle > 0
 
 	G = make_filters_multipartition(ells, delta, sigma2s, n_pix) 
 
-	deconvolved = fista_multipartition(psf, dirty, lambda, n_fista_iter, G, constraint_images, curr_partition)
+	deconvolved = fista_multipartition(psf, dirty, lambda, n_fista_iter, G=G, constraint_images=constraint_images, partition_idx=curr_partition)
 else
-	deconvolved = fista(psf, dirty, lambda, n_fista_iter)
+	deconvolved = fista_multipartition(psf, dirty, lambda, n_fista_iter)
 end
 
 f = FITS(joinpath(root, output_filename), "w")
