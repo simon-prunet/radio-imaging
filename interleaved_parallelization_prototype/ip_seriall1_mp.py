@@ -45,7 +45,9 @@ iph.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf.fits")
 
 init_lambda = config["init_lambda_full"]
 
-nmaj = config["nmajcycl1"] + 1
+nmaj = config["nmajcycl1"]
+
+k = config["lambda_growth_steepness"]
 
 mc_start = time.time()
 iph.write_to_csv([mc_start - recon_start], timings_file)
@@ -56,8 +58,11 @@ for i in range(nmaj):
 
     iph.tofits(residual.pixels.data[0,0,:,:], output_dir + "residual_" + str(i) + ".fits")
 
+    t = float(i) / (float(config["nmajcycl1"]))
+    curr_lambda = init_lambda + (1 - init_lambda) * ((numpy.exp(k * t) - 1) / (numpy.exp(k) - 1))
+
     deconvolve_start = time.time()
-    deconvolved = iph.deconvolve_multipartition_single(residual.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], config["nfistaiter"], wavelet_idx, i, init_lambda)
+    deconvolved = iph.deconvolve_multipartition_single(residual.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], config["nfistaiter"], wavelet_idx, i, curr_lambda)
 
     iph.tofits(deconvolved, output_dir + "deconvolved_" + str(i) + ".fits")
 

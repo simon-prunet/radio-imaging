@@ -755,7 +755,7 @@ def deconvolve_multipartition_single(dirty, psf, niter, wavelet_type_idx, curr_m
     return deconvolved
 
 #interleaved deconvolution for multiple partitions
-def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, ells, delta, variance_window, dirty_var):
+def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, ells, delta, variance_window, dirty_var, deconv_partitions):
     res = numpy.array(dirty)
     np_psf = numpy.array(psf)
 
@@ -769,6 +769,7 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wave
 
     constraint_param = ""
     sigma2s_param = ""
+    deconv_param = ""
 
     if curr_maj_iter > 0:
         for i, est_image in enumerate(prev_estimates):
@@ -798,7 +799,7 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wave
 
     #partition is +1 due to julia being 1 indexed
     command = "julia --threads 32 julia/make_multipartition.jl " + tmp_psf_name + " " + tmp_res_name + " " + str(initial_lambda) + " " + str(niter) + " " + str(n_partitions) + " " + str(partition + 1) \
-         + " " + str(curr_maj_iter)  + " " + str(delta) + " " + tmp_output_name + " " + constraint_param + ells_param + sigma2s_param
+         + " " + str(curr_maj_iter)  + " " + str(delta) + " " + tmp_output_name + " " + str(deconv_partitions[partition]) + " " + constraint_param + ells_param + sigma2s_param
 
     os.system(command)
 

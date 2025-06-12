@@ -37,6 +37,8 @@ def master():
 
     timings_file = output_dir + "mc_timings"
 
+    weights = comm.allgather(None)
+
     comm.Barrier()
 
     startup_end = time.time()
@@ -85,6 +87,9 @@ def recon(partition):
 
     init_lambdas = config["init_lambdas"]
     init_lambda = init_lambdas[partition]
+    step = (1 - init_lambda) / config["nmajcycl1"]
+
+    lambdas = [init_lambda + i * step for i in range(config["nmajcycl1"])]
 
     lambda_muls = config["lambda_muls"]
     lambda_mul = lambda_muls[partition]
@@ -93,10 +98,22 @@ def recon(partition):
     
     output_dir = config["output_dir"] + "_pl1/"
 
+    k = config["lambda_growth_steepness"]
+
+    deconv_partitions = config["deconv_partitions"]
+
     breakdown_file = output_dir + "mc_timings_breakdown_" + str(partition)
 
     weight_grid, weight_timings, num_vis = iph.compute_weights_griddata_by_channel(ms_name, npixels, cellsize, channel_start, channel_end, data_descriptors)
     psf, estimate, psf_timings, weight = iph.compute_psf_by_channel(ms_name, npixels, cellsize, weight_grid, weighting, robustness, channel_start, channel_end, data_descriptors)
+
+    #leaving it here because it might be useful later
+    weights = numpy.zeros(len(init_lambdas))
+    weights = comm.allgather(weight)
+    total_weight = numpy.sum(weights[1:])
+
+    psfsum = numpy.sum(psf)
+
     iph.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf_" + str(partition) + ".fits")
     other_estimate = iph.create_image_from_ms(ms_name, npixels, cellsize)
 
@@ -128,14 +145,18 @@ def recon(partition):
 
         residual, resid_timings = iph.compute_residual_bychannel(estimate, ms_name, npixels, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors)
 
+        #for the largest scales, the sampling is essentially complete so we can just use the rescale dirty
         if i == 0:
             first_res_var = numpy.mean(iph.compute_windowed_var(residual.pixels.data[0,0,:,:], variance_window))
 
         iph.tofits(residual.pixels.data[0,0,:,:], output_dir + "residual_" + str(partition) + "_" + str(i) + ".fits")
 
+        t = float(i) / (float(config["nmajcycl1"]) - 1)
+        curr_lambda = init_lambda + (1 - init_lambda) * ((numpy.exp(k * t) - 1) / (numpy.exp(k) - 1))
+
         deconv_start = time.time()
-        deconvolved = iph.deconvolve_multipartition(partition, residual.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], prev_estimates, n_fista_iter, wavelet_idx, i, init_lambda, lambda_mul, \
-            ells, delta, variance_window, first_res_var)
+        deconvolved = iph.deconvolve_multipartition(partition, residual.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], prev_estimates, n_fista_iter, wavelet_idx, i, curr_lambda, lambda_mul, \
+            ells, delta, variance_window, first_res_var, deconv_partitions)
         deconv_end = time.time()
 
         iph.tofits(deconvolved, output_dir + "deconv_" + str(partition) + "_" + str(i) + ".fits")
