@@ -18,11 +18,15 @@ RUN ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
 
 # Add julia packages
  
+ENV RASCIL=/rascil-main
+ENV PYTHONPATH=$RASCIL:$PYTHONPATH
+ 
 RUN julia -e 'import Pkg; Pkg.update()' && \
     julia -e 'import Pkg; Pkg.add("FITSIO")' && \
+    julia -e 'import Pkg; Pkg.add("url="https://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@github.com/andferrari/IUWT.jl")' && \
     julia -e 'import Pkg; Pkg.add(url="https://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@github.com/andferrari/DeconvMultiStep.jl")' && \
-    julia -e 'import Pkg; Pkg.add("ImageFiltering")' && \
-    julia -e 'import Pkg; Pkg.add("url="https://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@github.com/andferrari/IUWT.jl"")'
+    julia -e 'import Pkg; Pkg.add("ImageFiltering")'
+    
 
 # Add tailored version of ska-sdp-func-python from gitlab fork. Build and pip install
 
@@ -60,9 +64,6 @@ RUN cd / && \
     cd /rascil-main && \
     pip install pip-tools && pip-compile --resolver=backtracking requirements.in && \
     pip install -r requirements.txt
-
-ENV RASCIL=/rascil-main
-ENV PYTHONPATH=$RASCIL:$PYTHONPATH
 
 #RUN cd $RASCIL && apt-get install git-lfs && \
 #    git-lfs install && \
