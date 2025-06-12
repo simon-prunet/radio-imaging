@@ -113,6 +113,27 @@ def windowed_sinc_lp(cutoff, signal_length, window_size, window_type, kaiser_bet
 
     return tf_nw[signal_length // 2:], spatial_nw, tf_w[signal_length // 2:], spatial_w, window[signal_length//2-signal_length//2:signal_length//2+signal_length//2 + signal_length % 2]
 
+#assumes signal_length is even
+def parks_mcclellan_lp(passband_range, transition_hw, signal_length, sigma2):
+    bands = []
+    desired = []
+
+    if passband_range[1] == signal_length//2:
+        bands = [0, passband_range[0] - transition_hw, passband_range[0] + transition_hw, 0.5*signal_length]
+        desired = [0, 1/sigma2]
+    elif passband_range[0] == 0:
+        bands = [0, passband_range[1] - transition_hw, passband_range[1] + transition_hw, 0.5*signal_length]
+        desired = [1/sigma2, 0]
+    else:
+        bands = [0, passband_range[0] - transition_hw, passband_range[0] + transition_hw, passband_range[1] - transition_hw, passband_range[1] + transition_hw, 0.5*signal_length]
+        desired = [0, 1/sigma2, 0]
+
+    spatial = sig.remez(signal_length-1, bands, desired, fs=signal_length)
+    spatial_padded = np.pad(spatial, (0, 1), mode='constant')
+    freqs = np.fft.ifftshift(np.fft.fft(np.fft.fftshift(spatial_padded), signal_length))
+
+    return freqs[signal_length//2:], spatial_padded
+
 def lp_to_bp(lp_spatial, bp_center):
     signal_length = lp_spatial.shape[0]
     n = np.arange(signal_length) / signal_length
@@ -131,21 +152,32 @@ def lp_to_hp(lp_spatial):
     return hp_fourier, hp_spatial
 
 #assumes same length filters, and that there is a sigma2 for each filter
-def normalize_filters(filters_freq, sigma2s):
+#can optionally provide a cutoff to the filters so that they completely adhere to some given supports
+def normalize_filters(filters_freq, sigma2s, cutoffs=None):
     signal_length = filters_freq[0].shape[0]
-    normalized_filters = [np.zeros(signal_length, dtype=np.complex) for x in range(len(filters_freq))]
+    normalized_filters = [x.copy() for x in filters_freq]
     filter_sum = np.zeros(signal_length, dtype=np.complex)
+
+    if cutoffs is not None:
+        for i, filt in enumerate(normalized_filters):
+            low = cutoffs[i][0]
+            high = cutoffs[i][1]
+
+            if low > 0:
+                normalized_filters[i][0:low] = 0
+            if high < signal_length - 1:
+                normalized_filters[i][high:signal_length] = 0
 
     for i, coeff in enumerate(filters_freq[0]):
         total = 0
         for j, sigma2 in enumerate(sigma2s):
-            total += sigma2 * filters_freq[j][i] ** 2
+            total += sigma2 * np.abs(normalized_filters[j][i]) ** 2
 
         total = np.sqrt(total)
         curr_coeff_sum = 0
 
         for j, sigma2 in enumerate(sigma2s):
-            normalized_filters[j][i] = filters_freq[j][i] / total
+            normalized_filters[j][i] /= total
             curr_coeff_sum += sigma2 * normalized_filters[j][i] ** 2
         
         filter_sum[i] = curr_coeff_sum
@@ -155,21 +187,45 @@ def normalize_filters(filters_freq, sigma2s):
 #assumes the frequencies go from zero, thus the actual signal will be 2x the length of the frequency response of the filter
 def compute_spatial_filters(filters_freq):
     filters_spatial = []
+    filters_freq_cutoff = []
     signal_length = filters_freq[0].shape[0]
-    for filt in filters_freq:
+    for i, filt in enumerate(filters_freq):
         expanded_filt = np.concatenate((filt[::-1], filt))
         filt_spatial = np.fft.ifftshift(np.fft.ifft(np.fft.fftshift(expanded_filt)))
         filters_spatial.append(filt_spatial)
 
     return filters_spatial
 
-def plot_filters(filt_names, filter_vals, filter_sum, colours, plot_mask, xmin=None, xmax=None):
+def compute_cutoffs(ells, hw, signal_length):
+    cutoffs = []
+    cutoffs.append((0, ells[0] + hw))
+
+    for i, ell in enumerate(ells):
+        if i == len(ells) - 1:
+            cutoffs.append([ells[i] - hw, signal_length])
+        else:
+            cutoffs.append([ells[i] - hw, ells[i+1] + hw])
+
+    return cutoffs
+
+def plot_filters(filt_names, filter_vals, filter_sum, colours, plot_mask, xmin=None, xmax=None, dbscale=False, spatial=False):
     for i, filt in enumerate(filt_names):
         if plot_mask[i]:
-            plt.plot(np.array(filter_vals[i]).real, label=filt, c=colours[i], alpha=0.6)
+            if dbscale:
+                curr_vals = 20 * np.log10(np.abs(filter_vals[i]))
+            else:
+                curr_vals = filter_vals[i] if spatial else np.abs(filter_vals[i])
 
-    if filter_sum is not None:
-        plt.plot(filter_sum.real, label="$\sum_n \sigma^2 f_n(x)^2 $", c="black")
+            plt.plot(np.array(curr_vals), label=filt, c=colours[i], alpha=0.6)
+
+    if filter_sum is not None and not spatial:
+        if dbscale:
+            rescaled_sum = 20 * np.log10(np.abs(filter_sum))
+        else:
+            rescaled_sum = filter_sum
+
+        plt.plot(np.abs(rescaled_sum), label="$\sum_n \sigma^2 f_n(x)^2 $", c="black")
+
     plt.legend(loc="lower right", fontsize=10)
 
     if xmax is None:
@@ -251,3 +307,35 @@ def generate_telescope_histogram(dec, telescope, freq, signal_length, time_res, 
         plt.vlines(vlines, ymin, ymax, colors='r')
 
         print(vlines)
+
+    plt.xlabel('Dist to center (pix)')
+    plt.ylabel('Num vis')
+
+#assumes square filters, and that the 1d frequency response starts from the center and stops at signal length / 2 (i.e. not mirrored along the center)
+def freq1d_to_radial2d(freq1d, signal_length):
+    filtfreq = np.zeros((signal_length, signal_length), dtype=np.complex128)
+
+    center = signal_length//2 + 1
+    filt1d_length = freq1d.shape[0]
+
+    for y in range(signal_length):
+        for x in range(signal_length):
+            xd = np.abs(x - center)
+            yd = np.abs(y - center)
+            dist = np.sqrt(xd**2 + yd**2)
+
+            #linear interpolation as the sample-rate on the 1d filter is not the same as the radial pixel centers
+            t = dist - int(dist)
+            low = int(dist)
+            high = low + 1
+
+            val = None
+
+            if high >= filt1d_length:
+                filtfreq[y, x] = freq1d[-1]
+            else:
+                filtfreq[y, x] = (1-t)*freq1d[low] + t*freq1d[high]
+
+    filt_spatial = np.fft.fftshift(np.fft.ifft2(np.fft.ifftshift(filtfreq))).real
+
+    return filtfreq, filt_spatial
