@@ -252,7 +252,7 @@ def fista_cov(psf, dirty, reg_param, wavelets, niter, vis_var, orthowavelets=Non
 
 	t = 1
 
-	cov_pi = pseudoinv(psf.kernel, ivs_var)
+	cov_pi = pseudoinv(psf.kernel, 1)
 	#cov_pi = np.fft.ifftshift(np.fft.ifft2(np.ones(psf.kernel.shape)))
 
 	#precomputations for gradient
