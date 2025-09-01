@@ -98,6 +98,7 @@ def create_visibility_from_ms2(
     selected_sources=None,
     selected_dds=None,
     average_channels=False,
+    use_weight_spec=True,
 ):
     """Minimal MS to Visibility converter
 
@@ -192,7 +193,7 @@ def create_visibility_from_ms2(
                         channum = range(start_chan, end_chan + 1)
                         ms_vis = ms.getcolslice(datacolumn, blc=blc, trc=trc)
                         ms_flags = ms.getcolslice("FLAG", blc=blc, trc=trc)
-                        ms_weight = ms.getcol("WEIGHT")
+                        ms_weight = ms.getcol("WEIGHT_SPECTRUM") if use_weight_spec else ms.getcol("WEIGHT")
 
                     except IndexError:
                         raise IndexError("channel number exceeds max. within ms")
@@ -201,7 +202,7 @@ def create_visibility_from_ms2(
                     try:
                         channum = range(channels)
                         ms_vis = ms.getcol(datacolumn)[:, channum, :]
-                        ms_weight = ms.getcol("WEIGHT")
+                        ms_weight = ms.getcol("WEIGHT_SPECTRUM")[:, channum, :] if use_weight_spec else ms.getcol("WEIGHT")
                         ms_flags = ms.getcol("FLAG")[:, channum, :]
                         channum = range(channels)
                     except IndexError:
@@ -211,12 +212,12 @@ def create_visibility_from_ms2(
                 try:
                     ms_vis = ms.getcol(datacolumn)[:, channum, :]
                     ms_flags = ms.getcol("FLAG")[:, channum, :]
-                    ms_weight = ms.getcol("WEIGHT")[:, :]
+                    ms_weight = ms.getcol("WEIGHT_SPECTRUM")[:, channum, :] if use_weight_spec else ms.getcol("WEIGHT")[:, :]
                 except IndexError:
                     raise IndexError("channel number exceeds max. within ms")
 
             if average_channels:
-                weight = ms_weight[:, numpy.newaxis, :] * (1.0 - ms_flags)
+                weight = ms_weight * (1.0 - ms_flags) if use_weight_spec else ms_weight[:, numpy.newaxis, :] * (1.0 - ms_flags)
                 ms_vis = numpy.sum(weight * ms_vis, axis=-2)[..., numpy.newaxis, :]
                 sumwt = numpy.sum(weight, axis=-2)[..., numpy.newaxis, :]
                 ms_vis[sumwt > 0.0] = ms_vis[sumwt > 0] / sumwt[sumwt > 0.0]
@@ -388,9 +389,7 @@ def create_visibility_from_ms2(
                 bv_flags[time_index, ibaseline, ...][
                     ms_flags[row, ...].astype("bool")
                 ] = 1
-                bv_weight[time_index, ibaseline, :, ...] = ms_weight[
-                    row, numpy.newaxis, ...
-                ]
+                bv_weight[time_index, ibaseline, :, ...] = ms_weight[row, :, ...] if use_weight_spec else ms_weight[row, numpy.newaxis, ...]
                 bv_uvw[time_index, ibaseline, :] = uvw[row, :]
                 bv_integration_time[time_index] = integration_time[row]
 

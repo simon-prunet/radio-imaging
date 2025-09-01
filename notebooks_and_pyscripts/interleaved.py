@@ -37,7 +37,7 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
 
     helpers.write_nparr_to_fits(constraint, tmp_constraint_name)
 
-    os.system("julia ../julia_rascil_scripts/make_multistep_interleaved.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + tmp_constraint_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + \
+    os.system("julia ../src/julia_scripts/make_multistep_interleaved.jl " + str(curr_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + tmp_constraint_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + \
             str(low_variance) + " " + str(high_variance) + " " + str(cut_center) + " " + str(cut_halfwidth)  + " " + str(step) + " " + str(curr_maj_iter) + " " + tmp_output_name)
 
     deconvolved = helpers.readFits(tmp_output_name)

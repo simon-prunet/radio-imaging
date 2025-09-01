@@ -1,12 +1,25 @@
+#!/usr/bin/env python
+
+"""\
+Script that performs the ms-clean reconstruction on some dataset.
+Example execution: python ip_msclean.py <config_filename>
+""" 
+
+__author__ = "Sunrise Wang"
+__email__ = "sunrise.wang@oca.eu, sunrisewng@gmail.com"
+
 import json
-import ip_helpers as iph
 import numpy
 import time
 import sys
-from pathlib import Path
-from ska_sdp_func_python.image.cleaners import msclean
 import gc
 
+from pathlib import Path
+from ska_sdp_func_python.image.cleaners import msclean
+
+from radioimaging.util import util
+from radioimaging.visibility import residual, weights
+from radioimaging.images import images
 
 wavelet_type_dict = {"daubechies" : 0, "iuwt" : 1}
 config_filename = sys.argv[1]
@@ -32,22 +45,21 @@ scales = config["clean_scales"]
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
-
 timings_file = output_dir + "mc_timings"
 breakdown_file = output_dir + "mc_timings_breakdown"
 
 recon_start = time.time()
 
-weight_grid, weight_timings, num_vis = iph.compute_weights_griddata_by_channel(ms_name, npixels, cellsize, channel_start, channel_end, data_descriptors)
+weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize)
 print("num vis: " + str(num_vis))
 
-psf, estimate, psf_timings, weight = iph.compute_psf_by_channel(ms_name, npixels, cellsize, weight_grid, weighting, robustness, channel_start, channel_end, data_descriptors)
+psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
 
-iph.write_to_csv([num_vis], breakdown_file)
-iph.write_to_csv(weight_timings, breakdown_file)
-iph.write_to_csv(psf_timings, breakdown_file)
+util.write_to_csv([num_vis], breakdown_file)
+util.write_to_csv(weight_timings, breakdown_file)
+util.write_to_csv(psf_timings, breakdown_file)
 
-iph.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf.fits")
+util.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf.fits")
 
 init_lambda = config["init_lambda_full"]
 lambda_mul = config["lambda_mul_full"]
@@ -55,7 +67,7 @@ lambda_mul = config["lambda_mul_full"]
 nmaj = config["nmajcyc"] + 1
 
 mc_start = time.time()
-iph.write_to_csv([mc_start - recon_start], timings_file)
+util.write_to_csv([mc_start - recon_start], timings_file)
 
 sens = None
 gain = 0.1
@@ -64,25 +76,23 @@ fracthresh = 1e-3
 for i in range(nmaj):
     gc.collect()
     curr_mc_start = time.time()
-    print("Computing Residual:")
-    residual, resid_timings = iph.compute_residual_bychannel(estimate, ms_name, npixels, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors)
+    resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
 
-    iph.tofits(residual.pixels.data[0,0,:,:], output_dir + "residual_" + str(i) + ".fits")
+    util.tofits(resid.pixels.data[0,0,:,:], output_dir + "residual_" + str(i) + ".fits")
     gc.collect()
     deconvolve_start = time.time()
-    
-    print("Deconvolving:")
-    deconvolved, _ = msclean(residual["pixels"].data[0, 0, :, :], psf["pixels"].data[0, 0, :, :], None, sens, gain, thresh, msc_niter, scales, fracthresh)
 
-    iph.tofits(deconvolved, output_dir + "deconvolved_" + str(i) + ".fits")
+    deconvolved, _ = msclean(resid["pixels"].data[0, 0, :, :], psf["pixels"].data[0, 0, :, :], None, sens, gain, thresh, msc_niter, scales, fracthresh)
 
-    estimate = iph.add_to_image(estimate, deconvolved)
+    util.tofits(deconvolved, output_dir + "deconvolved_" + str(i) + ".fits")
+
+    estimate = images.add_to_image(estimate, deconvolved)
 
     curr_mc_end = time.time()
 
     resid_timings.append(curr_mc_end - deconvolve_start)
 
-    iph.write_to_csv([curr_mc_end - curr_mc_start], timings_file)
-    iph.write_to_csv(resid_timings, breakdown_file)
+    util.write_to_csv([curr_mc_end - curr_mc_start], timings_file)
+    util.write_to_csv(resid_timings, breakdown_file)
 
-iph.tofits(estimate.pixels.data[0, 0, ...], output_dir + "final_deconvolved.fits")
+util.tofits(estimate.pixels.data[0, 0, ...], output_dir + "final_deconvolved.fits")

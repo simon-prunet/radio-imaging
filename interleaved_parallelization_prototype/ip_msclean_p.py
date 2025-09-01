@@ -1,12 +1,25 @@
+#!/usr/bin/env python
+
+"""\
+Script that performs parallel spatial frequency ms-clean reconstruction on some dataset for two partitions.
+Example execution: mpiexec -n 3 python ip_msclean_p.py <config_filename>
+""" 
+
+__author__ = "Sunrise Wang"
+__email__ = "sunrise.wang@oca.eu, sunrisewng@gmail.com"
+
 from mpi4py import MPI
 import json
-import ip_helpers as iph
 import numpy
 import time
 import sys
 from pathlib import Path
 from ska_sdp_func_python.image.cleaners import msclean
 import gc
+
+from radioimaging.visibility import weights, residual, ingest
+from radioimaging.util import util
+from radioimaging.images import images, filters
 
 wavelet_type_dict = {"daubechies" : 0, "iuwt" : 1}
 config_filename = sys.argv[1]
@@ -40,7 +53,7 @@ def master():
     timings_file = output_dir + "mc_timings"
 
     startup_end = time.time()
-    iph.write_to_csv([startup_end - recon_start], timings_file)
+    util.write_to_csv([startup_end - recon_start], timings_file)
 
     curr_recon_vl = None
     curr_recon_vh = None
@@ -58,13 +71,13 @@ def master():
 
         curr_recon = combine([curr_recon_vh, curr_recon_vl], config["npixels"], average=(i > 0))
 
-        iph.tofits(curr_recon, output_dir + "deconv_combined_" + str(i) + ".fits")
-        iph.tofits(reconstructions[1], output_dir + "deconv_vl_" + str(i) + ".fits")
-        iph.tofits(reconstructions[2], output_dir + "deconv_vh_" + str(i) + ".fits")
+        util.tofits(curr_recon, output_dir + "deconv_combined_" + str(i) + ".fits")
+        util.tofits(reconstructions[1], output_dir + "deconv_vl_" + str(i) + ".fits")
+        util.tofits(reconstructions[2], output_dir + "deconv_vh_" + str(i) + ".fits")
 
         mc_end = time.time()
 
-        iph.write_to_csv([mc_end - mc_start], timings_file)
+        util.write_to_csv([mc_end - mc_start], timings_file)
 
 #reconstruction nodes, responsible for reconstructing the individual full resolution images. For now assumes only 2 partitions
 def recon(step):
@@ -81,8 +94,8 @@ def recon(step):
     data_descriptors = config["data_descriptors"]
     output_dir = config["output_dir"] + "_msclean_p/"
     msc_niter = int(config["msclean_iter"])
-    delta = config["sep_center"]
-    ell = config["sep_hw"]
+    delta = config["sep_hw"]
+    ell = config["sep_center"]
     var_window = config["visvar_window"]
     thresh = config["clean_thresh"]
     scales = config["clean_scales"]
@@ -94,21 +107,25 @@ def recon(step):
 
     breakdown_file = output_dir + "mc_timings_breakdown_" + str(step)
 
-    weight_grid, weight_timings, num_vis = iph.compute_weights_griddata_by_channel(ms_name, npixels, cellsize, channel_start, channel_end, data_descriptors)
-    psf, estimate, psf_timings, weight = iph.compute_psf_by_channel(ms_name, npixels, cellsize, weight_grid, weighting, robustness, channel_start, channel_end, data_descriptors)
-    iph.tofits(numpy.fft.ifftshift(numpy.real(numpy.fft.fft2(psf.pixels.data[0,0,:,:]))), output_dir + "psf_" + str(step) + ".fits")
-    other_estimate = iph.create_image_from_ms(ms_name, npixels, cellsize)
-    other_psf = iph.create_image_from_ms(ms_name, npixels, cellsize)
+    weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize)
+    psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
+    util.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf_" + str(step) + ".fits")
+    other_estimate = ingest.create_image_from_ms(ms_name, npixels, cellsize)
+    other_psf = ingest.create_image_from_ms(ms_name, npixels, cellsize)
     local_filter = other_filter = None
 
+    frs, _, _ = filters.create_filters_mstep(psf.pixels.data.shape[-1] // 2, [delta], [ell], [1, 1])
+    frns = [numpy.array(fr) for fr in frs]
+    fs2ds = [filters.freq1d_to_radial2d(f1d, psf.pixels.data.shape[-1])[1] for f1d in frns]
+
     if step == 0:
-        local_filter, other_filter = iph.create_filters(npixels, delta, ell, 1, 1)
+        local_filter = fs2ds[0]
+        other_filter = fs2ds[1]
     else:
-        other_filter, local_filter = iph.create_filters(npixels, delta, ell, 1, 1)
+        local_filter = fs2ds[1]
+        other_filter = fs2ds[0]
 
     other_weight = numpy.zeros(1)
-
-    print(weight)
 
     #share psfs, needed for all major-cycles after the first
     psf_send_start = time.time()
@@ -129,13 +146,16 @@ def recon(step):
     corrected_local_weight = weight / total_weight
     corrected_other_weight = other_weight / total_weight
 
-    joint_psf = corrected_local_weight * iph.convolve2d(psf["pixels"].data[0, 0, :, :], local_filter) + corrected_other_weight * iph.convolve2d(other_psf["pixels"].data[0, 0, :, :], other_filter)
-    iph.tofits(joint_psf, output_dir + "joint_psf" + str(step) + ".fits")
+    util.tofits(local_filter, "locfilt" + str(step) + ".fits")
+    util.tofits(other_filter, "otherfilt" + str(step) + ".fits")
 
-    iph.write_to_csv([num_vis], breakdown_file)
-    iph.write_to_csv(weight_timings, breakdown_file)
-    iph.write_to_csv(psf_timings, breakdown_file)
-    iph.write_to_csv([psf_send_end - psf_send_start], breakdown_file)
+    joint_psf = corrected_local_weight * util.convolve2d(psf["pixels"].data[0, 0, :, :], local_filter) + corrected_other_weight * util.convolve2d(other_psf["pixels"].data[0, 0, :, :], other_filter)
+    util.tofits(joint_psf, output_dir + "joint_psf" + str(step) + ".fits")
+
+    util.write_to_csv([num_vis], breakdown_file)
+    util.write_to_csv(weight_timings, breakdown_file)
+    util.write_to_csv(psf_timings, breakdown_file)
+    util.write_to_csv([psf_send_end - psf_send_start], breakdown_file)
 
     for i in range(config["nmajcyc"]):
         gc.collect()
@@ -150,9 +170,9 @@ def recon(step):
                 comm.Send(estimate.pixels.data, dest=1)
         send_end = time.time()
 
-        residual, resid_timings = iph.compute_residual_bychannel(estimate, ms_name, npixels, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors)
+        resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
 
-        iph.tofits(residual.pixels.data[0,0,:,:], output_dir + "residual_" + str(step) + "_" + str(i) + ".fits")
+        util.tofits(resid.pixels.data[0,0,:,:], output_dir + "residual_" + str(step) + "_" + str(i) + ".fits")
 
         deconv_start = time.time()
 
@@ -160,24 +180,22 @@ def recon(step):
 
         if i > 0:
             constraint = other_estimate.pixels.data[0, 0, :, :] - estimate.pixels.data[0, 0, :, :]
-            other_residual = iph.convolve2d(constraint, other_psf["pixels"].data[0, 0, :, :])
-            #local_resid_var = iph.compute_windowed_var(residual["pixels"].data[0, 0, :, :], var_window)
-            #other_resid_var = iph.compute_windowed_var(other_residual, var_window)
+            other_residual = util.convolve2d(constraint, other_psf["pixels"].data[0, 0, :, :])
 
-            curr_residual = corrected_local_weight * residual["pixels"].data[0, 0, :, :] + corrected_other_weight * iph.convolve2d(other_residual, other_filter)
+            curr_residual = corrected_local_weight * resid["pixels"].data[0, 0, :, :] + corrected_other_weight * util.convolve2d(other_residual, other_filter)
             curr_psf = joint_psf
         else:
-            curr_residual = residual.pixels.data[0,0,:,:]
+            curr_residual = resid.pixels.data[0,0,:,:]
             curr_psf = psf["pixels"].data[0, 0, :, :]
 
-        iph.tofits(curr_psf, output_dir + "curr_psf_" + str(step) + "_" + str(i) + ".fits")
-        iph.tofits(curr_residual, output_dir + "curr_residual_" + str(step) + "_" + str(i) + ".fits")
+        util.tofits(curr_psf, output_dir + "curr_psf_" + str(step) + "_" + str(i) + ".fits")
+        util.tofits(curr_residual, output_dir + "curr_residual_" + str(step) + "_" + str(i) + ".fits")
 
         deconvolved, _ = msclean(curr_residual, curr_psf, None, sens, gain, thresh, msc_niter if i > 0 or step == 1 else msc_niter // 2, scales if i > 0 or step == 0 else small_scales, fracthresh)
 
         deconv_end = time.time()
 
-        estimate = iph.add_to_image(estimate, deconvolved)
+        estimate = images.add_to_image(estimate, deconvolved)
 
         sendrecon_start = time.time()
         comm.gather(deconvolved, root=0)
@@ -187,7 +205,7 @@ def recon(step):
         resid_timings.append(deconv_end - deconv_start)
         resid_timings.append(sendrecon_end - sendrecon_start)
 
-        iph.write_to_csv(resid_timings, breakdown_file)
+        util.write_to_csv(resid_timings, breakdown_file)
 
 
 comm = MPI.COMM_WORLD
