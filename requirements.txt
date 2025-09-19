@@ -1,0 +1,6 @@
+casadata==2024.1.15
+casaplotms==2.3.4
+casatasks==6.6.3.22
+casatools==6.6.3.22
+casaviewer==2.0.1
+astropy==6.1.7

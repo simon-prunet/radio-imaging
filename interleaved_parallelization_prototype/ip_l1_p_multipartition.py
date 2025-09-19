@@ -93,6 +93,7 @@ def recon(partition):
     channel_start = int(config["channel_start"])
     channel_end = int(config["channel_end"])
     data_descriptors = config["data_descriptors"]
+    bda = config["bda"] if config["bda"] is not None else False
 
     ells = config["ells"]
     ells.sort()
@@ -120,8 +121,8 @@ def recon(partition):
 
     breakdown_file = output_dir + "mc_timings_breakdown_" + str(partition)
 
-    weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize)
-    psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
+    weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, bda=bda)
+    psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid, bda=bda)
 
     #leaving it here because it might be useful later
     wgts = numpy.zeros(len(init_lambdas))
@@ -131,7 +132,6 @@ def recon(partition):
     psfsum = numpy.sum(psf)
 
     util.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf_" + str(partition) + ".fits")
-    other_estimate = ingest.create_image_from_ms(ms_name, npixels, cellsize)
 
     #synchronization barrier primarily used to start the major cycles at the same time. This isn't strictly needed, but is handy for taking stats, as we can determine the amount
     #of waiting time before the first major cycle
@@ -159,7 +159,7 @@ def recon(partition):
 
         send_end = time.time()
 
-        resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
+        resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid, bda=bda)
 
         if i == 0:
             first_res_var = numpy.mean(deconvolve.compute_windowed_var(resid.pixels.data[0,0,:,:], variance_window))

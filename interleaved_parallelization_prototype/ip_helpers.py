@@ -430,8 +430,8 @@ def compute_residual(sky_estimate, vis, npixel, cellsize):
 
     return dirty
 
-def create_image_from_ms(ms_name, npixels, cellsize):
-    [vis], _ = create_visibility_from_ms2(ms_name, start_chan=0, end_chan=0, selected_dds=[0])
+def create_image_from_ms(ms_name, npixels, cellsize, bda=False):
+    [vis], _ = create_visibility_from_ms2(ms_name, use_weight_spec=bda, start_chan=0, end_chan=0, selected_dds=[0], use_weight_spec=bda)
     vis = convert_visibility_to_stokesI(vis)
 
     return create_image_from_visibility(vis, cellsize=cellsize, npixel=npixels, polarisation_frame=vis.visibility_acc.polarisation_frame)
@@ -439,7 +439,7 @@ def create_image_from_ms(ms_name, npixels, cellsize):
 
 #computes residual piecemeal channel by channel, this is so that we can handle very large datasets and not be bound by memory
 #assumes that all channels are treated together, and that we only deal with Stokes I polarization
-def compute_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors, algorithm='ng'):
+def compute_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors, bda=False, algorithm='ng'):
     final_residual = None
 
     read_from_disk_timings = []
@@ -456,7 +456,7 @@ def compute_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weightin
     for dd in data_descriptors:
         for curr_channel in channels:
             read_start = time.time()
-            [measured_vis], _ = create_visibility_from_ms2(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [measured_vis], _ = create_visibility_from_ms2(ms_name, use_weight_spec=bda, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             polarization_start = time.time()
             
             measured_vis = convert_visibility_to_stokesI(measured_vis)
@@ -510,7 +510,7 @@ def compute_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weightin
 
 #computes jacknifed residual piecemeal channel by channel, this is so that we can handle very large datasets and not be bound by memory
 #assumes that all channels are treated together, and that we only deal with Stokes I polarization
-def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors, algorithm='ng'):
+def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors, bda=False, algorithm='ng'):
     final_residual = None
 
     channels = range(channel_start, channel_end + 1)
@@ -518,7 +518,7 @@ def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsiz
 
     for dd in data_descriptors:
         for curr_channel in channels:
-            [measured_vis], _ = create_visibility_from_ms2(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [measured_vis], _ = create_visibility_from_ms2(ms_name, use_weight_spec=bda, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             measured_vis = convert_visibility_to_stokesI(measured_vis)
 
             for (i, j, k, l), vis in numpy.ndenumerate(measured_vis.vis):
@@ -554,7 +554,7 @@ def compute_psf(vis, npixel, cellsize):
 
 #computes psf piecemeal channel by channel, this is so that we can handle very large datasets and not be bound by memory
 #assumes that all channels are treated together, and that we only deal with Stokes I polarization
-def compute_psf_by_channel(ms_name, npixel, cellsize, weight_grid, weighting, robustness, channel_start, channel_end, data_descriptors, algorithm='ng'):
+def compute_psf_by_channel(ms_name, npixel, cellsize, weight_grid, weighting, robustness, channel_start, channel_end, data_descriptors, bda=False, algorithm='ng'):
     model = None
     psf = None
 
@@ -571,7 +571,7 @@ def compute_psf_by_channel(ms_name, npixel, cellsize, weight_grid, weighting, ro
     for dd in data_descriptors:
         for curr_channel in channels:
             read_start = time.time()
-            [vis], _ = create_visibility_from_ms2(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [vis], _ = create_visibility_from_ms2(ms_name, use_weight_spec=bda, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             polar_start = time.time()
             vis = convert_visibility_to_stokesI(vis)
             weight_start = time.time()
@@ -623,7 +623,7 @@ def compute_weights(vis, npixel, cellsize, weighting, robustness=0.0):
 
 #create griddata piecemeal by channel. This is essentially a tally per grid cell for all the visibilities that fall into it, and is needed for computing visibility weights
 #piecemeal, as it cannot be done in one go for large datasets
-def compute_weights_griddata_by_channel(ms_name, npixel, cellsize, channel_start, channel_end, data_descriptors):
+def compute_weights_griddata_by_channel(ms_name, npixel, cellsize, channel_start, channel_end, data_descriptors, bda=False):
     total_grid = None
     model = None
 
@@ -638,7 +638,7 @@ def compute_weights_griddata_by_channel(ms_name, npixel, cellsize, channel_start
     for dd in data_descriptors:
         for curr_channel in channels:
             read_start = time.time()
-            [vis], num_vis = create_visibility_from_ms2(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [vis], num_vis = create_visibility_from_ms2(ms_name, use_weight_spec=bda, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             total_vis += num_vis
             pol_start = time.time()
             vis = convert_visibility_to_stokesI(vis)

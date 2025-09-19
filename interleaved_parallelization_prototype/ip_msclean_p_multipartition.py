@@ -95,6 +95,7 @@ def recon(partition):
     channel_start = int(config["channel_start"])
     channel_end = int(config["channel_end"])
     data_descriptors = config["data_descriptors"]
+    bda = config["bda"] if config["bda"] is not None else False
 
     output_dir = config["output_dir"] + "_pmsc/"
     
@@ -116,8 +117,8 @@ def recon(partition):
 
     breakdown_file = output_dir + "mc_timings_breakdown_" + str(partition)
 
-    weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize)
-    psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
+    weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, bda=bda)
+    psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid, bda=bda)
     util.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf_" + str(partition) + ".fits")
 
     sigma2s = [1] * (len(ells) + 1)
@@ -175,7 +176,7 @@ def recon(partition):
             prev_estimates = prev_estimates[1:]
             sendrecon_end = time.time()
 
-        resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
+        resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid, bda=bda)
 
         util.tofits(resid.pixels.data[0,0,:,:], output_dir + "residual_" + str(partition) + "_" + str(i) + ".fits")
 

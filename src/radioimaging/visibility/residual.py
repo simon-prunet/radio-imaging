@@ -50,7 +50,7 @@ def compute_residual(sky_estimate, vis, npixel, cellsize):
 
 
 
-def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, data_descriptors, npixel, cellsize, weighting, robustness=0, weight_grid=None, algorithm='ng'):
+def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, data_descriptors, npixel, cellsize, weighting, robustness=0, weight_grid=None, algorithm='ng', bda=False):
     """
     compute_residual_from_ms computes the residual between a sky estimate and a set of initial visibility measurements which is stored in a measurement set. 
     This is done on a channel-by-channel basis so that arbitrarily large measurement sets can be processed in memory so as long as each channel can fit in memory
@@ -83,10 +83,12 @@ def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, 
 
     channels = range(channel_start, channel_end + 1)
 
+    weight = 0
+
     for dd in data_descriptors:
         for curr_channel in channels:
             read_start = time.time()
-            [measured_vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [measured_vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             polarization_start = time.time()
             
             measured_vis = convert_visibility_to_stokesI(measured_vis)
@@ -106,8 +108,16 @@ def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, 
             invert_start = time.time()
             channel_residual, sumwt = invert_ng(residual_vis, final_residual, context=algorithm)
 
+            prev_weight = weight
+            weight += sumwt[0,0]
+
             add_start = time.time()
-            final_residual = images.add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:])
+            if prev_weight == 0:
+                final_residual = images.add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:])
+            else:
+                final_residual.pixels.data[0,0,:,:] *= prev_weight / weight
+                final_residual = images.add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:] * (sumwt[0,0] / weight))
+
             channel_residual = None
             channel_end = time.time()
 
@@ -155,7 +165,7 @@ def compute_psf(vis, npixel, cellsize):
     return psf
 
 
-def compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixel, cellsize, weighting, robustness=0, weight_grid=None, algorithm='ng'):
+def compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixel, cellsize, weighting, robustness=0, weight_grid=None, algorithm='ng', bda=False):
     """
     compute_psf_by_channel calculates a psf from visibilities stored in a measurement set. This is done on a channel-by-channel basis so that 
     arbitrarily large measurement sets can be processed in memory so as long as each channel can fit in memory
@@ -190,7 +200,7 @@ def compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors
     for dd in data_descriptors:
         for curr_channel in channels:
             read_start = time.time()
-            [vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             polar_start = time.time()
             vis = convert_visibility_to_stokesI(vis)
             weight_start = time.time()
@@ -201,13 +211,15 @@ def compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors
 
             invert_start = time.time()
             curr_psf, sumwt = invert_ng(vis, model, context=algorithm, dopsf=True)
+            prev_weight = weight
             weight += sumwt[0,0]
 
             add_start = time.time()
             if psf is None:
                 psf = curr_psf
             else:
-                psf = images.add_to_image(psf, curr_psf.pixels.data[0,0,:,:])
+                psf.pixels.data[0,0,:,:] *= prev_weight / weight
+                psf = images.add_to_image(psf, curr_psf.pixels.data[0,0,:,:] * (sumwt[0,0] / weight))
             channel_end = time.time()
 
             gc.collect()

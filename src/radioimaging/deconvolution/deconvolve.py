@@ -290,3 +290,25 @@ def deconvolve_multistep(dirty, psf, constraint, niter, wavelet_type_idx, curr_m
     deconvolved = util.fromfits(tmp_output_name)
 
     return deconvolved
+
+
+def deconvolve_tikhonov(dirty, psf, mu, epsilon, epsilon=1e-5):
+    """
+    deconvolve_tikhonov deconvolves a full resolution image using tikhonov regularization
+
+    :dirty: dirty image
+    :psf: point spread function
+    :mu: regularization parameter
+    :epsilon: threshold for the pseudo-inverse
+    """
+
+    fpsf = numpy.fft.fft2(psf)
+    fdirty = numpy.fft.fft2(dirty)
+    reg = numpy.ones(psf.shape) * mu
+
+    inv = fpsf * numpy.conj(fpsf)
+    inv[numpy.abs(inv) < epsilon] = 0
+
+    fdeconv = numpy.divide(1, inv, where=inv != 0) * numpy.conj(fpsf) * fdirty
+
+    return numpy.fft.ifft2(fdeconv)

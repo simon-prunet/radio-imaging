@@ -42,7 +42,7 @@ def compute_weights(vis, npixel, cellsize, weighting, robustness=0.0):
     return vis
 
 
-def compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixel, cellsize):
+def compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixel, cellsize, bda=False):
     """
     compute_weights_griddata_from_ms computes the weights grid from some given measurement set
     This is typically used in conjunction with the compute residual or psf functions which ingest the measurement set by channel as well 
@@ -70,7 +70,7 @@ def compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_d
     for dd in data_descriptors:
         for curr_channel in channels:
             read_start = time.time()
-            [vis], num_vis = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [vis], num_vis = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             total_vis += num_vis
             pol_start = time.time()
             vis = convert_visibility_to_stokesI(vis)

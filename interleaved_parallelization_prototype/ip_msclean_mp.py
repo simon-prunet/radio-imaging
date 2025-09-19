@@ -40,6 +40,7 @@ thresh = config["clean_thresh"]
 scales = config["fullres_clean_scales"]
 fracthresh = config["clean_fracthresh"]
 gain = config["clean_gain"]
+bda = config["bda"] if config["bda"] is not None else False
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -49,10 +50,10 @@ breakdown_file = output_dir + "mc_timings_breakdown"
 
 recon_start = time.time()
 
-weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize)
+weight_grid, weight_timings, num_vis = weights.compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, bda=bda)
 print("num vis: " + str(num_vis))
 
-psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
+psf, estimate, psf_timings, weight = residual.compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid, bda=bda)
 
 util.write_to_csv([num_vis], breakdown_file)
 util.write_to_csv(weight_timings, breakdown_file)
@@ -73,7 +74,7 @@ sens = None
 for i in range(nmaj):
     gc.collect()
     curr_mc_start = time.time()
-    resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid)
+    resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid, bda=bda)
 
     util.tofits(resid.pixels.data[0,0,:,:], output_dir + "residual_" + str(i) + ".fits")
     gc.collect()
