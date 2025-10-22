@@ -287,7 +287,7 @@ def dirty_psf_from_visibilities(vt,cellsize,npix=512,weighting="uniform",robustn
     """
 
     # First create empty rascil Image instance from visibilities
-    model = create_image_from_visibility(vt,cellsize=cellsize,npixel=npix, override_cellsize=override_cellsize)
+    model = create_image_from_visibility(vt,cellsize=cellsize,npixel=npix, override_cellsize=override_cellsize, polarisation_frame=vt.visibility_acc.polarisation_frame)
     print ("Model image plate scale (arcsec) is %e"%numpy.abs((model.image_acc.wcs.wcs.cdelt[0]*3600)))
     # Reweight visibilities if not natural weighting
     if (weighting != "natural"):

@@ -158,6 +158,18 @@ def dvdt(lx, ly, ha, dec, lambd):
     """
     return (lx * numpy.sin(dec) * numpy.sin(ha) + ly * numpy.sin(dec) * numpy.cos(ha)) * omega / lambd
 
+def dwdt(lx, ly, ha, dec, lambd):
+    """
+    dwdt calculates dwdt of visibility coordinates
+
+    :lx: x baseline coordinate
+    :ly: y baseline coordinate
+    :ha: hour angle of observed object
+    :dec: declination of observed object
+    :lambd: freq/c
+    :return: dwdt
+    """
+    return (lx * -numpy.cos(dec) * numpy.sin(ha) - ly * numpy.cos(dec) * numpy.cos(ha)) * omega / lambd
 
 def radec_to_ecefunit(ra, dec, t):
     """
@@ -212,7 +224,7 @@ def get_maxdecorr_obstime_source(phasecenter, half_fov, vis, telescope_coords):
     return t, sources[source_idx]
 
 #freq decorrelation
-def freq_decorr(channel_width, baseline_coords_ecef, source_radec, obs_datetime):
+def freq_decorr(channel_width, baseline_coords_ecef, source_radec, phase_center, obs_datetime, freq):
     """
     freq_decorr calculates frequency decorrelation
 
@@ -222,8 +234,22 @@ def freq_decorr(channel_width, baseline_coords_ecef, source_radec, obs_datetime)
     :obs_datetime: observation time
     :return: a value between 0 and 1 denoting frequency decorrelation, with 1 being no decorrelation
     """
-    src_coords = radec_to_ecefunit(source_radec[0], source_radec[1], obs_datetime)
-    tau_g = (src_coords[0] * baseline_coords_ecef[0] + src_coords[1] * baseline_coords_ecef[1] + src_coords[2] * baseline_coords_ecef[2]) / const.c
+    lambd = const.c / freq
+
+    l = (source_radec[0] - phase_center[0]) * numpy.cos(phase_center[1])
+    m = source_radec[1] - phase_center[1]
+    n = numpy.sqrt(1 - l * l - m * m)
+
+    lst = obs_datetime.sidereal_time("mean")
+    lst_rad = (lst.hour * 15 * u.deg).to(u.rad).value
+    ha = lst_rad - phase_center[0]
+    dec = phase_center[1]
+
+    ulambd = (numpy.sin(ha) * baseline_coords_ecef[0] + numpy.cos(dec) * baseline_coords_ecef[1]) / lambd
+    vlambd = (-numpy.sin(dec) * numpy.cos(ha) * baseline_coords_ecef[0] + numpy.sin(dec) * numpy.sin(ha) * baseline_coords_ecef[1] + numpy.cos(dec) * baseline_coords_ecef[2]) / lambd
+    wlambd = (numpy.cos(dec) * numpy.cos(ha) * baseline_coords_ecef[0] - numpy.cos(dec) * numpy.sin(ha) * baseline_coords_ecef[1] + numpy.sin(dec) * baseline_coords_ecef[2]) / lambd
+
+    tau_g = (ulambd * l + vlambd * m + wlambd * (n - 1)) / const.c
 
     #we don't multiply by pi since numpy's sinc does this already, 1 is no decorrelation
     return numpy.abs(numpy.sinc((channel_width * tau_g).value / 2))
@@ -246,17 +272,18 @@ def time_decorr(baseline_coord, total_int_time, source_radec, freq, phase_center
 
     lst = obs_datetime.sidereal_time("mean")
     lst_rad = (lst.hour * 15 * u.deg).to(u.rad).value
-    ha = lst_rad - source_radec[0]
-    dec = source_radec[1]
+    ha = lst_rad - phase_center[0]
+    dec = phase_center[1]
 
     du = dudt(baseline_coord[0], baseline_coord[1], ha, lambd)
     dv = dvdt(baseline_coord[0], baseline_coord[1], ha, dec, lambd)
+    dw = dwdt(baseline_coord[0], baseline_coord[1], ha, dec, lambd)
 
-    #small angles approximation, this may need to change if we are simultaneously observing large fields, needed because ra converges towards celestial poles
     l = (source_radec[0] - phase_center[0]) * numpy.cos(phase_center[1])
     m = source_radec[1] - phase_center[1]
+    n = numpy.sqrt(1 - l * l - m * m)
 
-    change_rate = ((l * du + m * dv) ** 2).value
+    change_rate = ((l * du + m * dv + (1 - n) * dw) ** 2).value
 
     # eq 41 of wijnholds paper
     decorr_frac = 1 - (numpy.pi**2 * total_int_time ** 2) * change_rate / 6.0 
@@ -282,7 +309,7 @@ def averaging_levels(max_decorr, baseline_coord, visint_time, freq, channel_widt
     :return: an integer x, where the maximum amount of averaging that can be done is 2^x
     """
 
-    curr_freq_decorr = 1 if only_residual_decorr else freq_decorr(channel_width, baseline_coord, source_radec, obs_datetime)
+    curr_freq_decorr = 1 if only_residual_decorr else freq_decorr(channel_width, baseline_coord, source_radec, phase_center, obs_datetime, freq)
     curr_time_decorr, change_rate = time_decorr(baseline_coord, visint_time, source_radec, freq, phase_center, obs_datetime)
 
     if change_rate > 0:
@@ -447,7 +474,41 @@ def bda(vis, max_decorr, half_fov, only_residual_decorr=False):
             )
 
 
-def generate_telescope_histogram(vis, show_partitions = False, num_partitions = 1, show_pixel_hist=False, n_pixels=512, pixel_size=0.001, output_file=None):
+#assumes even sized buckets
+#estimates the densities within each bucket by using the fraction amount
+def evaluate_partitions(hist_stats, ells, delta):
+    buckets = hist_stats[1]
+    counts = numpy.array(hist_stats[0])
+    num_buckets = len(buckets)
+
+    indices_to_find = []
+
+    for i, ell in enumerate(ells[:-1]):
+        indices_to_find.append((max(0, ell - delta), min(ells[i+1] + delta, num_buckets - 1)))
+    
+    bucket_interval = buckets[1] - buckets[0]
+
+    partition_indices = [(x[0] / bucket_interval, x[1] / bucket_interval) for x in indices_to_find]
+
+    partition_tallies = []
+    for partition_idx in partition_indices:
+        full = (int(numpy.ceil(partition_idx[0])), int(numpy.floor(partition_idx[1])))
+        lower_frac = 1 - partition_idx[0] % 1
+        upper_frac = partition_idx[1] % 1
+        lower_idx = int(partition_idx[0])
+        upper_idx = int(numpy.ceil(partition_idx[1]))
+
+        full_count = numpy.sum(counts[full[0]:full[1]])
+
+        lower_count = 0 if lower_idx <= 0 else counts[lower_idx] * lower_frac
+        upper_count = 0 if upper_idx >= num_buckets else counts[upper_idx] * upper_frac
+
+        partition_tallies.append(full_count + lower_count + upper_count)
+
+    return numpy.max(numpy.array(partition_tallies)) - numpy.min(numpy.array(partition_tallies)), partition_tallies
+
+
+def generate_telescope_histogram(vis, show_partitions = False, num_partitions = 1, show_pixel_hist=False, n_pixels=512, pixel_size=0.001, output_file=None, get_hist_stats=False, bins_mult=1):
     """
     generate_telescope_histogram plots a visibility histogram by uv distsance to the center for some given set of visibilities
 
@@ -472,7 +533,7 @@ def generate_telescope_histogram(vis, show_partitions = False, num_partitions = 
     if show_pixel_hist:
         distances = distances * pixel_size * n_pixels
 
-    hist_stats = plt.hist(distances, bins=n_pixels)
+    hist_stats = plt.hist(distances, bins=n_pixels * bins_mult)
 
     counts = hist_stats[0]
     counts_sum = numpy.sum(counts)
@@ -500,7 +561,10 @@ def generate_telescope_histogram(vis, show_partitions = False, num_partitions = 
     if output_file is not None:
         plt.savefig(output_file, pad_inches=0.0, bbox_inches='tight')
 
-    return vlines
+    if get_hist_stats:
+        return vlines, hist_stats
+    else:
+        return vlines
 
 
 def get_polarization(vis):
