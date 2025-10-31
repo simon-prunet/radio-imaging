@@ -48,7 +48,7 @@ def master():
 
     config = json.loads(data)
 
-    output_dir = config["output_dir"] + "_pl1/"
+    output_dir = config["output_dir"] + "pl1/"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     timings_file = output_dir + "mc_timings"
@@ -92,7 +92,7 @@ def recon(partition):
     robustness = config["robustness"]
     channel_start = int(config["channel_start"])
     channel_end = int(config["channel_end"])
-    data_descriptors = config["data_descriptors"]
+    data_descriptors = range(int(config["data_descriptor_start"]), int(config["data_descriptor_end"]) + 1)
     bda = config["bda"] if config["bda"] is not None else False
 
     ells = config["ells"]
@@ -108,12 +108,9 @@ def recon(partition):
 
     lambdas = [init_lambda + i * step for i in range(config["nmajcycl1"])]
 
-    lambda_muls = config["lambda_muls"]
-    lambda_mul = lambda_muls[partition]
-
     n_fista_iter = config["nfistaiter"]
     
-    output_dir = config["output_dir"] + "_pl1/"
+    output_dir = config["output_dir"] + "pl1/"
 
     k = config["lambda_growth_steepness"]
 
@@ -170,8 +167,8 @@ def recon(partition):
         curr_lambda = init_lambda + (1 - init_lambda) * ((numpy.exp(k * t) - 1) / (numpy.exp(k) - 1))
 
         deconv_start = time.time()
-        deconvolved = deconvolve.deconvolve_multipartition(partition, resid.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], prev_estimates, n_fista_iter, wavelet_idx, i, curr_lambda, lambda_mul, \
-            ells, delta, variance_window, first_res_var, deconv_partitions, script_root="julia")
+        deconvolved = deconvolve.deconvolve_multipartition(partition, resid.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], prev_estimates, n_fista_iter, i, curr_lambda, \
+            ells, delta, variance_window, first_res_var, deconv_partitions)
         deconv_end = time.time()
 
         util.tofits(deconvolved, output_dir + "deconv_" + str(partition) + "_" + str(i) + ".fits")

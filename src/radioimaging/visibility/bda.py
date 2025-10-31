@@ -231,7 +231,9 @@ def freq_decorr(channel_width, baseline_coords_ecef, source_radec, phase_center,
     :channel_width: bandwidth of channel
     :baseline_coords_ecef: baseline coordinates in ecef
     :source_radec: coordinates of source
+    :phase_center: phase center of the pointing
     :obs_datetime: observation time
+    :freq: central em frequency of channel
     :return: a value between 0 and 1 denoting frequency decorrelation, with 1 being no decorrelation
     """
     lambd = const.c / freq

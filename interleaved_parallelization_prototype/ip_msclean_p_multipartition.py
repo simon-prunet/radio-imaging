@@ -47,7 +47,7 @@ def master():
 
     config = json.loads(data)
 
-    output_dir = config["output_dir"] + "_pmsc/"
+    output_dir = config["output_dir"] + "pmsc/"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     timings_file = output_dir + "mc_timings"
@@ -94,10 +94,10 @@ def recon(partition):
     robustness = config["robustness"]
     channel_start = int(config["channel_start"])
     channel_end = int(config["channel_end"])
-    data_descriptors = config["data_descriptors"]
+    data_descriptors = range(int(config["data_descriptor_start"]), int(config["data_descriptor_end"]) + 1)
     bda = config["bda"] if config["bda"] is not None else False
 
-    output_dir = config["output_dir"] + "_pmsc/"
+    output_dir = config["output_dir"] + "pmsc/"
     
     ells = config["ells"]
     ells.sort()

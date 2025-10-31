@@ -10,10 +10,13 @@ __email__ = "sunrise.wang@oca.eu, sunrisewng@gmail.com"
 
 import numpy
 import os
+import pywt
 
 from ska_sdp_func_python.imaging import create_image_from_visibility
 
 from radioimaging.util import util
+import radioimaging.deconvolution.fista as fista
+import radioimaging.images.filters as filters
 
 def compute_windowed_var(image, window):
     """
@@ -72,7 +75,7 @@ def deconvolve_single(dirty, psf, niter, wavelet_type_idx, curr_maj_iter, initia
     return deconvolved
 
 
-def deconvolve_multipartition_single(dirty, psf, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, script_root=""):
+def deconvolve_multipartition_single(dirty, psf, niter, lambda_mul, wavelets=None):
     """
     deconvolve_multipartition_single deconvolves a full resolution image using the fista l1 deconvolution implemented in julia.
     This version differs from the original as it uses lambda max to regularize instead of lambda
@@ -80,27 +83,18 @@ def deconvolve_multipartition_single(dirty, psf, niter, wavelet_type_idx, curr_m
     :dirty: dirty image
     :psf: point spread function
     :niter: number of fista iterations
-    :wavelet_type_idx: wavelet index, 1 for daubechies and 2 for iuwt
-    :curr_maj_iter: current major iteration, used to determine actual regularization parameter
-    :initial_lambda: initial multiplier applied to lambda_max, increased as major cycles progresses
-    :script_root: root directory of julia script
+    :lambda_mul: multiplier applied to lambda_max
+    :wavelets: pywavelet dictionary, leaving it as none defaults to the first 8 daubechies wavelet dictionaries
     :return: deconvolved full resolution image
     """
+    
+    if wavelets is None:
+        wavelets=[pywt.Wavelet('db1'), pywt.Wavelet('db2'), pywt.Wavelet('db3'), pywt.Wavelet('db4'), pywt.Wavelet('db5'), pywt.Wavelet('db6'), pywt.Wavelet('db7'), pywt.Wavelet('db8')]
+
+    psf_fista = fista.Filter2D(numpy.array(psf))
     res = numpy.array(dirty)
-    np_psf = numpy.array(psf)
 
-    tmp_psf_name = "tmp_psf.fits"
-    tmp_res_name = "tmp_residual.fits"
-    tmp_output_name = "tmp_output.fits"
-
-    util.tofits(psf, tmp_psf_name)
-    util.tofits(dirty, tmp_res_name)
-
-    os.system("julia --threads 32  " + script_root + "/make_fullres_mp.jl " + str(initial_lambda) + " " + tmp_psf_name + " " + tmp_res_name + " " + str(wavelet_type_idx) + " " + str(niter) + " " + tmp_output_name)
-
-    deconvolved = util.fromfits(tmp_output_name)
-
-    return deconvolved
+    return fista.fista(psf_fista, res, lambda_mul, wavelets, niter, linear_conv=False)
 
 def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, cut_center, cut_halfwidth, variance_window, recon_variance_factor, script_root=""):
     """
@@ -164,7 +158,7 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
 
 
 #interleaved deconvolution for multiple partitions
-def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, ells, delta, variance_window, dirty_var, deconv_partitions, script_root=""):
+def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, curr_maj_iter, lambda_mul, ells, delta, variance_window, dirty_var, deconv_partitions, wavelets=None):
     """
     deconvolve_multipartition deconvolves a partial resolution image using the fista l1 deconvolution implemented in julia for the parallel
     interleaved reconstruction method
@@ -174,10 +168,8 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wave
     :psf: partial resolution point spread function
     :prev_estimates: list of previous reconstructed images for each resolution 
     :niter: number of fista iterations
-    :wavelet_type_idx: wavelet index, 1 for daubechies and 2 for iuwt
     :curr_maj_iter: current major iteration, used to determine actual regularization parameter
-    :initial_lambda: initial multiplier applied to lambda_max, increased as major cycles progresses
-    :lambda_mul: multiplier to apply to lambda_max every major cycle
+    :lambda_mul: multiplier applied to lambda_max
     :ells: centers of circles bisecting transition areas, in pixel units
     :delta: halfwidth of transition areas in pixel units. This is for now assumed to be constant across all transition areas
     :variance_window: window size for computing variance of reconstructed images of each partition
@@ -185,59 +177,46 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, wave
     :deconv_partitions: list specifying whether to deconvolve a specific partition, 1 for yes, 0 for no. This is used for cases when
     the larger resolutions have very few pixels in fourier space, but are also close to fully sampled. In this case, the dirty can be
     used directly as the deconvolved image.
-    :script_root: root directory of julia script
+    :wavelets: pywavelet dictionary, leaving it as none defaults to the first 8 daubechies wavelet dictionaries
     :return: deconvolved full resolution image from second major cycle onwards, otherwise a deconvolved partial resolution image
     """
+    if deconv_partitions[partition] == 0:
+        return numpy.array(dirty)
+
+    if wavelets is None:
+        wavelets=[pywt.Wavelet('db1'), pywt.Wavelet('db2'), pywt.Wavelet('db3'), pywt.Wavelet('db4'), pywt.Wavelet('db5'), pywt.Wavelet('db6'), pywt.Wavelet('db7'), pywt.Wavelet('db8')]
+
+    curr_psf = fista.Filter2D(numpy.array(psf))
     res = numpy.array(dirty)
-    np_psf = numpy.array(psf)
 
-    tmp_psf_name = "tmp_psf_" + str(partition) + ".fits"
-    tmp_res_name = "tmp_residual_" + str(partition) + ".fits"
-    
-    tmp_output_name = "tmp_output_" + str(partition) + ".fits"
+    #first major cycle deconvolution is only on the local visibilities
+    if curr_maj_iter == 0:
+        return fista.fista(curr_psf, res, lambda_mul, wavelets, niter, linear_conv=False)
 
-    n_partitions = len(prev_estimates) if prev_estimates is not None else 1
-    sigma2s = [0] * n_partitions
+    constraints = []
+    sigma2s = []
 
-    constraint_param = ""
-    sigma2s_param = ""
-    deconv_param = ""
+    for i, est_image in enumerate(prev_estimates):
+        if i == partition:
+            constraints.append(res)
+            sigma2s.append(dirty_var)
 
-    if curr_maj_iter > 0:
-        for i, est_image in enumerate(prev_estimates):
-            tmp_constraint_name = "tmp_constraint_" + str(partition) + "_" + str(i) + ".fits"
-            constraint_param += tmp_constraint_name + " "
+            continue
 
-            if i == partition:
-                util.tofits(est_image, tmp_constraint_name)
-                sigma2s[i] = dirty_var
+        constraint_img = est_image - prev_estimates[partition]
+        constraints.append(constraint_img)
+        sigma2s.append(numpy.mean(compute_windowed_var(constraint_img, variance_window)))
+        
+    deltas = [delta] * len(ells)
+    frs, _, _ = filters.create_filters_mstep(curr_psf.kernel.shape[0] // 2, deltas, ells, sigma2s)
+    frns = [numpy.array(fr) for fr in frs]
+    fs2ds = [filters.freq1d_to_radial2d(f1d, curr_psf.kernel.shape[0])[1] for f1d in frns]
 
-                continue
+    filts = []
+    for f in fs2ds:
+        filts.append(fista.Filter2D(f))
 
-            constraint_image = est_image - prev_estimates[partition]
-            util.tofits(constraint_image, tmp_constraint_name)
-            sigma2s[i] = numpy.mean(compute_windowed_var(constraint_image, variance_window))
-
-    util.tofits(np_psf, tmp_psf_name)
-    util.tofits(res, tmp_res_name)
-
-    ells_param = ""
-
-    for ell in ells:
-        ells_param += str(ell) + " "
-
-    for sigma2 in sigma2s:
-        sigma2s_param += str(sigma2) + " "
-
-    #partition is +1 due to julia being 1 indexed
-    command = "julia --threads 32  " + script_root + "/make_multipartition.jl " + tmp_psf_name + " " + tmp_res_name + " " + str(initial_lambda) + " " + str(niter) + " " + str(n_partitions) + " " + str(partition + 1) \
-         + " " + str(curr_maj_iter)  + " " + str(delta) + " " + tmp_output_name + " " + str(deconv_partitions[partition]) + " " + constraint_param + ells_param + sigma2s_param
-
-    os.system(command)
-
-    deconvolved = util.fromfits(tmp_output_name)
-
-    return deconvolved
+    return fista.fista(curr_psf, res, lambda_mul, wavelets, niter, partition=partition, parallelize_wavelets=False, filters=filts, constraint_images=constraints, linear_conv=False)
 
 
 def deconvolve_multistep(dirty, psf, constraint, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, cut_center, cut_halfwidth, variance_window, recon_variance_factor, script_root=""):
@@ -292,23 +271,23 @@ def deconvolve_multistep(dirty, psf, constraint, niter, wavelet_type_idx, curr_m
     return deconvolved
 
 
-def deconvolve_tikhonov(dirty, psf, mu, epsilon, epsilon=1e-5):
-    """
-    deconvolve_tikhonov deconvolves a full resolution image using tikhonov regularization
+# def deconvolve_tikhonov(dirty, psf, mu, epsilon, epsilon=1e-5):
+#     """
+#     deconvolve_tikhonov deconvolves a full resolution image using tikhonov regularization
 
-    :dirty: dirty image
-    :psf: point spread function
-    :mu: regularization parameter
-    :epsilon: threshold for the pseudo-inverse
-    """
+#     :dirty: dirty image
+#     :psf: point spread function
+#     :mu: regularization parameter
+#     :epsilon: threshold for the pseudo-inverse
+#     """
 
-    fpsf = numpy.fft.fft2(psf)
-    fdirty = numpy.fft.fft2(dirty)
-    reg = numpy.ones(psf.shape) * mu
+#     fpsf = numpy.fft.fft2(psf)
+#     fdirty = numpy.fft.fft2(dirty)
+#     reg = numpy.ones(psf.shape) * mu
 
-    inv = fpsf * numpy.conj(fpsf)
-    inv[numpy.abs(inv) < epsilon] = 0
+#     inv = fpsf * numpy.conj(fpsf)
+#     inv[numpy.abs(inv) < epsilon] = 0
 
-    fdeconv = numpy.divide(1, inv, where=inv != 0) * numpy.conj(fpsf) * fdirty
+#     fdeconv = numpy.divide(1, inv, where=inv != 0) * numpy.conj(fpsf) * fdirty
 
-    return numpy.fft.ifft2(fdeconv)
+#     return numpy.fft.ifft2(fdeconv)

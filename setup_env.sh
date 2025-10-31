@@ -1,7 +1,14 @@
 #!/bin/bash
 
+
 rm -r environment/radioimaging
 mkdir environment
+
+#use the below if using conda instead
+
+# conda create -p environment/radioimaging python=3.10.12
+# conda activate environment/radioimaging
+
 virtualenv environment/radioimaging
 source environment/radioimaging/bin/activate
 

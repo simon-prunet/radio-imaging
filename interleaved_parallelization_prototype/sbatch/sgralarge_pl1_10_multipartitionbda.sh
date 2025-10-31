@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=sgrblarge_pl1bda
+#SBATCH --job-name=sgralarge_pl1bda10
 #SBATCH --partition=cpu_p1
 #SBATCH --time=20:00:00
-#SBATCH --ntasks=6
+#SBATCH --ntasks=11
 #SBATCH --ntasks-per-node=1
-#SBATCH --output=sgrblarge_pl1bda.out
-#SBATCH --error=sgrblarge_pl1bda.err 
+#SBATCH --output=sgralarge_pl1bda10.out
+#SBATCH --error=sgralarge_pl1bda10.err 
 #SBATCH --exclusive
 #SBATCH -A klu@cpu
 
@@ -19,4 +19,4 @@ conda activate /lustre/fswork/projects/rech/klu/ulc65eb/conda_envs/ri_paralleliz
 
 export JULIA_DEPOT_PATH=/lustre/fswork/projects/rech/klu/ulc65eb/libs/julia
 
-mpirun -np 6 python ip_l1_p_multipartition.py configs/sgrb_multipartition_bda.config
+mpirun -np 11 python ip_l1_p_multipartition.py configs/sgra_multipartition10_bda.config

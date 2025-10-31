@@ -33,14 +33,14 @@ robustness = config["robustness"]
 channel_start = int(config["channel_start"])
 channel_end = int(config["channel_end"])
 wavelet_idx = wavelet_type_dict[config["wavelet_dict"]]
-data_descriptors = config["data_descriptors"]
-output_dir = config["output_dir"] + "_serialmsc/"
+data_descriptors = range(int(config["data_descriptor_start"]), int(config["data_descriptor_end"]) + 1)
+output_dir = config["output_dir"] + "msc/"
 msc_niter = int(config["msclean_iter"])
 thresh = config["clean_thresh"]
 scales = config["fullres_clean_scales"]
 fracthresh = config["clean_fracthresh"]
 gain = config["clean_gain"]
-bda = config["bda"] if config["bda"] is not None else False
+bda = config["bda"] == 1 if config["bda"] is not None else False
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -62,7 +62,6 @@ util.write_to_csv(psf_timings, breakdown_file)
 util.tofits(psf.pixels.data[0,0,:,:], output_dir + "psf.fits")
 
 init_lambda = config["init_lambda_full"]
-lambda_mul = config["lambda_mul_full"]
 
 nmaj = config["nmajcycmsc"] + 1
 

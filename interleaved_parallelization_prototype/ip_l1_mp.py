@@ -32,8 +32,8 @@ robustness = config["robustness"]
 channel_start = int(config["channel_start"])
 channel_end = int(config["channel_end"])
 wavelet_idx = wavelet_type_dict[config["wavelet_dict"]]
-data_descriptors = config["data_descriptors"]
-output_dir = config["output_dir"] + "_l1_mp/"
+data_descriptors = range(int(config["data_descriptor_start"]), int(config["data_descriptor_end"]) + 1)
+output_dir = config["output_dir"] + "l1/"
 bda = config["bda"] if config["bda"] is not None else False
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -74,7 +74,7 @@ for i in range(nmaj):
     curr_lambda = init_lambda + (1 - init_lambda) * ((numpy.exp(k * t) - 1) / (numpy.exp(k) - 1))
 
     deconvolve_start = time.time()
-    deconvolved = deconvolve.deconvolve_multipartition_single(resid.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], config["nfistaiter"], wavelet_idx, i, curr_lambda, script_root="julia")
+    deconvolved = deconvolve.deconvolve_multipartition_single(resid.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], config["nfistaiter"], curr_lambda)
 
     util.tofits(deconvolved, output_dir + "deconvolved_" + str(i) + ".fits")
 
