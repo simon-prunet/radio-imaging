@@ -20,6 +20,7 @@ git clone https://gitlab.com/ska-telescope/external/rascil-main
 cd rascil-main
 git checkout tags/1.1.0
 
+cp ../../hotfixes/rascil-main/Makefile .
 cp ../../hotfixes/rascil-main/requirements.in .
 cp ../../hotfixes/rascil-main/simulation_helpers.py rascil/processing_components/simulation/
 cp ../../hotfixes/rascil-main/msv2.py rascil/processing_components/visibility/
