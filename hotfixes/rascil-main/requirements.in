@@ -23,7 +23,7 @@ ska-sdp-datamodels
 ska-sdp-func-python
 tabulate
 xarray
-git+https://gitlab.com/ska-telescope/sdp/ska-sdp-func.git@main
+git+https://gitlab.com/ska-telescope/sdp/ska-sdp-func.git@tags/1.1.0
 
 # TODO: remove once we can start using m2r2 >= 0.3.3 (rascil doesn't need mistune as direct req)
 #   in order to get the mistune version m2r2 0.3.2 uses, we also need to pin nbconvert;
