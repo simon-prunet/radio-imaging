@@ -4,3 +4,6 @@ casatasks==6.6.3.22
 casatools==6.6.3.22
 casaviewer==2.0.1
 astropy==6.1.7
+PyWavelets==1.8.0
+joblib==1.5.2
+mpi4py==4.1.1
