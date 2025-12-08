@@ -304,7 +304,7 @@ def compute_cutoffs(ells, hw, signal_length):
 
     return cutoffs
 
-def plot_filters(filt_names, filter_vals, filter_sum, colours, plot_mask, xmin=None, xmax=None, dbscale=False, spatial=False):
+def plot_filters(filt_names, filter_vals, filter_sum, colours, plot_mask, xmin=None, xmax=None, dbscale=False, spatial=False, output_filename=None):
     """
     plot_filters plots a set of given filters
 
@@ -345,6 +345,10 @@ def plot_filters(filt_names, filter_vals, filter_sum, colours, plot_mask, xmin=N
         xmin = 0
 
     plt.xlim(xmin, xmax)
+
+    if output_filename is not None:
+        plt.savefig(output_filename, pad_inches=0.0, bbox_inches='tight')
+
     plt.show()
 
 def find_support(func, threshold, offset=0):

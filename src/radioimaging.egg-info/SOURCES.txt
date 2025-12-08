@@ -27,6 +27,7 @@ src/radioimaging/util/util.py
 src/radioimaging/visibility/__init__.py
 src/radioimaging/visibility/bda.py
 src/radioimaging/visibility/ingest.py
+src/radioimaging/visibility/partition.py
 src/radioimaging/visibility/residual.py
 src/radioimaging/visibility/vissim.py
 src/radioimaging/visibility/weights.py

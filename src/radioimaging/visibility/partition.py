@@ -29,7 +29,6 @@ def get_bin_sizes(cdf, ells, delta):
 	bin_sizes = []
 
 	bin_sizes.append(cdf(ells[0] + delta).item())
-	print(bin_sizes)
 	for i, ell in enumerate(ells[1:]):
 		bin_sizes.append(cdf(ell + delta) - cdf(ells[i] - delta))
 
@@ -62,3 +61,10 @@ def dichotomy(cdf, icdf, delta, N, tolerance=1e-10):
 	alpha = (a+b)/2
 
 	return alpha
+
+def partitions_overlap(delta, ells):
+	overlap = False
+	for i, ell in enumerate(ells[:-1]):
+		overlap = overlap or ell + delta > ells[i+1] - delta
+
+	return overlap

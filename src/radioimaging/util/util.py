@@ -114,7 +114,7 @@ def plot1D(x, y, xlabel, ylabel):
     plt.ylabel(ylabel)
     plt.show()
 
-def plotNImages(images, names, cmap, same_scale=False, scale_mul=1.0, output_file=None, additional_scale_imgs=None, hide_ticks=False, colorbar_location="bottom", cbar_labelsize=None, logNorm=False, vpadding=0):
+def plotNImages(images, names, cmap, show_cbar=True, same_scale=False, scale_mul=1.0, output_file=None, additional_scale_imgs=None, hide_ticks=False, colorbar_location="bottom", cbar_labelsize=None, logNorm=False, vpadding=0):
     """
     plotNImages plots N images
 
@@ -168,14 +168,15 @@ def plotNImages(images, names, cmap, same_scale=False, scale_mul=1.0, output_fil
             else:
                 im = axes[i].imshow(img, norm="log" if logNorm else "linear", cmap=cmap, origin='lower')
 
-            divider = make_axes_locatable(axes[i])
-            cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
+            if show_cbar:
+                divider = make_axes_locatable(axes[i])
+                cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
 
-            cb = fig.colorbar(im, orientation='horizontal', cax=cax)
-            #cb.formatter.set_powerlimits((-10, 10))
-            cb.ax.locator_params(nbins=5)
-            if cbar_labelsize is not None:
-                cb.ax.tick_params(labelsize=cbar_labelsize)
+                cb = fig.colorbar(im, orientation='horizontal', cax=cax)
+                #cb.formatter.set_powerlimits((-10, 10))
+                cb.ax.locator_params(nbins=5)
+                if cbar_labelsize is not None:
+                    cb.ax.tick_params(labelsize=cbar_labelsize)
         else:
             axes.set_title(names[i])
             if same_scale:
@@ -183,14 +184,15 @@ def plotNImages(images, names, cmap, same_scale=False, scale_mul=1.0, output_fil
             else:
                 im = axes.imshow(img, norm="log" if logNorm else "linear", cmap=cmap, origin='lower')
 
-            divider = make_axes_locatable(axes)
-            cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
+            if show_cbar:
+                divider = make_axes_locatable(axes)
+                cax = divider.append_axes(colorbar_location, size="5%", pad=0.25)
 
-            cb = fig.colorbar(im, orientation='horizontal', cax=cax)
-            cb.formatter.set_powerlimits((-10, 10))
-            cb.ax.locator_params(nbins=5)
-            if cbar_labelsize is not None:
-                cb.ax.tick_params(labelsize=cbar_labelsize)
+                cb = fig.colorbar(im, orientation='horizontal', cax=cax)
+                cb.formatter.set_powerlimits((-10, 10))
+                cb.ax.locator_params(nbins=5)
+                if cbar_labelsize is not None:
+                    cb.ax.tick_params(labelsize=cbar_labelsize)
 
     if hide_ticks:
         axes.set_xticks([])

@@ -105,8 +105,10 @@ def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, 
             if final_residual is None:
                 final_residual = images.create_empty_image(measured_vis, npixel, cellsize)
 
+            curr_residual_model = images.create_empty_image(measured_vis, npixel, cellsize)
+
             invert_start = time.time()
-            channel_residual, sumwt = invert_ng(residual_vis, final_residual, context=algorithm)
+            channel_residual, sumwt = invert_ng(residual_vis, curr_residual_model, context=algorithm)
 
             prev_weight = weight
             weight += sumwt[0,0]
@@ -206,8 +208,7 @@ def compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors
             weight_start = time.time()
             vis = griddata_visibility_reweight(vis, weight_grid[0], weighting=weighting, robustness=robustness, sumwt=weight_grid[1])
 
-            if model is None:
-                model = create_image_from_visibility(vis, cellsize=cellsize, npixel=npixel, polarisation_frame=vis.visibility_acc.polarisation_frame)
+            model = create_image_from_visibility(vis, cellsize=cellsize, npixel=npixel, polarisation_frame=vis.visibility_acc.polarisation_frame)
 
             invert_start = time.time()
             curr_psf, sumwt = invert_ng(vis, model, context=algorithm, dopsf=True)

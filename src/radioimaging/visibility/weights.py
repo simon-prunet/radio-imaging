@@ -75,11 +75,12 @@ def compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_d
             pol_start = time.time()
             vis = convert_visibility_to_stokesI(vis)
 
-            if model is None:
-                model = create_image_from_visibility(vis, cellsize=cellsize, npixel=npixel, polarisation_frame=vis.visibility_acc.polarisation_frame)
+            #if model is None:
+            model = create_image_from_visibility(vis, cellsize=cellsize, npixel=npixel, polarisation_frame=vis.visibility_acc.polarisation_frame)
 
             grid_start = time.time()
             curr_grid_weights = create_griddata_from_image(model, polarisation_frame=model.image_acc.polarisation_frame)
+            
             curr_grid_weights = grid_visibility_weight_to_griddata(vis, curr_grid_weights)
             
             if total_grid is None:
