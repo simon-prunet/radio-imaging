@@ -70,22 +70,22 @@ def fromfits(filename):
     return dat
 
 def convolve2d(signal, kernel, linear=False):
-	"""
+    """
     convolve2d performs a 2d convolution between two given images. It assumes that the images have the same dimensionality for now
 
-    :param img1: first image
-    :param img2: second image
+    :param img1: first image (rhs)
+    :param img2: second image (lhs)
     :linear: perform linear convolution, if set to false, circular convolution is performed
     return: convolved image
     """
-	if not linear:
-		return numpy.fft.ifft2(numpy.fft.fft2(signal) * numpy.fft.fft2(numpy.fft.ifftshift(kernel))).real
-	else:
-		pad_length = (signal.shape[0] // 2, signal.shape[1] // 2)
-		sig_padded = numpy.pad(signal, pad_length)
-		kernel_padded = numpy.pad(kernel, pad_length)
+    if not linear:
+        return numpy.fft.ifft2(numpy.fft.fft2(signal) * numpy.fft.fft2(numpy.fft.ifftshift(kernel))).real
+    else:
+        pad_length = (signal.shape[0] // 2, signal.shape[1] // 2)
+        sig_padded = numpy.pad(signal, pad_length)
+        kernel_padded = numpy.pad(kernel, pad_length)
 
-		return (numpy.fft.ifft2(numpy.fft.fft2(sig_padded) * numpy.fft.fft2(numpy.fft.ifftshift(kernel_padded))))[pad_length[0]:signal.shape[0]+pad_length[0], pad_length[1]:signal.shape[1]+pad_length[1]].real
+        return (numpy.fft.ifft2(numpy.fft.fft2(sig_padded) * numpy.fft.fft2(numpy.fft.ifftshift(kernel_padded))))[pad_length[0]:signal.shape[0]+pad_length[0], pad_length[1]:signal.shape[1]+pad_length[1]].real
 
 def exp_growth(x, low, high, steepness = 2):
     """

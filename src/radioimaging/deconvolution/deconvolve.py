@@ -160,7 +160,7 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
 #interleaved deconvolution for multiple partitions
 def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, curr_maj_iter, lambda_mul, ells, delta, variance_window, dirty_var, deconv_partitions, wavelets=None):
     """
-    deconvolve_multipartition deconvolves a partial resolution image using the fista l1 deconvolution implemented in julia for the parallel
+    deconvolve_multipartition deconvolves a partial resolution image using the fista l1 deconvolution for the parallel
     interleaved reconstruction method
 
     :partition: an index corresponding to the resolution

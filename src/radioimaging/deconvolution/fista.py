@@ -199,14 +199,15 @@ def compute_step(psf, wavelets, orthowavelets, wavelet_slices, filters=None, par
         else:
             fpsf = np.fft.fft2(psf.kernel)
             ffilt = np.fft.fft2(filters[partition].kernel)
-            lipschitz = np.max(np.abs(fpsf*fpsf*ffilt*ffilt))
-
+            diag = fpsf*fpsf*ffilt*ffilt
+            
             for i, filt in enumerate(filters):
                 if i == partition:
                     continue
 
-                lipschitz += np.max(np.abs(filters[i].squared(linear_conv=linear_conv)))
+                diag += np.fft.fft2(filters[i].squared(linear_conv=linear_conv))
 
+            lipschitz = np.max(np.abs(diag))
 
         return 1 / (2 * len(wavelets) * lipschitz)
     #power iteration
@@ -281,6 +282,30 @@ def soft_thresh(coeffs, step):
     """
     return np.sign(coeffs) * np.maximum(np.abs(coeffs) - step, 0)
 
+def cost(model, coeffs, psf, dirty, lambd, filters=None, constraint_images=None, partition=None, linear_conv=False):
+    """
+    compute cost function given some specific image and its wavelet coefficients, needed for the backtracking step of monotone fista
+    """
+    constraint_term = 0
+    
+    vis_term_img = dirty - util.convolve2d(model, psf.kernel, linear=False)
+
+    if filters is not None:
+        vis_term_img = util.convolve2d(vis_term_img, filters[partition].kernel, linear=False)
+
+        for i, filt in enumerate(filters):
+            if i == partition:
+                continue
+
+            curr_constraint_term = np.linalg.norm(util.convolve2d(constraint_images[i] - model, filt.kernel, linear=False))
+            constraint_term += curr_constraint_term * curr_constraint_term
+
+    vis_term = np.linalg.norm(vis_term_img)
+
+    l1_term = np.sum(np.abs(coeffs)) * lambd
+
+    return vis_term*vis_term + constraint_term + l1_term
+
 def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=None, constraint_images=None, partition=None, lambda_max=None, parallelize_wavelets=False, linear_conv=False):
     """
     fista uses fista to deconvolve an image using l1 regularization. This is for the multi-partition case, and thus uses filters and
@@ -350,6 +375,8 @@ def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=No
 
     lambd = lambda_max * reg_param
 
+    curr_cost = None
+
     #iterate
     for i in range(niter):
         curr_img = idwt(alpha, slices, wavelets, parallel=parallelize_wavelets)
@@ -360,6 +387,19 @@ def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=No
 
         old_beta[:,:,:] = beta
         beta[:,:,:] = soft_thresh(alpha - step * gradient, step * lambd)
+
+        #The commented code adds in a backtracking step into fista, enforcing monotonicity, and is a variant called MFISTA, uncomment if there are stability issues causing divergence 
+
+        # new_cost = cost(beta_img, old_beta, psf, dirty, lambd, filters=filters, constraint_images=constraint_images, partition=partition, linear_conv=linear_conv)
+        # if curr_cost is None:
+        #     curr_cost = new_cost
+        # else:
+        #     if curr_cost < new_cost:
+        #         beta[:,:,:] = old_beta[:,:,:]
+        #         step = step * 0.9
+        #         print("recomputed step")
+        #     else:
+        #         curr_cost = new_cost
 
         new_t = (1 + np.sqrt(1 + 4 * t**2))/2
 
