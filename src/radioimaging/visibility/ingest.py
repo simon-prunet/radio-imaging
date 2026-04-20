@@ -35,6 +35,20 @@ def generate_fake_baselines(nbaselines):
         yield 0, 0
 
 
+def generate_baselines(nant):
+    """Generate mapping from antennas to baselines
+
+    Note that we need to include autocorrelations since some input measurement sets
+    may contain autocorrelations
+
+    :param nant:
+    :return:
+    """
+    for ant1 in range(0, nant):
+        for ant2 in range(ant1, nant):
+            yield ant1, ant2
+
+
 def create_visibility_from_ms(
     msname,
     channum=None,
@@ -46,6 +60,7 @@ def create_visibility_from_ms(
     selected_dds=None,
     average_channels=False,
     use_weight_spec=True,
+    flatten=True,
 ):
     """
     create_visibility_from_ms is an updated version of RASCIL's create_visibility_from_ms function, made to more efficient, both memory and processing-wise
@@ -242,13 +257,10 @@ def create_visibility_from_ms(
             antenna2 = list(map(lambda i: ant_map[i], antenna2))
 
             baselines = pandas.MultiIndex.from_tuples(
-                generate_fake_baselines(ms_vis.shape[0]), names=("antenna1", "antenna2")
-                #generate_baselines(nants), names=("antenna1", "antenna2")
-                #generate_baselines(1), names=("antenna1", "antenna2")
+                generate_fake_baselines(ms_vis.shape[0]) if flatten else generate_baselines(nants), names=("antenna1", "antenna2")
             )
 
-            #nbaselines = len(baselines)
-            nbaselines = ms_vis.shape[0]
+            nbaselines = ms_vis.shape[0] if flatten else len(baselines)
 
             location = EarthLocation(
                 x=Quantity(xyz[0][0], "m"),
@@ -294,8 +306,8 @@ def create_visibility_from_ms(
                 numpy.unique(time_index_row)
             ), "Error in finding data times"
 
-            #ntimes = ms_vis.shape[0]
-            ntimes = 1
+            if flatten:
+                ntimes = 1
 
             bv_times = numpy.zeros([ntimes])
             bv_vis = numpy.zeros([ntimes, nbaselines, nchan, npol]).astype("complex")

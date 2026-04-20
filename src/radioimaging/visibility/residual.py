@@ -21,7 +21,7 @@ from ska_sdp_func_python.grid_data import grid_visibility_weight_to_griddata, gr
 from radioimaging.visibility import ingest
 from radioimaging.images import images
 
-def compute_residual(sky_estimate, vis, npixel, cellsize):
+def compute_residual(sky_estimate, vis, npixel, cellsize, include_weight=False):
     """
     compute_residual computes the residual between a sky estimate and a set of initial visibility measurements. It uses the improved w-stacking algorithm
     as the operator
@@ -46,7 +46,7 @@ def compute_residual(sky_estimate, vis, npixel, cellsize):
 
     dirty, sumwt = invert_ng(vres, model, context='ng')
 
-    return dirty
+    return dirty, sumwt if include_weight else dirty
 
 
 
@@ -150,7 +150,7 @@ def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, 
     return final_residual, [read_from_disk_total, convert_polarization_total, weight_total, malloc_total, predict_total, subtract_total, invert_total, add_total]
 
 
-def compute_psf(vis, npixel, cellsize):
+def compute_psf(vis, npixel, cellsize, include_weight_and_model=False):
     """
     compute_psf calculates a psf when given a set of visibilities
     the visibilities are assumed to have already been weighted
@@ -164,7 +164,10 @@ def compute_psf(vis, npixel, cellsize):
     model = create_image_from_visibility(vis,cellsize=cellsize,npixel=npixel, polarisation_frame=vis.visibility_acc.polarisation_frame)
     psf, sumwt = invert_ng(vis, model, context='ng', dopsf=True)
 
-    return psf
+    if include_weight_and_model:
+        return psf, model, sumwt
+    else:
+        return psf
 
 
 def compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors, npixel, cellsize, weighting, robustness=0, weight_grid=None, algorithm='ng', bda=False):

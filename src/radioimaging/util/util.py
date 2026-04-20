@@ -46,9 +46,9 @@ def read_csv(filename, separate_rows=False):
 
 def tofits(data, filename):
     """
-    tofits writes a 2d numpy array to a .fits file
+    tofits writes a numpy array to a .fits file
 
-    :param data: 2d numpy array containing data to write
+    :param data: numpy array containing data to write
     :param filename: filename of output fits file
     """
     hdu = fits.PrimaryHDU(data)
