@@ -46,7 +46,10 @@ def compute_residual(sky_estimate, vis, npixel, cellsize, include_weight=False):
 
     dirty, sumwt = invert_ng(vres, model, context='ng')
 
-    return dirty, sumwt if include_weight else dirty
+    if include_weight:
+        return dirty, sumwt
+    else:
+        return dirty
 
 
 
