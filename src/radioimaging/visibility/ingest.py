@@ -317,9 +317,9 @@ def create_visibility_from_ms(
             bv_integration_time = numpy.zeros([ntimes])
 
             for row, _ in enumerate(time):
-                ibaseline = row
+                ibaseline = row if flatten else baselines.get_loc((antenna1[row], antenna2[row]))
 
-                time_index = 0
+                time_index = 0 if flatten else time_index_row[row]
 
                 bv_times[time_index] = time[row]
                 bv_vis[time_index, ibaseline, ...] = ms_vis[row, ...]
