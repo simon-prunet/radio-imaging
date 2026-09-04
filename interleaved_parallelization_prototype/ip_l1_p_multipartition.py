@@ -92,7 +92,7 @@ def recon(partition):
     robustness = config["robustness"]
     channel_start = int(config["channel_start"])
     channel_end = int(config["channel_end"])
-    data_descriptors = range(int(config["data_descriptor_start"]), int(config["data_descriptor_end"]) + 1)
+    data_descriptors = list(range(int(config["data_descriptor_start"]), int(config["data_descriptor_end"]) + 1))
     bda = config["bda"] if config["bda"] is not None else False
 
     ells = config["ells"]
@@ -144,6 +144,8 @@ def recon(partition):
     sendrecon_start = sendrecon_end = 0
     first_res_var = 0
 
+    pmc = config["nmajcycl1"]
+
     for i in range(config["nmajcycl1"]):
         send_start = time.time()
         #We use constraints after the first major cycle, which are injected into our objective function. These constraints are sent to and obtained from the other reconstruction node
@@ -154,6 +156,7 @@ def recon(partition):
             prev_estimates = prev_estimates[1:]
             sendrecon_end = time.time()
 
+
         send_end = time.time()
 
         resid, resid_timings = residual.compute_residual_from_ms(estimate, ms_name, channel_start, channel_end, data_descriptors, npixels, cellsize, weighting, robustness=robustness, weight_grid=weight_grid, bda=bda)
@@ -163,7 +166,7 @@ def recon(partition):
 
         util.tofits(resid.pixels.data[0,0,:,:], output_dir + "residual_" + str(partition) + "_" + str(i) + ".fits")
 
-        t = float(i) / (float(config["nmajcycl1"]) - 1)
+        t = float(i) / (float(pmc) - 1)
         curr_lambda = init_lambda + (1 - init_lambda) * ((numpy.exp(k * t) - 1) / (numpy.exp(k) - 1))
 
         deconv_start = time.time()

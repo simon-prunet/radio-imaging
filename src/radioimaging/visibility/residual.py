@@ -88,7 +88,9 @@ def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, 
 
     weight = 0
 
-    for dd in data_descriptors:
+    for i, dd in enumerate(data_descriptors):
+        curr_weight_grid = weight_grid[i]
+        
         for curr_channel in channels:
             read_start = time.time()
             [measured_vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
@@ -96,8 +98,10 @@ def compute_residual_from_ms(sky_estimate, ms_name, channel_start, channel_end, 
             
             measured_vis = convert_visibility_to_stokesI(measured_vis)
             
+            #measured_vis.frequency.data[0] = weight_grid[0].griddata_acc.griddata_wcs.sub([4]).wcs.crval[0]
+
             weight_start = time.time()
-            measured_vis = griddata_visibility_reweight(measured_vis, weight_grid[0], weighting=weighting, robustness=robustness, sumwt=weight_grid[1])
+            measured_vis = griddata_visibility_reweight(measured_vis, curr_weight_grid[0], weighting=weighting, robustness=robustness, sumwt=curr_weight_grid[1])
             allocate_start = time.time()
             estimated_vis = measured_vis.copy(deep=True)
             predict_start = time.time()
@@ -205,14 +209,18 @@ def compute_psf_by_channel(ms_name, channel_start, channel_end, data_descriptors
 
     weight = 0
 
-    for dd in data_descriptors:
+    for i, dd in enumerate(data_descriptors):
+        curr_weight_grid = weight_grid[i]
         for curr_channel in channels:
             read_start = time.time()
             [vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             polar_start = time.time()
             vis = convert_visibility_to_stokesI(vis)
             weight_start = time.time()
-            vis = griddata_visibility_reweight(vis, weight_grid[0], weighting=weighting, robustness=robustness, sumwt=weight_grid[1])
+
+            #vis.frequency.data[0] = curr_weight_grid[0].griddata_acc.griddata_wcs.sub([4]).wcs.crval[0]
+
+            vis = griddata_visibility_reweight(vis, curr_weight_grid[0], weighting=weighting, robustness=robustness, sumwt=curr_weight_grid[1])
 
             model = create_image_from_visibility(vis, cellsize=cellsize, npixel=npixel, polarisation_frame=vis.visibility_acc.polarisation_frame)
 

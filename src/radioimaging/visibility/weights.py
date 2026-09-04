@@ -56,18 +56,21 @@ def compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_d
     :return: weights griddata and timing information for profiling
     """
 
-    total_grid = None
+    
     model = None
 
     read_timings = []
     polarization_timings = []
     grid_timings = []
+    all_grids = []
 
     channels = range(channel_start, channel_end + 1)
 
     total_vis = 0
 
     for dd in data_descriptors:
+        total_grid = None
+
         for curr_channel in channels:
             read_start = time.time()
             [vis], num_vis = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
@@ -96,10 +99,16 @@ def compute_weights_griddata_from_ms(ms_name, channel_start, channel_end, data_d
             polarization_timings.append(grid_start - pol_start)
             grid_timings.append(channel_end - grid_start)
 
+        all_grids.append(total_grid)
+
     read_total = sum(read_timings)
     polarization_total = sum(polarization_timings)
     weight_total = sum(grid_timings)
 
     gc.collect()
 
-    return total_grid, [read_total, polarization_total, weight_total], total_vis
+    #fix a bug where freq cdelt can sum up to zero after merging weights. this is a hack to account for some strange datasets with inconsistent cdelts on frequency
+    #if total_grid[0].attrs["channel_bandwidth"] == 0:
+    #total_grid[0].attrs["channel_bandwidth"] = total_grid[0].griddata_acc.griddata_wcs.wcs.cdelt[3] = 1e6
+
+    return all_grids, [read_total, polarization_total, weight_total], total_vis

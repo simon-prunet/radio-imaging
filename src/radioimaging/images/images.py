@@ -17,7 +17,7 @@ from rascil.processing_components.simulation.testing_support import replicate_im
 from ska_sdp_func_python.imaging import create_image_from_visibility
 from ska_sdp_datamodels.visibility.vis_model import Visibility
 
-def to_rascil_format(fitsfile,postfix='_ext',overwrite=True):
+def to_rascil_format(fitsfile,postfix='_ext',overwrite=True,cellsize=1,beamsize=1):
     """
     to_rascil_format Takes a regular 2D image and completes its header to make it a 4D rascil FITS image
 
@@ -45,23 +45,35 @@ def to_rascil_format(fitsfile,postfix='_ext',overwrite=True):
     header['NAXIS3']=1
     header['NAXIS4']=1
 
+    header['CRPIX1']=1.0
+    header['CRPIX2']=1.0
     header['CRPIX3']=1.0
     header['CRPIX4']=1.0
+
+    header['CRVAL1']=1.0
+    header['CRVAL2']=1.0
     header['CRVAL3']=1.0
     header['CRVAL4']=100000000.0 # Hz
 
-    header['CDELT3']=1.0
-    header['CDELT4']=100000.0 # Hz
-
+    header['CDELT1']=cellsize #rad
+    header['CDELT2']=cellsize #rad
+    header['CDELT3']=100000.0 # Hz
+    header['CDELT4']=1.0
+    
+    header['CTYPE1']='RA---SIN'
+    header['CTYPE2']='DEC--SIN'
     header['CTYPE3']='STOKES'
     header['CTYPE4']='FREQ'
 
-    header['CUNIT4']='Hz'
+    header['CUNIT1']="RAD"
+    header['CUNIT2']="RAD"
+    header['CUNIT3']='Hz'
 
-    header['RADESYS']='ICRS' # Needed ?
+    header['RADESYS']='ICRS' # Needed ?    
 
-    header['CTYPE1']='RA---SIN'
-    header['CTYPE2']='DEC--SIN'
+    header["BMAJ"]=1
+    header["BMIN"]=1
+    header["BPA"]=0
 
     # Reshape data in 4D. Beware that quick axes come first in FITS, and last in python (C-order)
     ny,nx = data.shape

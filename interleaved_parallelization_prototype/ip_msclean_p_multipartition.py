@@ -111,6 +111,8 @@ def recon(partition):
     #scales.sort()
     scales = config["fullres_clean_scales"]
     fracthresh = config["clean_fracthresh"]
+    first_mc_thresholds = config.get("fracthreshs", None)
+    fmct = fracthresh if first_mc_thresholds is None else first_mc_thresholds[partition]
     gain = config["clean_gain"]
 
     deconv_partitions = config["deconv_partitions"]
@@ -213,7 +215,7 @@ def recon(partition):
 
             util.tofits(curr_residual, output_dir + "curr_residual_" + str(partition) + "_" + str(i) + ".fits")
 
-            deconvolved, _ = msclean(curr_residual, curr_psf, None, None, gain, thresh, msc_niter, first_mc_scales if i == 0 else scales, fracthresh)
+            deconvolved, _ = msclean(curr_residual, curr_psf, None, None, gain, thresh, msc_niter, first_mc_scales if i == 0 else scales, fmct if i == 0 else fracthresh)
 
         deconv_end = time.time()
 
