@@ -215,7 +215,10 @@ def recon(partition):
 
             util.tofits(curr_residual, output_dir + "curr_residual_" + str(partition) + "_" + str(i) + ".fits")
 
-            deconvolved, _ = msclean(curr_residual, curr_psf, None, None, gain, thresh, msc_niter, first_mc_scales if i == 0 else scales, fmct if i == 0 else fracthresh)
+            if deconv_partitions[partition] == 0 and i == 0:
+                deconvolved = numpy.zeros(curr_residual.shape)
+            else:
+                deconvolved, _ = msclean(curr_residual, curr_psf, None, None, gain, thresh, msc_niter, first_mc_scales if i == 0 else scales, fmct if i == 0 else fracthresh)
 
         deconv_end = time.time()
 

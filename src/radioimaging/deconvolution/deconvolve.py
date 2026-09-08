@@ -180,8 +180,8 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, curr
     :wavelets: pywavelet dictionary, leaving it as none defaults to the first 8 daubechies wavelet dictionaries
     :return: deconvolved full resolution image from second major cycle onwards, otherwise a deconvolved partial resolution image
     """
-    if deconv_partitions[partition] == 0:
-        return numpy.array(dirty)
+    #if deconv_partitions[partition] == 0:
+    #    return numpy.array(dirty)
 
     if wavelets is None:
         wavelets=[pywt.Wavelet('db1'), pywt.Wavelet('db2'), pywt.Wavelet('db3'), pywt.Wavelet('db4'), pywt.Wavelet('db5'), pywt.Wavelet('db6'), pywt.Wavelet('db7'), pywt.Wavelet('db8')]

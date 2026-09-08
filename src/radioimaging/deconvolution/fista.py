@@ -55,8 +55,17 @@ class Filter2D:
 
         return self.kernel2
 
+def get_max_wavelet_level(img, wavelets):
+    min_size = min(img.shape)
 
-def dwt_single(img, wavelet):
+    levels = []
+
+    for wavelet in wavelets:
+        levels.append(pywt.dwt_max_level(data_len=min_size, filter_len=wavelet.dec_len))
+
+    return min(levels)
+
+def dwt_single(img, wavelet, level):
     """
     dwt_single computes the wavelet transform of an image for a single wavelet dictionary
 
@@ -64,7 +73,7 @@ def dwt_single(img, wavelet):
     :wavelet: dictionary
     :return: wavelet coefficients with slices
     """
-    return pywt.coeffs_to_array(pywt.wavedec2(img, wavelet=wavelet, mode="periodization"))
+    return pywt.coeffs_to_array(pywt.wavedec2(img, wavelet=wavelet, mode="periodization", level=level))
 
 def idwt_single(coeffs, slice, wavelet):
     """
@@ -89,15 +98,17 @@ def dwt(img, wavelets, parallel=False):
     coeffs = np.zeros((len(wavelets),) + img.shape)
     slices = [None for x in range(len(wavelets))]
 
+    level = get_max_wavelet_level(img, wavelets)
+
     if parallel:
-        results = Parallel(n_jobs=len(wavelets))(delayed(dwt_single)(img, w) for w in wavelets)
+        results = Parallel(n_jobs=len(wavelets))(delayed(dwt_single)(img, w, level) for w in wavelets)
 
         for i, result in enumerate(results):
             coeffs[i,:,:] = result[0]
             slices[i] = result[1]
     else:
         for i, wavelet in enumerate(wavelets):
-            curr_wavelet_coeffs = dwt_single(img, wavelet)
+            curr_wavelet_coeffs = dwt_single(img, wavelet, level)
             coeffs[i,:,:] = curr_wavelet_coeffs[0]
             slices[i] = curr_wavelet_coeffs[1]
 
@@ -326,6 +337,25 @@ def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=No
     """
 
     img_dims = psf.kernel.shape
+    coeff_dims = (2 ** int(np.ceil(np.log2(img_dims[0]))), 2 ** int(np.ceil(np.log2(img_dims[1]))))
+    diff_dims = (coeff_dims[0] - img_dims[0], coeff_dims[1] - img_dims[1])
+    #padding = ((diff_dims[0]//2, diff_dims[0]//2), (diff_dims[0]//2, diff_dims[0]//2))
+    padding = ((0, diff_dims[0]), (0, diff_dims[1]))
+    padding_psf = ((diff_dims[0]//2, diff_dims[0]//2), (diff_dims[1]//2, diff_dims[1]//2))
+
+    #pad psf and dirty to next closest power of 2 if they are originally not, this is because pywavelets does not give the same number of coefficients
+    #per dictionary if image is not this size
+    if diff_dims[0] > 0 or diff_dims[1] > 0:
+        psf = Filter2D(np.pad(psf.kernel, padding_psf, mode="constant"))
+        dirty = np.pad(dirty, padding, mode="wrap")
+
+        if filters is not None:
+            for i, filt in enumerate(filters):
+                filters[i] = Filter2D(np.pad(filt.kernel, padding_psf, mode="constant"))
+
+        if constraint_images is not None:
+            for i, constraint in enumerate(constraint_images):
+                constraint_images[i] = np.pad(constraint, padding, mode="wrap")
 
     if orthowavelets is None:
         orthowavelets = True
@@ -333,9 +363,9 @@ def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=No
         for w in wavelets:
             orthowavelets &= w.orthogonal
 
-    beta = np.zeros((len(wavelets),) + img_dims)
-    alpha = np.zeros((len(wavelets),) + img_dims)
-    old_beta = np.zeros((len(wavelets),) + img_dims)
+    beta = np.zeros((len(wavelets),) + coeff_dims)
+    alpha = np.zeros((len(wavelets),) + coeff_dims)
+    old_beta = np.zeros((len(wavelets),) + coeff_dims)
 
     #just compute the slice data which will remain the same throughout as the wavelet dictionary and image dimensions don't change
     _, slices = dwt(beta[0], wavelets, parallel=parallelize_wavelets)
@@ -407,7 +437,10 @@ def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=No
 
         t = new_t
 
-    return idwt(alpha, slices, wavelets, parallel=parallelize_wavelets)
+
+
+    #return idwt(alpha, slices, wavelets, parallel=parallelize_wavelets)[diff_dims[0]//2:coeff_dims[0]-diff_dims[0]//2, diff_dims[1]//2:coeff_dims[1]-diff_dims[1]//2]
+    return idwt(alpha, slices, wavelets, parallel=parallelize_wavelets)[0:img_dims[0], 0:img_dims[1]]
 
 
 def fista_cov(psf, dirty, reg_param, wavelets, niter, vis_var, orthowavelets=None, lambda_max=None, parallelize_wavelets=False):
