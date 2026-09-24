@@ -48,6 +48,8 @@ def master():
 
     config = json.loads(data)
 
+    compute_local_var = config.get("compute_local_var", False)
+
     output_dir = config["output_dir"] + "pl1/"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -62,6 +64,9 @@ def master():
 
     for i in range(config["nmajcycl1"]):
         mc_start = time.time()
+        if compute_local_var:
+            variance_estimates = comm.allgather(None)
+        
         all_estimates = comm.allgather(None)
 
         recons_combined = combine(all_estimates[1:], config["npixels"], average=(i > 0))
@@ -93,7 +98,8 @@ def recon(partition):
     channel_start = int(config["channel_start"])
     channel_end = int(config["channel_end"])
     data_descriptors = list(range(int(config["data_descriptor_start"]), int(config["data_descriptor_end"]) + 1))
-    bda = config["bda"] if config["bda"] is not None else False
+    bda = config.get("bda", False)
+    compute_local_var = config.get("compute_local_var", False)
 
     ells = config["ells"]
     ells.sort()
@@ -143,8 +149,41 @@ def recon(partition):
 
     sendrecon_start = sendrecon_end = 0
     first_res_var = 0
+    prev_variance = 0
 
     pmc = config["nmajcycl1"]
+    num_nodes = len(ells) + 1
+
+    local_filter = None
+    if compute_local_var:
+        xmax = psf.pixels.data.shape[3] // 2
+        filter1d = None
+        #lowpass
+        if partition == 0:
+            local_ells = [ells[0]]
+            local_deltas = [1]
+            local_sigmas = [1]
+            frs, _, _ = filters.create_filters_mstep(xmax, local_deltas, local_ells, local_sigmas)
+            filter1d = numpy.array(frs[0])
+
+        #highpass
+        elif partition == len(ells):
+            local_ells = [ells[-1]]
+            local_deltas = [1]
+            local_sigmas = [1]
+            frs, _, _ = filters.create_filters_mstep(xmax, local_deltas, local_ells, local_sigmas)
+            filter1d = numpy.array(frs[-1])
+        #bandpass
+        else:
+            local_ells = [ells[partition-1], ells[partition]]
+            local_deltas = [1]*2
+            local_sigmas = [1]*2
+            frs, _, _ = filters.create_filters_mstep(xmax, local_deltas, local_ells, local_sigmas)
+            filter1d = numpy.array(frs[1])
+            
+        local_filter = filters.freq1d_to_radial2d(filter1d, psf.pixels.data.shape[3])[1]
+
+    variance_estimates = None
 
     for i in range(config["nmajcycl1"]):
         send_start = time.time()
@@ -171,8 +210,14 @@ def recon(partition):
 
         deconv_start = time.time()
         deconvolved = deconvolve.deconvolve_multipartition(partition, resid.pixels.data[0,0,:,:], psf.pixels.data[0,0,:,:], prev_estimates, n_fista_iter, i, curr_lambda, \
-            ells, delta, variance_window, first_res_var, deconv_partitions)
+            ells, delta, variance_window, first_res_var, deconv_partitions, sigma2s=variance_estimates)
         deconv_end = time.time()
+
+        if compute_local_var:
+            local_filtered = util.convolve2d(deconvolved, local_filter)
+            var_est = numpy.mean(deconvolve.compute_windowed_var(local_filtered, variance_window))
+            variance_estimates = comm.allgather(var_est)
+            variance_estimates = variance_estimates[1:]
 
         util.tofits(deconvolved, output_dir + "deconv_" + str(partition) + "_" + str(i) + ".fits")
 

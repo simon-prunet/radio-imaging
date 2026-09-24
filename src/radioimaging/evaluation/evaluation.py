@@ -45,7 +45,7 @@ def compute_rmse(gt, recon):
     return numpy.sqrt(numpy.mean((gt-recon) ** 2))
 
 
-def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors, algorithm='ng'):
+def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsize, weighting, robustness, weight_grid, channel_start, channel_end, data_descriptors, algorithm='ng', bda=False):
     """
     compute_jackknifed_residual_bychannel computes an ideal residual image by randomly inverting half of the visibilities, this is 
     used to compare against reconstructions of real datasets where the ground truths are not available.
@@ -69,16 +69,19 @@ def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsiz
     channels = range(channel_start, channel_end + 1)
     rng = numpy.random.default_rng(42)
 
-    for dd in data_descriptors:
+    weight = 0
+
+    for i, dd in enumerate(data_descriptors):
+        curr_weight_grid = weight_grid[i]
         for curr_channel in channels:
-            [measured_vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd])
+            [measured_vis], _ = ingest.create_visibility_from_ms(ms_name, start_chan=curr_channel, end_chan=curr_channel, selected_dds=[dd], use_weight_spec=bda)
             measured_vis = convert_visibility_to_stokesI(measured_vis)
 
             for (i, j, k, l), vis in numpy.ndenumerate(measured_vis.vis):
                 if rng.random() > 0.5:
                     measured_vis.vis.data[i, j, k, l] *= -1
 
-            measured_vis = griddata_visibility_reweight(measured_vis, weight_grid[0], weighting=weighting, robustness=robustness, sumwt=weight_grid[1])
+            measured_vis = griddata_visibility_reweight(measured_vis, curr_weight_grid[0], weighting=weighting, robustness=robustness, sumwt=curr_weight_grid[1])
 
             estimated_vis = measured_vis.copy(deep=True)
             estimated_vis = predict_ng(estimated_vis, sky_estimate, context=algorithm)
@@ -87,10 +90,20 @@ def compute_jackknifed_residual_bychannel(sky_estimate, ms_name, npixel, cellsiz
             if final_residual is None:
                 final_residual = images.create_empty_image(measured_vis, npixel, cellsize)
 
-            channel_residual, sumwt = invert_ng(residual_vis, final_residual, context=algorithm)
+            curr_residual_model = images.create_empty_image(measured_vis, npixel, cellsize)
 
-            final_residual = images.add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:])
+            channel_residual, sumwt = invert_ng(residual_vis, curr_residual_model, context=algorithm)
 
+            prev_weight = weight
+            weight += sumwt[0,0]
+
+            if prev_weight == 0:
+                final_residual = images.add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:])
+            else:
+                final_residual.pixels.data[0,0,:,:] *= prev_weight / weight
+                final_residual = images.add_to_image(final_residual, channel_residual.pixels.data[0,0,:,:] * (sumwt[0,0] / weight))
+
+            channel_residual = None
             gc.collect()
 
     gc.collect()

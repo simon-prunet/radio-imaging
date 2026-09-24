@@ -11,6 +11,7 @@ __email__ = "sunrise.wang@oca.eu, sunrisewng@gmail.com"
 import numpy
 import os
 import pywt
+import gc
 
 from ska_sdp_func_python.imaging import create_image_from_visibility
 
@@ -158,7 +159,7 @@ def deconvolve(step, dirty, psf, prev_estimates, niter, wavelet_type_idx, curr_m
 
 
 #interleaved deconvolution for multiple partitions
-def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, curr_maj_iter, lambda_mul, ells, delta, variance_window, dirty_var, deconv_partitions, wavelets=None):
+def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, curr_maj_iter, lambda_mul, ells, delta, variance_window, dirty_var, deconv_partitions, wavelets=None, sigma2s=None):
     """
     deconvolve_multipartition deconvolves a partial resolution image using the fista l1 deconvolution for the parallel
     interleaved reconstruction method
@@ -194,18 +195,25 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, curr
         return fista.fista(curr_psf, res, lambda_mul, wavelets, niter, linear_conv=False)
 
     constraints = []
-    sigma2s = []
+    compute_sigma2s = False
+
+    if sigma2s is None:
+        sigma2s = []
+        compute_sigma2s = True
 
     for i, est_image in enumerate(prev_estimates):
         if i == partition:
             constraints.append(res)
-            sigma2s.append(dirty_var)
+            if compute_sigma2s:
+                sigma2s.append(dirty_var)
 
             continue
 
         constraint_img = est_image - prev_estimates[partition]
         constraints.append(constraint_img)
-        sigma2s.append(numpy.mean(compute_windowed_var(constraint_img, variance_window)))
+        if compute_sigma2s:
+            sigma2s.append(numpy.mean(compute_windowed_var(constraint_img, variance_window)))
+            #sigma2s.append(numpy.var(constraint_img))
         
     deltas = [delta] * len(ells)
     frs, _, _ = filters.create_filters_mstep(curr_psf.kernel.shape[0] // 2, deltas, ells, sigma2s)
@@ -216,8 +224,11 @@ def deconvolve_multipartition(partition, dirty, psf, prev_estimates, niter, curr
     for f in fs2ds:
         filts.append(fista.Filter2D(f))
 
-    return fista.fista(curr_psf, res, lambda_mul, wavelets, niter, partition=partition, parallelize_wavelets=False, filters=filts, constraint_images=constraints, linear_conv=False)
+    deconvolved = fista.fista(curr_psf, res, lambda_mul, wavelets, niter, partition=partition, parallelize_wavelets=False, filters=filts, constraint_images=constraints, linear_conv=False)
 
+    gc.collect()
+
+    return deconvolved
 
 def deconvolve_multistep(dirty, psf, constraint, niter, wavelet_type_idx, curr_maj_iter, initial_lambda, lambda_mul, cut_center, cut_halfwidth, variance_window, recon_variance_factor, script_root=""):
     """

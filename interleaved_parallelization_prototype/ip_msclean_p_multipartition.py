@@ -106,6 +106,7 @@ def recon(partition):
     var_window = config["visvar_window"]
 
     msc_niter = int(config["msclean_iter"])
+    firstmc_iter = int(config["firstmc_msciter"])
     thresh = config["clean_thresh"]
     #scales = config["clean_scales"]
     #scales.sort()
@@ -218,7 +219,8 @@ def recon(partition):
             if deconv_partitions[partition] == 0 and i == 0:
                 deconvolved = numpy.zeros(curr_residual.shape)
             else:
-                deconvolved, _ = msclean(curr_residual, curr_psf, None, None, gain, thresh, msc_niter, first_mc_scales if i == 0 else scales, fmct if i == 0 else fracthresh)
+                niter = firstmc_iter if i == 0 else msc_niter
+                deconvolved, _ = msclean(curr_residual, curr_psf, None, None, gain, thresh, niter, first_mc_scales if i == 0 else scales, fmct if i == 0 else fracthresh)
 
         deconv_end = time.time()
 
