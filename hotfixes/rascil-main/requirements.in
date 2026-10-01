@@ -19,7 +19,7 @@ python-casacore
 reproject
 scipy
 seqfile
-ska-sdp-datamodels==1.1.0
+ska-sdp-datamodels==1.0.1
 ska-sdp-func-python==1.1.0
 tabulate
 xarray
