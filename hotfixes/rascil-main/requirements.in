@@ -19,8 +19,8 @@ python-casacore
 reproject
 scipy
 seqfile
-ska-sdp-datamodels==1.0.1
-ska-sdp-func-python==1.0.1
+ska-sdp-datamodels==1.1.0
+ska-sdp-func-python==1.1.0
 tabulate
 xarray
 git+https://gitlab.com/ska-telescope/sdp/ska-sdp-func.git@tags/1.1.0
