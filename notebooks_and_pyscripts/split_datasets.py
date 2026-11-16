@@ -6,8 +6,8 @@ CLI = argparse.ArgumentParser()
 CLI.add_argument("--idataset_name", default="in.ms")
 CLI.add_argument("--num_pix", type=int, default=1)
 CLI.add_argument("--pix_rad", type=float, default=1)
-CLI.add_argument("--halfwidth", type=int, default=1)
-CLI.add_argument("--centers", nargs="*", type=int, default=[1, 2, 3])
+CLI.add_argument("--halfwidth", type=float, default=1)
+CLI.add_argument("--centers", nargs="*", type=float, default=[1, 2, 3])
 CLI.add_argument("--odataset_name", default="out")
 
 args = CLI.parse_args()
@@ -33,7 +33,7 @@ for i, band in enumerate(centers):
 	band_low_lambda = band_low / (num_pix * pix_size_rad)
 	band_high_lambda = band_high / (num_pix * pix_size_rad)
 
-	curr_band_filename = o_ms_name + str(band) + ".ms"
+	curr_band_filename = o_ms_name + str(i) + ".ms"
 
 	m.split(outputms=curr_band_filename,uvrange=str(band_low_lambda) + "~" + str(band_high_lambda) + "lambda")
 
@@ -44,7 +44,7 @@ band_high = max_pix
 band_low_lambda = band_low / (num_pix * pix_size_rad)
 band_high_lambda = band_high / (num_pix * pix_size_rad)
 
-curr_band_filename = o_ms_name + str(band_low) + "plus.ms"
+curr_band_filename = o_ms_name + str(len(centers)) + ".ms"
 
 m.split(outputms=curr_band_filename,uvrange=str(band_low_lambda) + "~" + str(band_high_lambda) + "lambda")
 

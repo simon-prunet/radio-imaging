@@ -455,6 +455,7 @@ def bda(vis, max_decorr, half_fov, only_residual_decorr=False):
 
             for i in range(vis_to_average_clamped):
                 bv_uvw[0, curr_vis_idx, :] += t_uvw[baseline_idx, time_idx+i, :] / vis_to_average_clamped
+                #bv_uvw[0, curr_vis_idx, :] = t_uvw[baseline_idx, time_idx+i, :]
 
             curr_vis_idx += 1
     

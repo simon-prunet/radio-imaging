@@ -155,8 +155,6 @@ def plotNImages(images, names, cmap, show_cbar=True, same_scale=False, scale_mul
     vmin -= vpadding
     vmax += vpadding
 
-
-
     for i, img in enumerate(images):
         while(len(img.shape) > 2):
             img = img[0]
@@ -195,8 +193,13 @@ def plotNImages(images, names, cmap, show_cbar=True, same_scale=False, scale_mul
                     cb.ax.tick_params(labelsize=cbar_labelsize)
 
     if hide_ticks:
-        axes.set_xticks([])
-        axes.set_yticks([])
+        if num_images == 1:
+            axes.set_xticks([])
+            axes.set_yticks([])
+        else:
+            for axis in axes:
+                axis.set_xticks([])
+                axis.set_yticks([]) 
 
 
     if output_file is not None:

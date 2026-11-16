@@ -19,7 +19,7 @@ def convolve2d(signal, kernel, linear=False):
 		sig_padded = np.pad(signal, pad_length)
 		kernel_padded = np.pad(kernel, pad_length)
 
-		return (np.fft.ifft2(np.fft.fft2(sig_padded) * np.fft.fft2(np.fft.ifftshift(kernel_padded))))[pad_length[0]:signal.shape[0]+pad_length[0], pad_length[1]:signal.shape[1]+pad_length[1]].real
+		return (np.fft.ifft2(np.fft.fft2(sig_padded) * np.fft.fft2(np.fft.ifftshift(kernel_padded))))[pad_le7ngth[0]:signal.shape[0]+pad_length[0], pad_length[1]:signal.shape[1]+pad_length[1]].real
 
 
 
@@ -88,6 +88,27 @@ def idwt(coeffs, slices, wavelets, parallel=False):
 
 
 def compute_lambda_max(meas_term, wavelets, parallelize_wavelets=False):
+	return np.max(np.abs(2*dwt(meas_term, wavelets, parallel=parallelize_wavelets)[0])) 
+
+def compute_lambda_max_ext(dirty, psf, wavelets, filters=None, constraint_images=None, partition=None, parallelize_wavelets=False, linear_conv=False):
+	meas_term = None
+
+	if filters is None:
+		meas_term = convolve2d(dirty, psf.adj, linear=linear_conv)
+	else:
+		curr_filter = filters[partition]
+
+		meas_term = convolve2d(convolve2d(dirty, curr_filter.squared(linear_conv=linear_conv), linear=linear_conv), psf.adj, linear=linear_conv)
+
+		#add additional constraint fidelity terms
+		for i, constraint in enumerate(constraint_images):
+			if i == partition:
+				continue
+
+			curr_filter = filters[i]
+
+			meas_term += convolve2d(constraint_images[i], curr_filter.squared(linear_conv=linear_conv), linear=linear_conv)
+
 	return np.max(np.abs(2*dwt(meas_term, wavelets, parallel=parallelize_wavelets)[0])) 
 
 #computes the step size using the lipschitz, which in this case is the largest eigenvalue of the operator
@@ -162,7 +183,8 @@ def soft_thresh(coeffs, step):
 	return np.sign(coeffs) * np.maximum(np.abs(coeffs) - step, 0)
 
 #fista for solving multi-partition deconvolution
-def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=None, constraint_images=None, partition=None, lambda_max=None, parallelize_wavelets=False, linear_conv=False):
+def fista(psf, dirty, reg_param, wavelets, niter, orthowavelets=None, filters=None, constraint_images=None, partition=None, \
+	lambda_max=None, parallelize_wavelets=False, linear_conv=False):
 	img_dims = psf.kernel.shape
 
 	if orthowavelets is None:
